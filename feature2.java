@@ -1,0 +1,3 @@
+class feature2 {
+
+}
