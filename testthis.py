@@ -1,1 +1,1 @@
-print("pull")
+print("push")
