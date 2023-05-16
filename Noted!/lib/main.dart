@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/view/landing.dart';
+import 'package:todo_app/view/login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       //title: 'Noted!',
-      home: Landing(),
+      home: Login(),
     );
   }
 }
