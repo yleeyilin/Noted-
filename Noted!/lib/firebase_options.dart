@@ -68,7 +68,7 @@ class DefaultFirebaseOptions {
     projectId: 'noted-a2eb9',
     storageBucket: 'noted-a2eb9.appspot.com',
     iosClientId: '588344277795-00sasd02sbd1hkar3749ahnh08cbq5ja.apps.googleusercontent.com',
-    iosBundleId: 'com.example.todoApp',
+    iosBundleId: 'com.example.Noted',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -78,6 +78,6 @@ class DefaultFirebaseOptions {
     projectId: 'noted-a2eb9',
     storageBucket: 'noted-a2eb9.appspot.com',
     iosClientId: '588344277795-00sasd02sbd1hkar3749ahnh08cbq5ja.apps.googleusercontent.com',
-    iosBundleId: 'com.example.todoApp',
+    iosBundleId: 'com.example.Noted',
   );
 }

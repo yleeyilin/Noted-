@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/view/login.dart';
+import 'package:noted/view/login.dart';
 
 void main() {
   runApp(const MyApp());

@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.todoApp</string>
+	<string>com.example.Noted</string>
 	<key>PROJECT_ID</key>
 	<string>noted-a2eb9</string>
 	<key>STORAGE_BUCKET</key>

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/constants/colors.dart';
+import 'package:noted/constants/colors.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
