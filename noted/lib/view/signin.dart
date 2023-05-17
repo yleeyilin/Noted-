@@ -3,7 +3,6 @@ import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
 
-
 class SignIn extends StatelessWidget {
   const SignIn({super.key});
 
