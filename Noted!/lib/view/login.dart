@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noted/model/constants/colors.dart';
+import 'package:noted/view/signup.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -29,7 +30,12 @@ class Login extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUp()),
+              );
+            },
             child: const Text('Sign Up'),
           ),
           const SizedBox(
@@ -47,7 +53,12 @@ class Login extends StatelessWidget {
                 borderRadius: BorderRadius.circular(40),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUp()),
+              );
+            },
             child: const Text('Sign In'),
           ),
         ],
