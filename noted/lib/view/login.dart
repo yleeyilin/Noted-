@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/signup.dart';
+import 'package:noted/view/signin.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -22,7 +23,7 @@ class Login extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
-                horizontal: 40,
+                horizontal: 80,
               ),
               backgroundColor: primary,
               foregroundColor: Colors.white,
@@ -45,7 +46,7 @@ class Login extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(
                 vertical: 10,
-                horizontal: 40,
+                horizontal: 80,
               ),
               backgroundColor: primary,
               foregroundColor: Colors.white,
@@ -56,7 +57,7 @@ class Login extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignUp()),
+                MaterialPageRoute(builder: (context) => const SignIn()),
               );
             },
             child: const Text('Sign In'),

@@ -21,7 +21,32 @@ class SignUp extends StatelessWidget {
               'assets/images/logo-darkblue.png',
               height: 100,
             ),
-            const SizedBox(height: 200),
+            const SizedBox(height: 155),
+            const Center(
+              child: Text(
+                'Name',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              width: 300,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(9),
+                  ),
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                  filled: true,
+                  fillColor: inputbox,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
             const Center(
               child: Text(
                 'NUS Email',
