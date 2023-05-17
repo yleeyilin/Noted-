@@ -18,7 +18,7 @@ class SignUp extends StatelessWidget {
           children: [
             const SizedBox(height: 45),
             Image.asset(
-              'assets/images/logodarkblue.png',
+              'assets/images/logo-darkblue.png',
               height: 100,
             ),
             const SizedBox(height: 200),

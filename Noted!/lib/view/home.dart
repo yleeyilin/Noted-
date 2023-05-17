@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
               size: 30,
             ),
             Image.asset(
-              'assets/images/logodarkblue.png',
+              'assets/images/logo-darkblue.png',
               width: 40,
             ),
           ],
