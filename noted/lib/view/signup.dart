@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
+
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -60,6 +64,7 @@ class SignUp extends StatelessWidget {
             SizedBox(
               width: 300,
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(9),
@@ -85,6 +90,7 @@ class SignUp extends StatelessWidget {
             SizedBox(
               width: 300,
               child: TextField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(9),
@@ -139,12 +145,21 @@ class SignUp extends StatelessWidget {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Home(),
-                      ),
-                    );
+                    FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                            email: emailController.text,
+                            password: passwordController.text)
+                        .then((value) {
+                      print("Created new account");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Home(),
+                        ),
+                      );
+                    }).onError((error, stackTrace) {
+                      print("Error ${error.toString()}");
+                    });
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
