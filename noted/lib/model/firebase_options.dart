@@ -45,17 +45,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCSJWPakxqfvyoLGT_07yUq8IB2rD-eokE',
-    appId: '1:588344277795:web:369661bcdc9c6673306a96',
+    appId: '1:588344277795:web:5c3138b76130dc73306a96',
     messagingSenderId: '588344277795',
     projectId: 'noted-a2eb9',
     authDomain: 'noted-a2eb9.firebaseapp.com',
     storageBucket: 'noted-a2eb9.appspot.com',
-    measurementId: 'G-F64DJXYC1D',
+    measurementId: 'G-4D9K9T3QC1',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyA1EHQjKZBV2sYAZJ_kPJfr7duYb-za2OM',
-    appId: '1:588344277795:android:1861b91eab1b36b7306a96',
+    appId: '1:588344277795:android:d1fe06307125afc4306a96',
     messagingSenderId: '588344277795',
     projectId: 'noted-a2eb9',
     storageBucket: 'noted-a2eb9.appspot.com',
@@ -63,21 +63,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBcxOSy-nvu9EpfnEB8r9l5ZmOXfIF3XDQ',
-    appId: '1:588344277795:ios:fc0f1d01515f03ea306a96',
+    appId: '1:588344277795:ios:753e1eba2965d1dd306a96',
     messagingSenderId: '588344277795',
     projectId: 'noted-a2eb9',
     storageBucket: 'noted-a2eb9.appspot.com',
-    iosClientId: '588344277795-00sasd02sbd1hkar3749ahnh08cbq5ja.apps.googleusercontent.com',
+    iosClientId: '588344277795-m1gmmro47iv9ihscha2kqg75p31fgurf.apps.googleusercontent.com',
     iosBundleId: 'com.example.Noted',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBcxOSy-nvu9EpfnEB8r9l5ZmOXfIF3XDQ',
-    appId: '1:588344277795:ios:fc0f1d01515f03ea306a96',
+    appId: '1:588344277795:ios:753e1eba2965d1dd306a96',
     messagingSenderId: '588344277795',
     projectId: 'noted-a2eb9',
     storageBucket: 'noted-a2eb9.appspot.com',
-    iosClientId: '588344277795-00sasd02sbd1hkar3749ahnh08cbq5ja.apps.googleusercontent.com',
+    iosClientId: '588344277795-m1gmmro47iv9ihscha2kqg75p31fgurf.apps.googleusercontent.com',
     iosBundleId: 'com.example.Noted',
   );
 }
