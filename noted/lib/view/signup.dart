@@ -152,21 +152,31 @@ class _SignUpState extends State<SignUp> {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                    FirebaseAuth.instance
-                        .createUserWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text)
-                        .then((value) {
-                      print("Created new account");
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Home(),
-                        ),
-                      );
-                    }).onError((error, stackTrace) {
-                      showErrorSnackbar(context, error);
-                    });
+                    if (emailController.text.endsWith("@u.nus.edu")) {
+                      FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: emailController.text,
+                              password: passwordController.text)
+                          .then((value) {
+                            value.user!.sendEmailVerification().then((_) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Home(),
+                                ),
+                              );
+                            }).catchError((error) {
+                              // Failed to send verification email
+                              showErrorSnackbar(context, error);
+                            });
+                          }).catchError((error) {
+                            // Failed to create user
+                            showErrorSnackbar(context, error);
+                          });
+                        } else {
+                          // Invalid email domain
+                          showErrorSnackbar(context, "Invalid email domain");
+                        }
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
