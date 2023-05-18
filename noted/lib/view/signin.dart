@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
+import 'package:noted/view/forgetpassword.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
@@ -89,7 +90,12 @@ class _SignIn extends State<SignIn> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ForgetPassword()),
+                    );
+                  },
                   child: const Text(
                     'Forgot Password?',
                     style: TextStyle(
