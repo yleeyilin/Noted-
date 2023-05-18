@@ -6,7 +6,6 @@ import 'package:noted/view/login.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
-
   @override
   State<SignIn> createState() {
     return _SignIn();
