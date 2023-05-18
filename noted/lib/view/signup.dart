@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
+import 'package:noted/model/authentication/showsnackbar.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -164,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       );
                     }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
+                      showErrorSnackbar(context, error);
                     });
                   },
                   style: OutlinedButton.styleFrom(
