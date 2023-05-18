@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
+import 'package:noted/model/authentication/showsnackbar.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -132,7 +133,7 @@ class _SignIn extends State<SignIn> {
                         ),
                       );
                     }).onError((error, stackTrace) {
-                      print("Error ${error.toString()}");
+                      showErrorSnackbar(context, error);
                     });
                   },
                   style:
