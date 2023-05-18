@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/signin.dart';
 
+
+//to be continued, link to verify page also 
+
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
 
@@ -67,7 +70,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           children: [
             const SizedBox(height: 45),
             Image.asset(
-              'assets/images/logodarkblue.png',
+              'assets/images/logo-darkblue.png',
               height: 100,
             ),
             const SizedBox(

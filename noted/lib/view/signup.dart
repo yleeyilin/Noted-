@@ -159,25 +159,22 @@ class _SignUpState extends State<SignUp> {
                               email: emailController.text,
                               password: passwordController.text)
                           .then((value) {
-                            value.user!.sendEmailVerification().then((_) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Verify(),
-                                ),
-                              );
-                            }).catchError((error) {
-                              // Failed to send verification email
-                              showErrorSnackbar(context, error);
-                            });
-                          }).catchError((error) {
-                            // Failed to create user
-                            showErrorSnackbar(context, error);
-                          });
-                        } else {
-                          // Invalid email domain
-                          showErrorSnackbar(context, "Invalid email domain");
-                        }
+                        value.user!.sendEmailVerification().then((_) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Verify(),
+                            ),
+                          );
+                        });
+                      }).catchError((error) {
+                        // Failed to create user
+                        showErrorSnackbar(context, error);
+                      });
+                    } else {
+                      // Invalid email domain
+                      showErrorSnackbar(context, "Invalid email domain");
+                    }
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
