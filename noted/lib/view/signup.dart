@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
-import 'package:noted/authentication/showsnackbar.dart';
+import 'package:noted/model/authentication/showsnackbar.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
