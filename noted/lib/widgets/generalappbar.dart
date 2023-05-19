@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/colors.dart';
 import 'package:noted/view/searchbar/generalsearchbar.dart';
-import 'package:noted/view/searchbar/customsearchbar.dart';
+import 'package:noted/model/colors.dart';
 
-//incomplete
+class GeneralAppBar extends StatelessWidget {
+  const GeneralAppBar({super.key});
 
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() {
-    return _HomeState();
-  }
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,17 +36,6 @@ class _HomeState extends State<Home> {
           )
         ],
         backgroundColor: primary,
-      ),
-      body: Container(
-        color: primary,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //course/faculty/school search bar
-            CustomSearchBar(),
-            //to include list of courses
-          ],
-        ),
       ),
     );
   }

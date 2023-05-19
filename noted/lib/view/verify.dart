@@ -35,8 +35,9 @@ class _VerifyScreenState extends State<Verify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text('An email has been sent to ${user.email}. Please verify.'))
-    );
+        body: Center(
+            child: Text(
+                'An email has been sent to ${user.email}. Please verify.')));
   }
 
   Future<void> checkEmailVerified() async {
