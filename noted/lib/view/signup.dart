@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
+import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 import 'package:noted/view/verify.dart';
@@ -159,14 +160,12 @@ class _SignUpState extends State<SignUp> {
                               email: emailController.text,
                               password: passwordController.text)
                           .then((value) {
-                        value.user!.sendEmailVerification().then((_) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Verify(),
-                            ),
-                          );
-                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Home(),
+                          ),
+                        );
                       }).catchError((error) {
                         // Failed to create user
                         showErrorSnackbar(context, error);
