@@ -4,7 +4,7 @@ import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
-import 'package:noted/view/verify.dart';
+//import 'package:noted/view/verify.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
