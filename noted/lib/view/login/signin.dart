@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
-import 'package:noted/view/forgetpassword.dart';
+import 'package:noted/view/login/forgetpassword.dart';
 import 'package:noted/view/home.dart';
-import 'package:noted/view/login.dart';
+import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 
 class SignIn extends StatefulWidget {

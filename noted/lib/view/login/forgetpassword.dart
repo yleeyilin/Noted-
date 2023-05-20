@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
-import 'package:noted/view/signin.dart';
+import 'package:noted/view/login/signin.dart';
 
-
-//to be continued, link to verify page also 
+//to be continued, link to verify page also
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -18,14 +17,16 @@ class _ForgetPasswordState extends State<ForgetPassword> {
 
   void resetPassword(BuildContext context) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailController.text);
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text);
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Password Reset Email Sent'),
-            content: const Text('Instructions to reset your password have been sent to your email.'),
+            content: const Text(
+                'Instructions to reset your password have been sent to your email.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -37,7 +38,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           );
         },
       );
-      } catch (error) {
+    } catch (error) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -134,7 +135,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                      resetPassword(context);
+                    resetPassword(context);
                   },
                   style:
                       OutlinedButton.styleFrom(foregroundColor: Colors.white),

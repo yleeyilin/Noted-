@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/login.dart';
+import 'package:noted/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'model/firebase_options.dart';
 
