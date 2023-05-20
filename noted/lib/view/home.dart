@@ -12,7 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // This controller will store the value of the search bar
+  //controller
   final TextEditingController _searchController = TextEditingController();
 
   @override
