@@ -1,0 +1,18 @@
+{
+  "name": "graphqlserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@neo4j/graphql": "^3.18.3",
+    "apollo-server": "^3.12.0",
+    "graphql": "^16.6.0",
+    "neo4j-driver": "^5.8.0"
+  }
+}

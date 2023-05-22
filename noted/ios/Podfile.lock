@@ -1,4 +1,7 @@
 PODS:
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
   - Firebase/Auth (10.9.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 10.9.0)
@@ -41,12 +44,18 @@ PODS:
   - GoogleUtilities/Reachability (7.11.1):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (3.1.1)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - PromisesObjC (2.2.0)
+  - ReachabilitySwift (5.0.0)
 
 DEPENDENCIES:
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -58,16 +67,22 @@ SPEC REPOS:
     - GoogleUtilities
     - GTMSessionFetcher
     - PromisesObjC
+    - ReachabilitySwift
 
 EXTERNAL SOURCES:
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
 
 SPEC CHECKSUMS:
+  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
   firebase_auth: 202fb0b14e267d2a91d83b75d0ce064ef2063383
   firebase_core: fc68c0f9eec4e800b9418deff14a7e0a504016f3
@@ -78,7 +93,9 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   GTMSessionFetcher: e8647203b65cee28c5f73d0f473d096653945e72
+  path_provider_foundation: eaf5b3e458fc0e5fbb9940fb09980e853fe058b8
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
 PODFILE CHECKSUM: ccdc3e141f445bdc4b24213da9c5714ff03ba492
 

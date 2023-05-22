@@ -1,0 +1,1 @@
+{"version":3,"file":"mixin.d.ts","sourceRoot":"","sources":["../../../src/clauses/utils/mixin.ts"],"names":[],"mappings":"AAmBA,OAAO,KAAK,EAAE,WAAW,EAAE,MAAM,uBAAuB,CAAC;AAGzD,KAAK,uBAAuB,CAAC,CAAC,IAAI,QAAQ,MAAM,GAAG,IAAI,EAAE,GAAG,EAAE,KAAK,CAAC,CAAC;AAErE,wBAAgB,KAAK,CAAC,GAAG,MAAM,EAAE,uBAAuB,CAAC,WAAW,CAAC,EAAE,GAAG,GAAG,CAI5E"}
