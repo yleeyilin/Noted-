@@ -1,0 +1,3 @@
+import type { CypherCompilable } from "../types";
+export declare function isCypherCompilable(value: unknown): value is CypherCompilable;
+//# sourceMappingURL=is-cypher-compilable.d.ts.map

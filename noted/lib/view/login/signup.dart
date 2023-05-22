@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:noted/main.dart';
 import 'package:noted/model/colors.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
-import 'package:neo4driver/neo4driver.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 //import 'package:noted/view/verify.dart';
 
 class SignUp extends StatefulWidget {
@@ -17,21 +18,34 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  
-  @override
-  void initState(){
-    NeoClient.withAuthorization( 
-      username: 'neo4j',  
-      password: 'CCE-9y4M1VWFvtaOIuli84-LhP6vMbniNQze5WrX7WE', 
-      databaseAddress: 'neo4j+s://f68363e2.databases.neo4j.io',
-      databaseName: 'Instance01',   
-    );
-
-    super.initState();
-  }
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+
+  void createUserNode(String name, String email) async {
+    final MutationOptions options = MutationOptions(
+      document: gql('''
+        mutation CreateUser(\$name: String!, \$email: String!) {
+          createUser(name: \$name, email: \$email) {
+            name
+            email
+          }
+        }
+      '''),
+      variables: <String, dynamic>{
+        'name': name,
+        'email': email,
+      },
+    );
+
+    final QueryResult result = await client.value.mutate(options);
+    if (result.hasException) {
+      print('Error creating user: ${result.exception.toString()}');
+    } else {
+      print('User created successfully');
+      print('Created user data: ${result.data}');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,15 +189,9 @@ class _SignUpState extends State<SignUp> {
                             .createUserWithEmailAndPassword(
                                 email: emailController.text,
                                 password: passwordController.text)
-                            .then((value) async {
-                          NeoClient().createNode(
-                            labels: ['User'],
-                            properties: {
-                              "name": nameController.text,
-                              "email": emailController.text,
-                            },
-                          );
-                          // ignore: use_build_context_synchronously
+                            .then((value) {
+                          createUserNode(
+                              nameController.text, emailController.text);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
