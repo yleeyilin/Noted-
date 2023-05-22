@@ -26,9 +26,11 @@ class _SignUpState extends State<SignUp> {
     final MutationOptions options = MutationOptions(
       document: gql('''
         mutation CreateUser(\$name: String!, \$email: String!) {
-          createUser(name: \$name, email: \$email) {
-            name
-            email
+          createUsers(input: {name: \$name, email: \$email}) {
+            users {
+              name 
+              email
+            }
           }
         }
       '''),

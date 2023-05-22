@@ -288,14 +288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.6"
-  http_interceptor:
-    dependency: transitive
-    description:
-      name: http_interceptor
-      sha256: "5f3dde028e67789339c250252c09510a74aff21ce16b06d07d9096bda6582bab"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   http_parser:
     dependency: transitive
     description:
@@ -344,14 +336,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
-  neo4driver:
-    dependency: "direct main"
-    description:
-      name: neo4driver
-      sha256: "310bdccff4729f70448bddf85a14e2b6455db8890c8423b8d4869c5f4510925e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.7"
   nm:
     dependency: transitive
     description:
