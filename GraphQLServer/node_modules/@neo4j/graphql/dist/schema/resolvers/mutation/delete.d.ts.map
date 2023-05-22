@@ -1,0 +1,1 @@
+{"version":3,"file":"delete.d.ts","sourceRoot":"","sources":["../../../../src/schema/resolvers/mutation/delete.ts"],"names":[],"mappings":"AAmBA,OAAO,KAAK,EAAE,kBAAkB,EAAE,MAAM,SAAS,CAAC;AAKlD,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,kBAAkB,CAAC;AAG7C,wBAAgB,cAAc,CAAC,EAAE,IAAI,EAAE,EAAE;IAAE,IAAI,EAAE,IAAI,CAAA;CAAE;;qBACrB,GAAG,QAAQ,GAAG,YAAY,OAAO,QAAQ,kBAAkB;;;;;;;EA4B5F"}

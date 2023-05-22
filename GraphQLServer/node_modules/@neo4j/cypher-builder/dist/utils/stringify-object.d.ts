@@ -1,0 +1,3 @@
+/** Serializes object into a string for Cypher objects */
+export declare function stringifyObject(fields: Record<string, string | undefined | null>): string;
+//# sourceMappingURL=stringify-object.d.ts.map

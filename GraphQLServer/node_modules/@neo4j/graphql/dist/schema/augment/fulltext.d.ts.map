@@ -1,0 +1,1 @@
+{"version":3,"file":"fulltext.d.ts","sourceRoot":"","sources":["../../../src/schema/augment/fulltext.ts"],"names":[],"mappings":"AAoBA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,iBAAiB,CAAC;AACtD,OAAO,KAAK,EAAE,IAAI,EAAE,MAAM,eAAe,CAAC;AAM1C,eAAO,MAAM,6BAA6B,QAIiD,CAAC;AAE5F,wBAAgB,qBAAqB,CACjC,IAAI,EAAE,IAAI,EACV,QAAQ,EAAE,cAAc,EACxB,iBAAiB,EAAE,MAAM,EACzB,gBAAgB,EAAE,MAAM,QAsE3B"}
