@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
+import 'package:noted/widgets/skeleton.dart';
 import 'package:noted/view/login/forgetpassword.dart';
-import 'package:noted/view/home.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 
@@ -137,7 +137,7 @@ class _SignIn extends State<SignIn> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const Home(),
+                          builder: (context) => const Skeleton(),
                         ),
                       );
                     }).onError((error, stackTrace) {

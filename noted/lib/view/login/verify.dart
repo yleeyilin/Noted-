@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:noted/view/home.dart';
+import 'package:noted/widgets/skeleton.dart';
 
 class Verify extends StatefulWidget {
   const Verify({super.key});
@@ -49,7 +49,7 @@ class _VerifyScreenState extends State<Verify> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const Home(),
+          builder: (context) => const Skeleton(),
         ),
       );
     }
