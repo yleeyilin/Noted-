@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 //Incomplete
 
 class GeneralSearchBar extends SearchDelegate {
-  //to fill
+  //to fill -- get from database
   List<String> searchTerms = [];
 
   @override

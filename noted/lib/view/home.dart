@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
-import 'package:noted/view/searchbar/generalsearchbar.dart';
+import 'package:noted/model/coursedata.dart';
 
-//ongoing
+//to link data from database
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -12,65 +12,74 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  //controller
-  final TextEditingController _searchController = TextEditingController();
+  //list that we are going to display and filter
+  List<CourseData> display_list = List.from(main_course_list);
+
+  //list of courses
+  static List<CourseData> main_course_list = [];
+
+  //function that will filter the list
+  void updateList(String value) {
+    setState(() {
+      display_list = main_course_list
+          .where(
+            (element) => element.course!.toLowerCase().contains(
+                  value.toLowerCase(),
+                ),
+          )
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 30,
-            ),
-            Image.asset(
-              'assets/images/logo-darkblue.png',
-              width: 40,
-            ),
-          ],
-        ),
-        //general search bar
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: GeneralSearchBar(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
-        backgroundColor: primary,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: TextField(
-            controller: _searchController,
+      backgroundColor: primary,
+      //searchbar
+      body: Column(
+        children: [
+          TextField(
+            onChanged: (value) => updateList(value),
             decoration: InputDecoration(
-              hintText: 'Search',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => _searchController.clear(),
-              ),
-              prefixIcon: IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  // perform search on course/school
-                },
-              ),
+              filled: true,
+              fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: BorderSide.none,
               ),
+              hintText: "Search",
+              prefixIcon: const Icon(Icons.search),
+              prefixIconColor: primary,
             ),
           ),
-        ),
+          const SizedBox(
+            height: 20,
+          ),
+          Expanded(
+            child: display_list.length == 0
+                ? const Center(
+                    child: Text(
+                      "No Results Found",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: display_list.length,
+                    itemBuilder: (context, index) => ListTile(
+                      title: Text(
+                        display_list[index].course!,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+          )
+        ],
       ),
     );
   }
