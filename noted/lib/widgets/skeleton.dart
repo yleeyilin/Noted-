@@ -16,10 +16,10 @@ class Skeleton extends StatefulWidget {
 class _SkeletonState extends State<Skeleton> {
   //navigation
   List<Widget> navigationFunction = [
-    Home(),
-    Search(),
-    Chat(),
-    Profile(),
+    const Home(),
+    const Search(),
+    const Chat(),
+    const Profile(),
   ];
 
   //index for bottom navigation bar

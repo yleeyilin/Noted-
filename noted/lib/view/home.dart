@@ -13,9 +13,11 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   //list that we are going to display and filter
+  // ignore: non_constant_identifier_names
   List<CourseData> display_list = List.from(main_course_list);
 
   //list of courses
+  // ignore: non_constant_identifier_names
   static List<CourseData> main_course_list = [];
 
   //function that will filter the list
@@ -56,7 +58,7 @@ class _HomeState extends State<Home> {
             height: 20,
           ),
           Expanded(
-            child: display_list.length == 0
+            child: display_list.isEmpty
                 ? const Center(
                     child: Text(
                       "No Results Found",

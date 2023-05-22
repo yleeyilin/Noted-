@@ -28,7 +28,7 @@ const typeDefs = gql`
 `;
 
 const driver = neo4j.driver(
-    "bolt://f68363e2.databases.neo4j.io:7687",
+    "neo4j+s://f68363e2.databases.neo4j.io",
     neo4j.auth.basic("neo4j", "CCE-9y4M1VWFvtaOIuli84-LhP6vMbniNQze5WrX7WE")
 );
 
