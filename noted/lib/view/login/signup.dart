@@ -2,11 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/main.dart';
 import 'package:noted/model/colors.dart';
-import 'package:noted/view/home.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-//import 'package:noted/view/verify.dart';
+import 'package:noted/widgets/skeleton.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -197,7 +196,7 @@ class _SignUpState extends State<SignUp> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const Home(),
+                              builder: (context) => const Skeleton(),
                             ),
                           );
                         }).catchError((error) {
