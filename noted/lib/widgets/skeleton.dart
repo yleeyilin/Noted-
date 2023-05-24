@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noted/model/colors.dart';
-import 'package:noted/view/chat.dart';
+import 'package:noted/view/chat/suggestedChat.dart';
 import 'package:noted/view/home.dart';
 import 'package:noted/view/profile.dart';
 import 'package:noted/view/search.dart';
@@ -18,7 +18,7 @@ class _SkeletonState extends State<Skeleton> {
   List<Widget> navigationFunction = [
     const Home(),
     const Search(),
-    const Chat(),
+    const SuggestedChat(),
     const Profile(),
   ];
 
