@@ -9,20 +9,31 @@ const typeDefs = gql`
     type User {
         name: String
         email: String 
-        read: [Article!]! @relationship(type: "READ", direction: IN)
-        likes: [Interest!]! @relationship(type: "LIKES", direction: IN)
+        read: [Article!]! @relationship(type: "READ", direction: OUT)
+        likes: [Interest!]! @relationship(type: "LIKES", direction: OUT)
+    }
+
+    type Course {
+        name: String
+        notes: [Notes!]! @relationship(type: "NOTES", direction: OUT)
+    }
+
+    type Notes {
+        name: String
+        file: PDF
+        course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
     }
 
     type Article {
         title: String
         file: PDF
-        articles: [User!]! @relationship(type: "READ", direction: OUT)
+        articles: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
     }
 
     type Interest {
         name: String
-        interests: [User!]! @relationship(type: "LIKES", direction: OUT)
+        interests: [User!]! @relationship(type: "LIKES", direction: IN)
         includes: [Article!]! @relationship(type: "INCLUDES", direction: OUT)
     }
 `;
