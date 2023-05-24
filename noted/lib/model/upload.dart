@@ -2,6 +2,35 @@ import 'dart:io';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/main.dart';
 
+Future<void> createCourseNode(String name) async {
+  final MutationOptions options = MutationOptions(
+    document: gql('''
+      mutation CreateCourse(\$name: String!) {
+        createCourse(input: { name: \$name }) {
+          success
+          message
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'name': name,
+    },
+  );
+
+  final QueryResult result = await client.value.mutate(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+  } else {
+    final Map<String, dynamic>? data = result.data?['createCourse'];
+    if (data != null) {
+      final bool success = data['success'] as bool;
+      final String message = data['message'] as String;
+      print('Create Course Success: $success');
+      print('Message: $message');
+    }
+  }
+}
 
 Future<void> createNotesNode(String name, File pdfFile) async {
   final rawContent = await pdfFile.readAsBytes();
@@ -36,7 +65,6 @@ Future<void> createNotesNode(String name, File pdfFile) async {
     }
   }
 }
-
 
 Future<void> createArticleNode(String title, File pdfFile) async {
   final rawContent = await pdfFile.readAsBytes();
@@ -94,5 +122,35 @@ void createUserNode(String name, String email) async {
     } else {
       print('User created successfully');
       print('Created user data: ${result.data}');
+    }
+  }
+
+Future<void> createInterestNode(String name) async {
+
+  final MutationOptions options = MutationOptions(
+    document: gql('''
+      mutation CreateInterest(\$name: String!) {
+        createInterest(input: { name: \$name }) {
+          success
+          message
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'name': name,
+    },
+  );
+
+  final QueryResult result = await client.value.mutate(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+  } else {
+    final Map<String, dynamic>? data = result.data?['createInterest'];
+    if (data != null) {
+      final bool success = data['success'] as bool;
+      final String message = data['message'] as String;
+      print('Create Interest Success: $success');
+      print('Message: $message');
     }
   }
