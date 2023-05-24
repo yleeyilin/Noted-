@@ -5,6 +5,7 @@ import 'package:noted/model/colors.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:noted/view/login/verify.dart';
 import 'package:noted/widgets/skeleton.dart';
 
 class SignUp extends StatefulWidget {
@@ -191,6 +192,14 @@ class _SignUpState extends State<SignUp> {
                                 email: emailController.text,
                                 password: passwordController.text)
                             .then((value) {
+                          value.user!.sendEmailVerification().then((_) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Verify(),
+                              ),
+                            );
+                          });
                           createUserNode(
                               nameController.text, emailController.text);
                           Navigator.push(
