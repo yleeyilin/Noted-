@@ -99,8 +99,8 @@ Future<void> createArticleNode(String title, File pdfFile) async {
 }
 
 void createUserNode(String name, String email) async {
-    final MutationOptions options = MutationOptions(
-      document: gql('''
+  final MutationOptions options = MutationOptions(
+    document: gql('''
         mutation CreateUser(\$name: String!, \$email: String!) {
           createUsers(input: {name: \$name, email: \$email}) {
             users {
@@ -110,23 +110,22 @@ void createUserNode(String name, String email) async {
           }
         }
       '''),
-      variables: <String, dynamic>{
-        'name': name,
-        'email': email,
-      },
-    );
+    variables: <String, dynamic>{
+      'name': name,
+      'email': email,
+    },
+  );
 
-    final QueryResult result = await client.value.mutate(options);
-    if (result.hasException) {
-      print('Error creating user: ${result.exception.toString()}');
-    } else {
-      print('User created successfully');
-      print('Created user data: ${result.data}');
-    }
+  final QueryResult result = await client.value.mutate(options);
+  if (result.hasException) {
+    print('Error creating user: ${result.exception.toString()}');
+  } else {
+    print('User created successfully');
+    print('Created user data: ${result.data}');
   }
+}
 
 Future<void> createInterestNode(String name) async {
-
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateInterest(\$name: String!) {
@@ -154,3 +153,4 @@ Future<void> createInterestNode(String name) async {
       print('Message: $message');
     }
   }
+}
