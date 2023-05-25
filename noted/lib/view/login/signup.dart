@@ -5,7 +5,7 @@ import 'package:noted/view/login/login.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
 import 'package:noted/view/login/verify.dart';
 import 'package:noted/widgets/skeleton.dart';
-import 'package:noted/model/upload.dart';
+import 'package:noted/model/query/createNode.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
