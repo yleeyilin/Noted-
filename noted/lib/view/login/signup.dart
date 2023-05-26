@@ -19,6 +19,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController resetController = TextEditingController();
   TextEditingController nameController = TextEditingController();
 
   @override
@@ -129,6 +130,7 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 width: 300,
                 child: TextField(
+                  controller: resetController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(9),
@@ -158,7 +160,8 @@ class _SignUpState extends State<SignUp> {
                   ),
                   OutlinedButton.icon(
                     onPressed: () {
-                      if (emailController.text.endsWith("@u.nus.edu")) {
+                      if (emailController.text.endsWith("@u.nus.edu") && 
+                      (resetController.text != passwordController.text)) {
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
                                 email: emailController.text,
@@ -183,11 +186,11 @@ class _SignUpState extends State<SignUp> {
                         }).catchError((error) {
                           // Failed to create user
                           print(error.toString());
-                          showErrorSnackbar(context, error);
+                          showErrorSnackbar(context, "Invalid email domain");
                         });
                       } else {
                         // Invalid email domain
-                        showErrorSnackbar(context, "Invalid email domain");
+                        showErrorSnackbar(context, "Password does not match");
                       }
                     },
                     style: OutlinedButton.styleFrom(
