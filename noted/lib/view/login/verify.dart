@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:noted/model/colors.dart';
+import 'package:noted/view/login/login.dart';
 import 'package:noted/widgets/skeleton.dart';
 
 class Verify extends StatefulWidget {
@@ -35,9 +37,38 @@ class _VerifyScreenState extends State<Verify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-            child: Text(
-                'An email has been sent to ${user.email}. Please verify.')));
+      backgroundColor: primary,
+      body: AlertDialog(
+        title: const Center(
+          child: Text(
+            'Verify Email',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        content: Text(
+          'An email has been sent to ${user.email}. Please verify.',
+          style: const TextStyle(
+            fontSize: 15,
+          ),
+        ),
+        actions: [
+          OutlinedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Login(),
+                ),
+              );
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> checkEmailVerified() async {
