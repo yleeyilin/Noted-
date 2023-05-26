@@ -66,14 +66,14 @@ Future<void> createNotesNode(String name, File pdfFile) async {
   }
 }
 
-Future<void> createArticleNode(String title, File pdfFile) async {
+Future<void> createArticleNode(String title, String summary, File pdfFile) async {
   final rawContent = await pdfFile.readAsBytes();
   final pdfContent = String.fromCharCodes(rawContent);
 
   final MutationOptions options = MutationOptions(
     document: gql('''
-      mutation CreateArticle(\$title: String!, \$content: String!) {
-        createArticle(input: { title: \$title, content: \$content }) {
+      mutation CreateArticle(\$title: String!, \$summary: String!, \$content: String!) {
+        createArticle(input: { title: \$title, summary: \$summary, content: \$content }) {
           success
           message
         }
@@ -81,6 +81,7 @@ Future<void> createArticleNode(String title, File pdfFile) async {
     '''),
     variables: <String, dynamic>{
       'title': title,
+      'summary': summary,
       'content': pdfContent,
     },
   );

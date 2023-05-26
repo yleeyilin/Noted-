@@ -26,6 +26,7 @@ const typeDefs = gql`
 
     type Article {
         title: String
+        summary: String
         file: PDF
         articles: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
