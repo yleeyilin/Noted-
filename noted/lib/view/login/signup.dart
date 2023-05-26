@@ -160,7 +160,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                   OutlinedButton.icon(
                     onPressed: () {
-                      if (emailController.text.endsWith("@u.nus.edu") && 
+                      if (emailController.text.endsWith("@u.nus.edu") &&
                           (resetController.text == passwordController.text)) {
                         FirebaseAuth.instance
                             .createUserWithEmailAndPassword(
