@@ -14,46 +14,40 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    //temporary
     return Scaffold(
       backgroundColor: primary,
-      body: Column(
+      body: Stack(
         children: [
-          const SizedBox(
-            height: 650,
+          ListView(
+            children: const [
+              SizedBox(height: 650),
+              // Add your other ListView items here
+            ],
           ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 350,
-              ),
-              SizedBox.fromSize(
-                size: const Size(50, 50),
-                child: ClipOval(
-                  child: Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      splashColor: primary,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PostArticles(),
-                          ),
-                        );
-                      },
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.add),
-                        ],
-                      ),
-                    ),
+          Positioned(
+            bottom: 16.0,
+            right: 8.0,
+            child: SizedBox.fromSize(
+              size: const Size(35, 35),
+              child: ClipOval(
+                child: Material(
+                  color: Colors.white,
+                  child: InkWell(
+                    splashColor: primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PostArticles(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.add),
                   ),
                 ),
               ),
-            ],
-          )
+            ),
+          ),
         ],
       ),
     );

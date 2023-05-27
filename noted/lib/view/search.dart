@@ -39,83 +39,81 @@ class _SearchState extends State<Search> {
     return Scaffold(
       backgroundColor: primary,
       //searchbar
-      body: Column(
+      body: Stack(
         children: [
-          TextField(
-            onChanged: (value) => updateList(value),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Colors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide.none,
-              ),
-              hintText: "Search",
-              prefixIcon: const Icon(Icons.search),
-              prefixIconColor: primary,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 570,
-            width: 570,
-            child: display_list.isEmpty
-                ? const Center(
-                    child: Text(
-                      "No Results Found",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: display_list.length,
-                    itemBuilder: (context, index) => ListTile(
-                      title: Text(
-                        display_list[index].course!,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-          ),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                width: 350,
-              ),
-              SizedBox.fromSize(
-                size: const Size(50, 50),
-                child: ClipOval(
-                  child: Material(
-                    color: Colors.white,
-                    child: InkWell(
-                      splashColor: primary,
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const PostNotes(),
-                          ),
-                        );
-                      },
-                      child: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.add),
-                        ],
-                      ),
+              Flexible(
+                child: TextField(
+                  onChanged: (value) => updateList(value),
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: BorderSide.none,
                     ),
+                    hintText: "Search",
+                    prefixIcon: const Icon(Icons.search),
+                    prefixIconColor: primary,
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: display_list.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "No Results Found",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: display_list.length,
+                        itemBuilder: (context, index) => ListTile(
+                          title: Text(
+                            display_list[index].course!,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+              ),
             ],
-          )
+          ),
+          Positioned(
+            bottom: 16.0,
+            right: 16.0,
+            child: SizedBox.fromSize(
+              size: const Size(35, 35),
+              child: ClipOval(
+                child: Material(
+                  color: Colors.white,
+                  child: InkWell(
+                    splashColor: primary,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PostNotes(),
+                        ),
+                      );
+                    },
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
