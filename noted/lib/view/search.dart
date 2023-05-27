@@ -92,7 +92,7 @@ class _SearchState extends State<Search> {
           ),
           Positioned(
             bottom: 16.0,
-            right: 16.0,
+            right: 8.0,
             child: SizedBox.fromSize(
               size: const Size(35, 35),
               child: ClipOval(
