@@ -14,7 +14,7 @@ class PostNotes extends StatefulWidget {
 
 class _PostNotesState extends State<PostNotes> {
   late String pdfPath;
-  int _selectedIndex = 0;
+  final int _selectedIndex = 0;
 
   Future<void> selectPDF() async {
     try {
