@@ -3,6 +3,7 @@ import 'package:noted/model/colors.dart';
 import 'package:noted/view/post/postNotes.dart';
 import 'package:noted/widgets/generalsearchbar.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:noted/widgets/skeleton.dart';
 
 //index 1
 class PostArticles extends StatefulWidget {
@@ -13,7 +14,7 @@ class PostArticles extends StatefulWidget {
 }
 
 class _PostArticlesState extends State<PostArticles> {
-  late String pdfPath;
+  late String pdfPath = '';
   final int _selectedIndex = 1;
 
   Future<void> selectPDF() async {
@@ -41,9 +42,19 @@ class _PostArticlesState extends State<PostArticles> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(
-              'assets/images/logo-darkblue.png',
-              width: 40,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Skeleton(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/logo-darkblue.png',
+                width: 40,
+              ),
             ),
           ],
         ),
@@ -66,6 +77,18 @@ class _PostArticlesState extends State<PostArticles> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ToggleButtons(
+              constraints: const BoxConstraints(
+                minWidth: 100,
+                minHeight: 40,
+              ),
+              borderColor: primary,
+              borderWidth: 2,
+              borderRadius: BorderRadius.circular(10),
+              selectedBorderColor: primary,
+              selectedColor: Colors.white,
+              color: primary,
+              fillColor: primary,
+              splashColor: const Color.fromARGB(255, 65, 65, 129),
               isSelected: [
                 _selectedIndex == 0,
                 _selectedIndex == 1,
@@ -86,11 +109,27 @@ class _PostArticlesState extends State<PostArticles> {
                 Text('Articles'),
               ],
             ),
+            const SizedBox(height: 20),
             Text(
               'PDF Selected: $pdfPath',
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            const SizedBox(height: 20),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 50,
+                ),
+                backgroundColor: primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ),
               onPressed: selectPDF,
               child: const Text('Select PDF'),
             ),

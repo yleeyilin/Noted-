@@ -34,9 +34,19 @@ class _SkeletonState extends State<Skeleton> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(
-              'assets/images/logo-darkblue.png',
-              width: 40,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Home(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/logo-darkblue.png',
+                width: 40,
+              ),
             ),
           ],
         ),
