@@ -3,6 +3,7 @@ import 'package:noted/model/colors.dart';
 import 'package:noted/view/post/postArticles.dart';
 import 'package:noted/widgets/generalsearchbar.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:noted/widgets/skeleton.dart';
 
 //index 0
 class PostNotes extends StatefulWidget {
@@ -13,7 +14,7 @@ class PostNotes extends StatefulWidget {
 }
 
 class _PostNotesState extends State<PostNotes> {
-  late String pdfPath;
+  late String pdfPath = '';
   final int _selectedIndex = 0;
 
   Future<void> selectPDF() async {
@@ -41,9 +42,19 @@ class _PostNotesState extends State<PostNotes> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset(
-              'assets/images/logo-darkblue.png',
-              width: 40,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Skeleton(),
+                  ),
+                );
+              },
+              child: Image.asset(
+                'assets/images/logo-darkblue.png',
+                width: 40,
+              ),
             ),
           ],
         ),
@@ -61,43 +72,71 @@ class _PostNotesState extends State<PostNotes> {
         ],
         backgroundColor: primary,
       ),
-      body:  
-        Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ToggleButtons(
-                isSelected: [
-                  _selectedIndex == 0,
-                  _selectedIndex == 1,
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    if (index == 1) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PostArticles()),
-                      );
-                    }
-                  });
-                },
-                children: const [
-                  Text('Notes'),
-                  Text('Articles'),
-                ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ToggleButtons(
+              constraints: const BoxConstraints(
+                minWidth: 100,
+                minHeight: 40,
+              ),
+              borderColor: primary,
+              borderWidth: 2,
+              borderRadius: BorderRadius.circular(10),
+              selectedBorderColor: primary,
+              selectedColor: Colors.white,
+              color: primary,
+              fillColor: primary,
+              splashColor: const Color.fromARGB(255, 65, 65, 129),
+              isSelected: [
+                _selectedIndex == 0,
+                _selectedIndex == 1,
+              ],
+              onPressed: (int index) {
+                setState(() {
+                  if (index == 1) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PostArticles(),
+                      ),
+                    );
+                  }
+                });
+              },
+              children: const [
+                Text('Notes'),
+                Text('Articles'),
+              ],
             ),
-              Text(
+            const SizedBox(height: 20),
+            Text(
               'PDF Selected: $pdfPath',
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-              ElevatedButton(
-                onPressed: selectPDF,
-                child: const Text('Select PDF'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 50,
+                ),
+                backgroundColor: primary,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
               ),
-            ],
-          ),
+              onPressed: selectPDF,
+              child: const Text('Select PDF'),
+            ),
+          ],
         ),
+      ),
     );
   }
 }

@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
             bottom: 16.0,
             right: 8.0,
             child: SizedBox.fromSize(
-              size: const Size(35, 35),
+              size: const Size(40, 40),
               child: ClipOval(
                 child: Material(
                   color: Colors.white,
