@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'model/firebase_options.dart';
+import 'model/authentication/firebase_options.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 final HttpLink httpLink = HttpLink('http://localhost:4000/graphql');

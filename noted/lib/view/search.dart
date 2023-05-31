@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/colors.dart';
-import 'package:noted/model/coursedata.dart';
+import 'package:noted/model/constant/colors.dart';
+import 'package:noted/model/constant/coursedata.dart';
 import 'package:noted/view/post/postNotes.dart';
 
 //to link data from database
