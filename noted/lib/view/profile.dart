@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/colors.dart';
+import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/widgets/skeleton.dart';

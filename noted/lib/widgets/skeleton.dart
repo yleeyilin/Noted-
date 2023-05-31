@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/colors.dart';
+import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/chat/suggestedChat.dart';
 import 'package:noted/view/search.dart';
 import 'package:noted/view/profile.dart';
