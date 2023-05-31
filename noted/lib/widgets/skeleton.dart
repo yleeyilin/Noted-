@@ -39,7 +39,7 @@ class _SkeletonState extends State<Skeleton> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const Home(),
+                    builder: (context) => const Skeleton(),
                   ),
                 );
               },
