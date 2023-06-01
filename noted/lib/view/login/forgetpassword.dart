@@ -100,6 +100,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             SizedBox(
               width: 300,
               child: TextField(
+                controller: emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(9),
