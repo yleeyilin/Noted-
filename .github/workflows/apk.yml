@@ -25,6 +25,7 @@ jobs:
         - run: flutter pub get
         - run: cd ../GraphQLServer 
         - run: node index.js
+        - run: cd ../noted/
         - run: flutter test
         - run: flutter build apk --debug --split-per-abi
         - run: |
