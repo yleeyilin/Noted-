@@ -14,21 +14,25 @@ jobs:
       name: Build & Release
       runs-on: macos-latest
       steps:
-        - uses: actions/checkout@v1
-        - uses: actions/setup-java@v1
+        - uses: actions/checkout@v2
+        - uses: actions/setup-java@v2
           with:
             java-version: '12.x'
-        - uses: subosito/flutter-action@v1
+        - uses: subosito/flutter-action@v2
           with:
             flutter-version: '2.2.0'
-        - run: cd noted/
-        - run: flutter pub get
-        - run: cd ../GraphQLServer 
-        - run: node index.js
-        - run: cd ../noted/
-        - run: flutter test
-        - run: flutter build apk --debug --split-per-abi
         - run: |
+            cd noted/
+            flutter pub get
+        - run: |
+            cd GraphQLServer/
+            node index.js
+        - run: |
+            cd noted/
+            flutter test
+            flutter build apk --debug --split-per-abi
+        - run: |
+            cd noted/
             flutter build ios --no-codesign
             cd build/ios/iphoneos
             mkdir Payload
