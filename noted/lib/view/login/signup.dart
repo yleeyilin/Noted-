@@ -2,11 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:noted/model/authentication/showsnackbar.dart';
+import 'package:noted/model/authentication/authentication.dart';
 import 'package:noted/view/login/verify.dart';
 import 'package:noted/widgets/skeleton.dart';
 import 'package:noted/model/query/createNode.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:noted/controller/authController.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -22,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController resetController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  final AuthController _con = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -165,38 +167,12 @@ class _SignUpState extends State<SignUp> {
                   ),
                   OutlinedButton.icon(
                     onPressed: () {
-                      if (emailController.text.endsWith("@u.nus.edu") &&
-                          (resetController.text == passwordController.text)) {
-                        FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController.text)
-                            .then((value) {
-                          value.user!.sendEmailVerification().then((_) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Verify(),
-                              ),
-                            );
-                          });
-                          createUserNode(
-                              nameController.text, emailController.text);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Skeleton(),
-                            ),
-                          );
-                        }).catchError((error) {
-                          // Failed to create user
-                          print(error.toString());
-                          showErrorSnackbar(context, "Invalid email domain");
-                        });
-                      } else {
-                        // Invalid email domain
-                        showErrorSnackbar(context, "Password does not match");
-                      }
+                      _con.authenticate(
+                          emailController.text,
+                          resetController.text,
+                          passwordController.text,
+                          nameController.text,
+                          context);
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 9, 9, 82),
