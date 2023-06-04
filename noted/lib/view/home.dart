@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: Colors.white,
       body: Stack(
         children: [
           ListView(
@@ -31,9 +31,9 @@ class _HomeState extends State<Home> {
               size: const Size(40, 40),
               child: ClipOval(
                 child: Material(
-                  color: Colors.white,
+                  color: primary,
                   child: InkWell(
-                    splashColor: primary,
+                    splashColor: Colors.white,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -42,7 +42,10 @@ class _HomeState extends State<Home> {
                         ),
                       );
                     },
-                    child: const Icon(Icons.add),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

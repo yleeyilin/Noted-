@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
 import 'package:noted/widgets/skeleton.dart';
 import 'package:noted/model/authentication/showsnackbar.dart';
+import 'package:flutter/cupertino.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -23,15 +24,15 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
-          color: primary,
+        decoration: const BoxDecoration(
+          color: Colors.white,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 45),
             Image.asset(
-              'assets/images/logo-darkblue.png',
+              'assets/images/logo-white.png',
               height: 100,
             ),
             const SizedBox(height: 155),
@@ -39,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text(
                 'NUS Email',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 9, 9, 82),
                   fontSize: 20,
                 ),
               ),
@@ -47,25 +48,25 @@ class _ChangePasswordState extends State<ChangePassword> {
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: TextField(
+              child: CupertinoTextField(
                 controller: emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  filled: true,
-                  fillColor: inputbox,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: inputbox,
+                  borderRadius: BorderRadius.circular(9),
                 ),
+                style: const TextStyle(color: Colors.black),
+                placeholder: 'Enter NUS Email',
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
             const Center(
               child: Text(
-                'Password',
+                'Old Password',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 9, 9, 82),
                   fontSize: 20,
                 ),
               ),
@@ -73,17 +74,42 @@ class _ChangePasswordState extends State<ChangePassword> {
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: TextField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                  filled: true,
-                  fillColor: inputbox,
+              child: CupertinoTextField(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: inputbox,
+                  borderRadius: BorderRadius.circular(9),
                 ),
+                style: const TextStyle(color: Colors.black),
+                placeholder: 'Enter Old Password',
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                'New Password',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 9, 9, 82),
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
+            SizedBox(
+              width: 300,
+              child: CupertinoTextField(
+                controller: passwordController,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: inputbox,
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                style: const TextStyle(color: Colors.black),
+                placeholder: 'Enter New Password',
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
@@ -91,7 +117,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Text(
                 'Confirm Password',
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Color.fromARGB(255, 9, 9, 82),
                   fontSize: 20,
                 ),
               ),
@@ -99,16 +125,16 @@ class _ChangePasswordState extends State<ChangePassword> {
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                  filled: true,
-                  fillColor: inputbox,
+              child: CupertinoTextField(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: inputbox,
+                  borderRadius: BorderRadius.circular(9),
                 ),
+                style: const TextStyle(color: Colors.black),
+                placeholder: 'Confirm Password',
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 20),
@@ -122,8 +148,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                       MaterialPageRoute(builder: (context) => const Skeleton()),
                     );
                   },
-                  style:
-                      OutlinedButton.styleFrom(foregroundColor: Colors.white),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 9, 9, 82),
+                    side: const BorderSide(
+                      color: Color.fromARGB(255, 9, 9, 82),
+                    ),
+                  ),
                   icon: const Icon(Icons.arrow_back),
                   label: const Text('Back'),
                 ),
@@ -151,10 +181,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                     }
                   },
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 9, 9, 82),
                   ),
-                  icon: const Icon(Icons.arrow_right_outlined),
-                  label: const Text('Change'),
+                  icon: const Icon(Icons.arrow_right_outlined,
+                      color: Colors.white),
+                  label: const Text(
+                    'Change',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 )
               ],
             ),
