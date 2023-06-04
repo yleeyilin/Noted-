@@ -4,7 +4,7 @@ import 'package:noted/model/constant/colors.dart';
 import 'package:noted/widgets/skeleton.dart';
 import 'package:noted/view/login/forgetpassword.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:noted/model/authentication/showsnackbar.dart';
+import 'package:noted/model/authentication/authentication.dart';
 import 'package:flutter/cupertino.dart';
 
 class SignIn extends StatefulWidget {

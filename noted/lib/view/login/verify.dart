@@ -2,11 +2,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
-import 'package:noted/view/login/login.dart';
 import 'package:noted/widgets/skeleton.dart';
 
 class Verify extends StatefulWidget {
-  const Verify({super.key});
+  const Verify({Key? key}) : super(key: key);
 
   @override
   State<Verify> createState() => _VerifyScreenState();
@@ -14,13 +13,13 @@ class Verify extends StatefulWidget {
 
 class _VerifyScreenState extends State<Verify> {
   final auth = FirebaseAuth.instance;
-  late User user;
-  late Timer timer;
+  late User? user;
+  late Timer? timer;
 
   @override
   void initState() {
     user = auth.currentUser!;
-    user.sendEmailVerification();
+    user?.sendEmailVerification();
 
     timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       checkEmailVerified();
@@ -30,7 +29,7 @@ class _VerifyScreenState extends State<Verify> {
 
   @override
   void dispose() {
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -49,7 +48,7 @@ class _VerifyScreenState extends State<Verify> {
           ),
         ),
         content: Text(
-          'An email has been sent to ${user.email}. Please verify.',
+          'An email has been sent to ${user?.email}. Please verify.',
           style: const TextStyle(
             fontSize: 15,
           ),
@@ -60,7 +59,7 @@ class _VerifyScreenState extends State<Verify> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Login(),
+                  builder: (context) => const Skeleton(),
                 ),
               );
             },
@@ -73,9 +72,9 @@ class _VerifyScreenState extends State<Verify> {
 
   Future<void> checkEmailVerified() async {
     user = auth.currentUser!;
-    await user.reload();
-    if (user.emailVerified) {
-      timer.cancel();
+    await user?.reload();
+    if (user!.emailVerified) {
+      timer?.cancel();
       // ignore: use_build_context_synchronously
       Navigator.push(
         context,
