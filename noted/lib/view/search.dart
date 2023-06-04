@@ -37,13 +37,16 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: Colors.white,
       //searchbar
       body: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 8,
+              ),
               Flexible(
                 child: TextField(
                   onChanged: (value) => updateList(value),
@@ -52,7 +55,13 @@ class _SearchState extends State<Search> {
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      borderSide: BorderSide.none,
+                      borderSide: const BorderSide(color: Colors.transparent),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 9, 9, 82),
+                      ),
                     ),
                     hintText: "Search",
                     prefixIcon: const Icon(Icons.search),
@@ -69,7 +78,7 @@ class _SearchState extends State<Search> {
                         child: Text(
                           "No Results Found",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Color.fromARGB(255, 9, 9, 82),
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
@@ -97,9 +106,9 @@ class _SearchState extends State<Search> {
               size: const Size(40, 40),
               child: ClipOval(
                 child: Material(
-                  color: Colors.white,
+                  color: primary,
                   child: InkWell(
-                    splashColor: primary,
+                    splashColor: Colors.white,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -108,7 +117,7 @@ class _SearchState extends State<Search> {
                         ),
                       );
                     },
-                    child: const Icon(Icons.add),
+                    child: const Icon(Icons.add, color: Colors.white),
                   ),
                 ),
               ),

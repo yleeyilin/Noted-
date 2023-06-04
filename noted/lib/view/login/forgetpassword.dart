@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/login/signin.dart';
+import 'package:flutter/cupertino.dart';
 
 //to be continued, link to verify page also
 
@@ -63,15 +64,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
-          color: primary,
+        decoration: const BoxDecoration(
+          color: Colors.white,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 45),
             Image.asset(
-              'assets/images/logo-darkblue.png',
+              'assets/images/logo-white.png',
               height: 100,
             ),
             const SizedBox(
@@ -80,40 +81,42 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             const Text(
               'Enter your NUS email. The instructions will be sent to you shortly.',
               style: TextStyle(
-                color: Colors.white,
+                color: Color.fromARGB(255, 9, 9, 82),
                 fontSize: 20,
               ),
             ),
             const SizedBox(
               height: 40,
             ),
+            /*
             const Text(
               'NUS Email',
               style: TextStyle(
-                color: Colors.white,
+                color: Color.fromARGB(255, 9, 9, 82),
                 fontSize: 20,
               ),
             ),
             const SizedBox(
               height: 20,
             ),
+            */
             SizedBox(
               width: 300,
-              child: TextField(
+              child: CupertinoTextField(
                 controller: emailController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  filled: true,
-                  fillColor: inputbox,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                decoration: BoxDecoration(
+                  color: inputbox,
+                  borderRadius: BorderRadius.circular(9),
                 ),
+                style: const TextStyle(color: Colors.black),
+                placeholder: 'Enter NUS Email',
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -127,23 +130,30 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       ),
                     );
                   },
-                  style:
-                      OutlinedButton.styleFrom(foregroundColor: Colors.white),
-                  icon: const Icon(
-                    Icons.arrow_back,
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color.fromARGB(255, 9, 9, 82),
+                    side: const BorderSide(
+                      color: Color.fromARGB(255, 9, 9, 82),
+                    ),
                   ),
+                  icon: const Icon(Icons.arrow_back),
                   label: const Text('Back'),
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
                     resetPassword(context);
                   },
-                  style:
-                      OutlinedButton.styleFrom(foregroundColor: Colors.white),
-                  icon: const Icon(
-                    Icons.arrow_right_outlined,
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 9, 9, 82),
                   ),
-                  label: const Text('Send'),
+                  icon: const Icon(Icons.arrow_right_outlined,
+                      color: Colors.white),
+                  label: const Text(
+                    'Send',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ],
             )

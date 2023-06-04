@@ -3,6 +3,7 @@ import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/widgets/skeleton.dart';
+import 'package:flutter/cupertino.dart';
 
 //get data for name and reputation score
 
@@ -30,7 +31,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: Colors.white,
       body: Center(
         child: Center(
           child: Column(
@@ -40,7 +41,7 @@ class _ProfileState extends State<Profile> {
                 child: Text(
                   'Name',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 9, 9, 82),
                     fontSize: 20,
                   ),
                 ),
@@ -48,16 +49,13 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 5),
               SizedBox(
                 width: 300,
-                child: TextField(
+                child: CupertinoTextField(
                   controller: _controller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 50),
-                    filled: true,
-                    fillColor: inputbox,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  decoration: BoxDecoration(
+                    color: inputbox,
+                    borderRadius: BorderRadius.circular(9),
                   ),
                 ),
               ),
@@ -70,7 +68,7 @@ class _ProfileState extends State<Profile> {
                     onPressed: () {},
                     icon: const Icon(
                       Icons.edit,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 9, 9, 82),
                     ),
                   ),
                 ],
@@ -80,7 +78,7 @@ class _ProfileState extends State<Profile> {
                 child: Text(
                   'Reputation Score',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 9, 9, 82),
                     fontSize: 20,
                   ),
                 ),
@@ -88,16 +86,13 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 5),
               SizedBox(
                 width: 300,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(9),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 50),
-                    filled: true,
-                    fillColor: inputbox,
+                child: CupertinoTextField(
+                  decoration: BoxDecoration(
+                    color: inputbox,
+                    borderRadius: BorderRadius.circular(9),
                   ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 ),
               ),
               const SizedBox(height: 40),
@@ -114,7 +109,7 @@ class _ProfileState extends State<Profile> {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 9, 9, 82),
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -125,7 +120,7 @@ class _ProfileState extends State<Profile> {
                       style: TextStyle(
                         fontSize: 15,
                         letterSpacing: 2,
-                        color: Color.fromARGB(255, 9, 9, 82),
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -145,10 +140,13 @@ class _ProfileState extends State<Profile> {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.transparent,
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                      ),
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 9, 9, 82),
                       ),
                     ),
                     child: const Text(
@@ -165,7 +163,7 @@ class _ProfileState extends State<Profile> {
                       name = _controller.text;
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 9, 9, 82),
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -176,7 +174,7 @@ class _ProfileState extends State<Profile> {
                       style: TextStyle(
                         fontSize: 15,
                         letterSpacing: 2,
-                        color: Color.fromARGB(255, 9, 9, 82),
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -196,10 +194,13 @@ class _ProfileState extends State<Profile> {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Colors.transparent,
                       padding: const EdgeInsets.symmetric(horizontal: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
+                      ),
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 9, 9, 82),
                       ),
                     ),
                     child: const Text(
