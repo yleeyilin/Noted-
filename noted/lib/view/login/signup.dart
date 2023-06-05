@@ -20,6 +20,9 @@ class _SignUpState extends State<SignUp> {
   TextEditingController nameController = TextEditingController();
   final AuthController _con = AuthController();
 
+  bool _obscurePassword = false;
+  bool _obscurePassword2 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,14 +107,27 @@ class _SignUpState extends State<SignUp> {
                 child: CupertinoTextField(
                   controller: passwordController,
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                   decoration: BoxDecoration(
                     color: inputbox,
                     borderRadius: BorderRadius.circular(9),
                   ),
-                  style: const TextStyle(color: Colors.black),
-                  placeholder: 'Enter Password',
+                  obscureText: _obscurePassword,
+                  placeholder: "Enter Password",
                   textAlign: TextAlign.center,
+                  suffix: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -130,14 +146,27 @@ class _SignUpState extends State<SignUp> {
                 child: CupertinoTextField(
                   controller: resetController,
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                   decoration: BoxDecoration(
                     color: inputbox,
                     borderRadius: BorderRadius.circular(9),
                   ),
-                  style: const TextStyle(color: Colors.black),
-                  placeholder: 'Reenter Password',
+                  obscureText: _obscurePassword2,
+                  placeholder: "Reenter Password",
                   textAlign: TextAlign.center,
+                  suffix: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _obscurePassword2 = !_obscurePassword2;
+                      });
+                    },
+                    child: Icon(
+                      _obscurePassword2
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.grey,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
