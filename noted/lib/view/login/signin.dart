@@ -18,7 +18,15 @@ class SignIn extends StatefulWidget {
 class _SignIn extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  bool _obscurePassword = true;
+  bool _obscurePassword = false;
+
+  onPasswordChanged(String password) {}
+
+  @override
+  void initState() {
+    super.initState();
+    _obscurePassword = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +59,8 @@ class _SignIn extends State<SignIn> {
               width: 300,
               child: CupertinoTextField(
                 controller: emailController,
+                placeholder: "Enter NUS Email",
+                textAlign: TextAlign.center,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 decoration: BoxDecoration(
@@ -80,10 +90,11 @@ class _SignIn extends State<SignIn> {
                   color: inputbox,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                obscureText: true,
+                obscureText: !_obscurePassword,
+                placeholder: "Enter Password",
+                textAlign: TextAlign.center,
                 suffix: GestureDetector(
                   onTap: () {
-                    // Toggle the password visibility
                     setState(() {
                       _obscurePassword = !_obscurePassword;
                     });

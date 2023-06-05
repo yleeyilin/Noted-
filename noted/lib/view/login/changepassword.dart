@@ -14,11 +14,13 @@ class ChangePassword extends StatefulWidget {
   }
 }
 
-//to edit
-
 class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool _obscurePassword = false;
+  bool _obscurePassword2 = false;
+  bool _obscurePassword3 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,14 +78,25 @@ class _ChangePasswordState extends State<ChangePassword> {
               width: 300,
               child: CupertinoTextField(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
                   color: inputbox,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                style: const TextStyle(color: Colors.black),
-                placeholder: 'Enter Old Password',
+                obscureText: _obscurePassword,
+                placeholder: "Enter Old Password",
                 textAlign: TextAlign.center,
+                suffix: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                  child: Icon(
+                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -102,14 +115,25 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: CupertinoTextField(
                 controller: passwordController,
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
                   color: inputbox,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                style: const TextStyle(color: Colors.black),
-                placeholder: 'Enter New Password',
+                obscureText: _obscurePassword2,
+                placeholder: "Enter Password",
                 textAlign: TextAlign.center,
+                suffix: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscurePassword2 = !_obscurePassword2;
+                    });
+                  },
+                  child: Icon(
+                    _obscurePassword2 ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -127,14 +151,25 @@ class _ChangePasswordState extends State<ChangePassword> {
               width: 300,
               child: CupertinoTextField(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
                   color: inputbox,
                   borderRadius: BorderRadius.circular(9),
                 ),
-                style: const TextStyle(color: Colors.black),
-                placeholder: 'Confirm Password',
+                obscureText: _obscurePassword3,
+                placeholder: "Enter Password",
                 textAlign: TextAlign.center,
+                suffix: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _obscurePassword3 = !_obscurePassword3;
+                    });
+                  },
+                  child: Icon(
+                    _obscurePassword3 ? Icons.visibility : Icons.visibility_off,
+                    color: Colors.grey,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
