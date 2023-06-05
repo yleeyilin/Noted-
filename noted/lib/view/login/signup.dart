@@ -1,11 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:noted/model/authentication/authentication.dart';
-import 'package:noted/view/login/verify.dart';
-import 'package:noted/widgets/skeleton.dart';
-import 'package:noted/model/query/createNode.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:noted/controller/authController.dart';
 
