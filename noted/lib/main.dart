@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/login/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:noted/view/login/splashscreen.dart';
 import 'model/authentication/firebase_options.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
         //title: 'Noted!',
-        home: Login(),
+        home: SplashScreen(),
       ),
     );
   }
