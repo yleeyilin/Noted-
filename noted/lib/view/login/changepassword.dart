@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:noted/model/constant/colors.dart';
-import 'package:noted/widgets/skeleton.dart';
+import 'package:noted/view/constant/colors.dart';
+import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/model/authentication/authentication.dart';
 import 'package:flutter/cupertino.dart';
 

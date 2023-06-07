@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/constant/colors.dart';
+import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/chat/suggestedChat.dart';
 import 'package:noted/view/search.dart';
 import 'package:noted/view/profile.dart';
 import 'package:noted/view/home.dart';
-import 'package:noted/widgets/generalsearchbar.dart';
+import 'package:noted/view/widgets/generalsearchbar.dart';
 
 class Skeleton extends StatefulWidget {
   const Skeleton({super.key});

@@ -16,4 +16,9 @@ class AuthController extends ControllerMVC {
       showErrorSnackbar(context, "Invalid authentication.");
     }
   }
+
+  void signin(
+      String email, String password, BuildContext context) {
+    firebaseSignIn(email, password, context);
+  }
 }
