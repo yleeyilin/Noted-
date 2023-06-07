@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:noted/model/constant/colors.dart';
-import 'package:noted/model/constant/coursedata.dart';
 import 'package:noted/view/post/postNotes.dart';
-
-//to link data from database
+import 'package:noted/model/query/retrievecourse.dart';
 
 class Search extends StatefulWidget {
-  const Search({super.key});
+  const Search({Key? key}) : super(key: key);
 
   @override
   State<Search> createState() => _SearchState();
 }
 
 class _SearchState extends State<Search> {
-  //list that we are going to display and filter
-  // ignore: non_constant_identifier_names
-  List<CourseData> display_list = List.from(main_course_list);
+  List<String> displayList = [];
 
-  //list of courses
-  // ignore: non_constant_identifier_names
-  static List<CourseData> main_course_list = [];
+  RetrieveCourse retrieveCourse = RetrieveCourse();
 
-  //function that will filter the list
+  @override
+  void initState() {
+    super.initState();
+    retrieveCourse.getModuleCodes().then((moduleCodes) {
+      setState(() {
+        displayList = moduleCodes;
+      });
+    });
+  }
+
   void updateList(String value) {
     setState(() {
-      display_list = main_course_list
-          .where(
-            (element) => element.course!.toLowerCase().contains(
-                  value.toLowerCase(),
-                ),
-          )
+      displayList = displayList
+          .where((moduleCode) =>
+              moduleCode.toLowerCase().contains(value.toLowerCase()))
           .toList();
     });
   }
@@ -38,15 +38,12 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      //searchbar
       body: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(
-                height: 8,
-              ),
+              const SizedBox(height: 8),
               Flexible(
                 child: TextField(
                   onChanged: (value) => updateList(value),
@@ -60,23 +57,20 @@ class _SearchState extends State<Search> {
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
                       borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 9, 9, 82),
-                      ),
+                          color: Color.fromARGB(255, 9, 9, 82)),
                     ),
-                    hintText: "Search",
+                    hintText: 'Search',
                     prefixIcon: const Icon(Icons.search),
                     prefixIconColor: primary,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               Expanded(
-                child: display_list.isEmpty
+                child: displayList.isEmpty
                     ? const Center(
                         child: Text(
-                          "No Results Found",
+                          'No Results Found',
                           style: TextStyle(
                             color: Color.fromARGB(255, 9, 9, 82),
                             fontSize: 22,
@@ -85,10 +79,10 @@ class _SearchState extends State<Search> {
                         ),
                       )
                     : ListView.builder(
-                        itemCount: display_list.length,
+                        itemCount: displayList.length,
                         itemBuilder: (context, index) => ListTile(
                           title: Text(
-                            display_list[index].course!,
+                            displayList[index],
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

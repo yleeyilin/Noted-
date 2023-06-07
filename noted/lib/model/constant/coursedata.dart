@@ -1,19 +1,13 @@
-//update with database
-
 class CourseData {
+  String? courseCode;
   String? course;
-  String? school;
-  bool? suable;
-  bool? sem1;
-  bool? sem2;
-  int? mc;
 
-  CourseData(
-    this.course,
-    this.school,
-    this.suable,
-    this.sem1,
-    this.sem2,
-    this.mc,
-  );
+  CourseData({this.courseCode, this.course});
+
+  factory CourseData.fromJson(Map<String, dynamic> json) {
+    return CourseData(
+      courseCode: json['courseCode'],
+      course: json['course'],
+    );
+  }
 }
