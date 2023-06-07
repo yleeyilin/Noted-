@@ -1,9 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/skeleton.dart';
-import 'package:noted/model/authentication/authentication.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:noted/controller/authController.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -16,7 +15,10 @@ class ChangePassword extends StatefulWidget {
 
 class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController rNewPasswordController = TextEditingController();
+  final AuthController _con = AuthController();
 
   bool _obscurePassword = false;
   bool _obscurePassword2 = false;
@@ -77,6 +79,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             SizedBox(
               width: 300,
               child: CupertinoTextField(
+                controller: oldPasswordController,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
@@ -113,7 +116,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             SizedBox(
               width: 300,
               child: CupertinoTextField(
-                controller: passwordController,
+                controller: newPasswordController,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
@@ -150,6 +153,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             SizedBox(
               width: 300,
               child: CupertinoTextField(
+                controller: rNewPasswordController,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                 decoration: BoxDecoration(
@@ -194,26 +198,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                    if (emailController.text.endsWith("@u.nus.edu")) {
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text)
-                          .then((value) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Skeleton(),
-                          ),
-                        );
-                      }).catchError((error) {
-                        // Failed to create user
-                        showErrorSnackbar(context, error);
-                      });
-                    } else {
-                      // Invalid email domain
-                      showErrorSnackbar(context, "Invalid email domain");
-                    }
+                    _con.change(
+                        emailController.text,
+                        oldPasswordController.text,
+                        newPasswordController.text,
+                        rNewPasswordController.text,
+                        context);
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 9, 9, 82),

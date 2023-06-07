@@ -17,8 +17,20 @@ class AuthController extends ControllerMVC {
     }
   }
 
-  void signin(
-      String email, String password, BuildContext context) {
+  void signin(String email, String password, BuildContext context) {
     firebaseSignIn(email, password, context);
+  }
+
+  void reset(String email, BuildContext context) {
+    resetPassword(email, context);
+  }
+
+  void change(String email, String oldPassword, String newPassword,
+      String rNewPassword, BuildContext context) {
+    if (newPassword == rNewPassword) {
+      changePassword(email, oldPassword, newPassword, context);
+    } else {
+      showErrorSnackbar(context, "Passwords do not match.");
+    }
   }
 }

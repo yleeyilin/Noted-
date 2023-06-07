@@ -1,10 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/signin.dart';
 import 'package:flutter/cupertino.dart';
-
-//to be continued, link to verify page also
+import 'package:noted/controller/authController.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -15,50 +13,7 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   TextEditingController emailController = TextEditingController();
-
-  void resetPassword(BuildContext context) async {
-    try {
-      await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: emailController.text);
-      // ignore: use_build_context_synchronously
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Password Reset Email Sent'),
-            content: const Text(
-                'Instructions to reset your password have been sent to your email.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    } catch (error) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: Text(error.toString()),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+  final AuthController _con = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,7 +96,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                    resetPassword(context);
+                    _con.reset(emailController.text, context);
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 9, 9, 82),
