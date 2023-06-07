@@ -3,8 +3,6 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/constant/coursedata.dart';
 import 'package:noted/view/post/postNotes.dart';
 
-//to link data from database
-
 class Search extends StatefulWidget {
   const Search({super.key});
 
