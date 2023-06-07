@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:noted/model/constant/colors.dart';
-import 'package:noted/widgets/skeleton.dart';
+import 'package:noted/view/constant/colors.dart';
+import 'package:noted/view/widgets/skeleton.dart';
 
 class Verify extends StatefulWidget {
   const Verify({Key? key}) : super(key: key);

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:noted/model/constant/colors.dart';
+import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/post/postArticles.dart';
-import 'package:noted/widgets/generalsearchbar.dart';
+import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:noted/widgets/skeleton.dart';
+import 'package:noted/view/widgets/skeleton.dart';
 
 //index 0
 class PostNotes extends StatefulWidget {

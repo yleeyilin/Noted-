@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:noted/view/login/verify.dart';
+import 'package:noted/view/widgets/skeleton.dart';
 
 void showErrorSnackbar(BuildContext context, dynamic error) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -35,4 +36,20 @@ bool authentication(
     return true;
   }
   return false;
+}
+
+void firebaseSignIn(String email, String password, BuildContext context) {
+  FirebaseAuth.instance
+      .signInWithEmailAndPassword(
+          email: email, password: password)
+      .then((value) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Skeleton(),
+      ),
+    );
+  }).onError((error, stackTrace) {
+    showErrorSnackbar(context, error);
+  });
 }

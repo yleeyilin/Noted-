@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:noted/model/constant/colors.dart';
-import 'package:noted/widgets/skeleton.dart';
+import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/forgetpassword.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:noted/model/authentication/authentication.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:noted/controller/authController.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -19,6 +17,7 @@ class _SignIn extends State<SignIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _obscurePassword = false;
+  final AuthController _con = AuthController();
 
   onPasswordChanged(String password) {}
 
@@ -154,20 +153,8 @@ class _SignIn extends State<SignIn> {
                 ),
                 OutlinedButton.icon(
                   onPressed: () {
-                    FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
-                            email: emailController.text,
-                            password: passwordController.text)
-                        .then((value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skeleton(),
-                        ),
-                      );
-                    }).onError((error, stackTrace) {
-                      showErrorSnackbar(context, error);
-                    });
+                    _con.signin(
+                        emailController.text, passwordController.text, context);
                   },
                   style: OutlinedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 9, 9, 82),
