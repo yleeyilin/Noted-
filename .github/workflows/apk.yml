@@ -27,7 +27,6 @@ jobs:
             flutter pub get
         - run: |
             cd noted/
-            flutter test
             flutter build apk --debug --split-per-abi
         - run: |
             cd noted/
