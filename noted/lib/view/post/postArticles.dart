@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/view/post/postNotes.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:noted/view/widgets/skeleton.dart';
+import 'package:noted/controller/postController.dart';
 
 //index 1
 class PostArticles extends StatefulWidget {
@@ -14,26 +13,9 @@ class PostArticles extends StatefulWidget {
 }
 
 class _PostArticlesState extends State<PostArticles> {
-  late String pdfPath = '';
   final int _selectedIndex = 1;
-
-  Future<void> selectPDF() async {
-    try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['pdf'],
-      );
-
-      if (result != null) {
-        setState(() {
-          pdfPath = result.files.single.path!;
-        });
-      }
-    } catch (e) {
-      // Handle any errors that occur during file picking.
-      print(e);
-    }
-  }
+  late String pdfPath = '';
+  final PostController _con = PostController();
 
   @override
   Widget build(BuildContext context) {
@@ -95,13 +77,7 @@ class _PostArticlesState extends State<PostArticles> {
               ],
               onPressed: (int index) {
                 setState(() {
-                  if (index == 0) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PostNotes()),
-                    );
-                  }
+                  _con.navigate(index, context);
                 });
               },
               children: const [
@@ -111,7 +87,7 @@ class _PostArticlesState extends State<PostArticles> {
             ),
             const SizedBox(height: 20),
             Text(
-              'PDF Selected: $pdfPath',
+              'PDF Selected: ${_con.fileName.isNotEmpty ? _con.fileName : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -130,7 +106,7 @@ class _PostArticlesState extends State<PostArticles> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: selectPDF,
+              onPressed: _con.pickFile,
               child: const Text('Select PDF'),
             ),
           ],
