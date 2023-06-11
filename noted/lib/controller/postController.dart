@@ -14,6 +14,7 @@ class PostController extends ControllerMVC {
 
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   late String fileName = '';
+  List<Map<String, dynamic>> pdfData = [];
 
   void navigate(int index, BuildContext context) async {
     if (index == 0) {
@@ -46,6 +47,7 @@ class PostController extends ControllerMVC {
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
+
     if (pickedFile != null) {
       String fileName = pickedFile.files[0].name;
       File file = File(pickedFile.files[0].path!);

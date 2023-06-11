@@ -87,7 +87,7 @@ class _PostArticlesState extends State<PostArticles> {
             ),
             const SizedBox(height: 20),
             Text(
-              'PDF Selected: ${_con.selectedFileName!.isNotEmpty ? _con.selectedFileName : "No PDF selected"}',
+              'PDF Selected: ${_con.fileName.isNotEmpty ? _con.fileName : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -106,24 +106,8 @@ class _PostArticlesState extends State<PostArticles> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: _con.selectPDF,
+              onPressed: _con.pickFile,
               child: const Text('Select PDF'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 60,
-                ),
-                backgroundColor: primary,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
-              onPressed: _con.uploadPDF,
-              child: const Text('Submit'),
             ),
           ],
         ),
