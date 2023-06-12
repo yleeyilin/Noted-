@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/view/chat/suggestedChat.dart';
+import 'package:noted/view/post.dart';
 import 'package:noted/view/search.dart';
 import 'package:noted/view/profile.dart';
 import 'package:noted/view/home.dart';
@@ -18,7 +18,7 @@ class _SkeletonState extends State<Skeleton> {
   List<Widget> navigationFunction = [
     const Home(),
     const Search(),
-    const SuggestedChat(),
+    const Post(),
     const Profile(),
   ];
 
@@ -84,9 +84,9 @@ class _SkeletonState extends State<Skeleton> {
           BottomNavigationBarItem(
               backgroundColor: primary,
               icon: const Icon(
-                Icons.chat,
+                Icons.post_add,
               ),
-              label: 'Chat'),
+              label: 'Post'),
           BottomNavigationBarItem(
               backgroundColor: primary,
               icon: const Icon(
