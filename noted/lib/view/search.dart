@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/post/postNotes.dart';
-import 'package:noted/model/query/retrievecourse.dart';
+import 'package:noted/controller/courseController.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -12,27 +12,29 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   List<String> displayList = [];
+  Future<List<String>>? _moduleCodes;
 
-  RetrieveCourse retrieveCourse = RetrieveCourse();
+  final CourseController _con = CourseController();
 
   @override
   void initState() {
     super.initState();
-    retrieveCourse.getModuleCodes().then((moduleCodes) {
-      setState(() {
-        displayList = moduleCodes;
-      });
-    });
+    _moduleCodes = _con.fetchModuleCodes();
   }
 
   void updateList(String value) {
     setState(() {
-      displayList = displayList
-          .where((moduleCode) =>
-              moduleCode.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+      _moduleCodes!.then((moduleCodes) {
+        setState(() {
+          displayList = moduleCodes
+              .where((moduleCode) =>
+                  moduleCode.toLowerCase().contains(value.toLowerCase()))
+              .toList();
+        });
+      });
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +69,25 @@ class _SearchState extends State<Search> {
               ),
               const SizedBox(height: 20),
               Expanded(
-                child: displayList.isEmpty
-                    ? const Center(
+                child: FutureBuilder<List<String>>(
+                  future: _moduleCodes,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final moduleCodes = snapshot.data!;
+                      final filteredList = displayList.isNotEmpty ? displayList : moduleCodes;
+                      return ListView.builder(
+                        itemCount: filteredList.length,
+                        itemBuilder: (context, index) {
+                          final moduleCode = filteredList[index];
+                          return ListTile(
+                            title: Text(moduleCode),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    return const Center(
                         child: Text(
                           'No Results Found',
                           style: TextStyle(
@@ -77,20 +96,10 @@ class _SearchState extends State<Search> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    : ListView.builder(
-                        itemCount: displayList.length,
-                        itemBuilder: (context, index) => ListTile(
-                          title: Text(
-                            displayList[index],
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
+                      );
+                  }
               ),
+              )
             ],
           ),
           Positioned(
