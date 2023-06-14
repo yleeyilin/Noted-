@@ -15,7 +15,6 @@ const typeDefs = gql`
 
     type Course {
         name: String
-        code: String
         notes: [Notes!]! @relationship(type: "NOTES", direction: OUT)
     }
 
