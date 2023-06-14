@@ -6,9 +6,10 @@ Future<void> createCourseNode(String name) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateCourse(\$name: String!) {
-        createCourse(input: { name: \$name }) {
-          success
-          message
+        createCourses(input: { name: \$name }) {
+          courses {
+            name
+          }
         }
       }
     '''),
@@ -22,15 +23,21 @@ Future<void> createCourseNode(String name) async {
   if (result.hasException) {
     print('GraphQL Error: ${result.exception.toString()}');
   } else {
-    final Map<String, dynamic>? data = result.data?['createCourse'];
+    final Map<String, dynamic>? data = result.data?['createCourses'];
     if (data != null) {
-      final bool success = data['success'] as bool;
-      final String message = data['message'] as String;
-      print('Create Course Success: $success');
-      print('Message: $message');
+      final List<dynamic> courseData = data['courses'] as List<dynamic>;
+      if (courseData.isNotEmpty) {
+        final Map<String, dynamic> firstCourse = courseData.first as Map<String, dynamic>;
+        final String courseName = firstCourse['name'] as String;
+        print('Create Course Success: $courseName');
+      } else {
+        print('No courses returned in the response.');
+      }
     }
   }
 }
+
+
 
 Future<void> createNotesNode(String name, File pdfFile) async {
   final rawContent = await pdfFile.readAsBytes();

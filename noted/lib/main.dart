@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:noted/view/login/splashscreen.dart';
 import 'model/authentication/firebase_options.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+// import 'package:noted/neo4jupdate/sync.dart';
 
 final HttpLink httpLink = HttpLink('http://localhost:4000/graphql');
 
@@ -14,6 +15,7 @@ final ValueNotifier<GraphQLClient> client = ValueNotifier(
 );
 
 void main() async {
+  // createCourseNodesFromNUSMODS();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
