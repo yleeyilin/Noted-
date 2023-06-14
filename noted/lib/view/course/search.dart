@@ -91,7 +91,6 @@ class _SearchState extends State<Search> {
                     final filteredList =
                         displayList.isNotEmpty ? displayList : moduleCodes;
 
-//code is not working as expected -- not full screen
                     if (filteredList == moduleCodes && !isEmpty) {
                       return const Expanded(
                         child: Center(
