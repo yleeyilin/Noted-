@@ -3,8 +3,13 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 
+//need to link to database to get the notes
+//filter the notes posted based on the module code stated when the file in uploaded
+
 class Notes extends StatefulWidget {
-  const Notes({super.key});
+  final String courseCode;
+
+  const Notes({Key? key, required this.courseCode}) : super(key: key);
 
   @override
   State<Notes> createState() {
@@ -15,7 +20,6 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   @override
   Widget build(BuildContext context) {
-    //temp
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -37,7 +41,6 @@ class _NotesState extends State<Notes> {
             ),
           ],
         ),
-        //general search bar
         actions: [
           IconButton(
             onPressed: () {
@@ -50,6 +53,24 @@ class _NotesState extends State<Notes> {
           )
         ],
         backgroundColor: primary,
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Notes For ${widget.courseCode}',
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 9, 9, 82),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
