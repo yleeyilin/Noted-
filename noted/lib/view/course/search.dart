@@ -7,7 +7,9 @@ class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
 
   @override
-  State<Search> createState() => _SearchState();
+  State<Search> createState() {
+    return _SearchState();
+  }
 }
 
 class _SearchState extends State<Search> {
@@ -39,6 +41,15 @@ class _SearchState extends State<Search> {
         });
       });
     });
+  }
+
+  void navigateToNotesPage(String courseCode) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Notes(courseCode: courseCode),
+      ),
+    );
   }
 
   @override
@@ -129,12 +140,7 @@ class _SearchState extends State<Search> {
                                 ),
                               ),
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Notes(),
-                                  ),
-                                );
+                                navigateToNotesPage(moduleCode);
                               },
                               child: Text(moduleCode),
                             ),

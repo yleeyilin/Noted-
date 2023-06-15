@@ -15,7 +15,6 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   @override
   Widget build(BuildContext context) {
-    //temp
     return Scaffold(
         backgroundColor: Colors.white,
         body: Center(
@@ -68,10 +67,6 @@ class _PostState extends State<Post> {
                   );
                 },
                 child: const Text('Post Notes'),
-              ),
-              const SizedBox(
-                width: 20,
-                height: 15,
               ),
             ],
           ),
