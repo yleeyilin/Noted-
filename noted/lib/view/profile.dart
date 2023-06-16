@@ -4,6 +4,7 @@ import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:noted/view/reputationscore.dart';
 
 //get data for name and reputation score
 
@@ -18,6 +19,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _controller = TextEditingController();
+  ReputationScore reputationScore = ReputationScore();
   //connect to database
   String name = " ";
 
@@ -93,8 +95,14 @@ class _ProfileState extends State<Profile> {
                   ),
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  textAlign: TextAlign.center,
+                  controller: TextEditingController(
+                    text: reputationScore.score.toString(),
+                  )..text,
+                  readOnly: true,
                 ),
               ),
+
               const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
