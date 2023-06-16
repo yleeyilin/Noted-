@@ -4,8 +4,6 @@ const neo4j = require("neo4j-driver");
 
 const typeDefs = gql`
 
-    scalar PDF
-
     type User {
         name: String
         email: String 
@@ -20,14 +18,14 @@ const typeDefs = gql`
 
     type Notes {
         name: String
-        file: PDF
+        address: String
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
     }
 
     type Article {
         title: String
         summary: String
-        file: PDF
+        address: String
         articles: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
     }

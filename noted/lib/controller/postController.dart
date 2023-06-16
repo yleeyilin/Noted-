@@ -6,6 +6,7 @@ import 'package:noted/view/post/postArticles.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:noted/model/query/createNode.dart';
 
 class PostController extends ControllerMVC {
   factory PostController() => _this ??= PostController._();
@@ -58,6 +59,7 @@ class PostController extends ControllerMVC {
         "name": fileName,
         "url": downloadLink,
       });
+      createNotesNode(fileName, downloadLink);
 
       print("PDF Uploaded Successfully!");
     }
