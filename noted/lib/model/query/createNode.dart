@@ -38,23 +38,21 @@ Future<void> createCourseNode(String name) async {
 }
 
 
-
-Future<void> createNotesNode(String name, File pdfFile) async {
-  final rawContent = await pdfFile.readAsBytes();
-  final pdfContent = String.fromCharCodes(rawContent);
-
+Future<void> createNotesNode(String name, String address) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
-      mutation CreateNotes(\$name: String!, \$content: String!) {
-        createNotes(input: { name: \$name, content: \$content }) {
-          success
-          message
+      mutation CreateNotes(\$name: String!, \$address: String!) {
+        createNotes(input: { name: \$name, address: \$address }) {
+          notes {
+            name
+            address
+          }
         }
       }
     '''),
     variables: <String, dynamic>{
       'name': name,
-      'content': pdfContent,
+      'address': address,
     },
   );
 
@@ -65,31 +63,40 @@ Future<void> createNotesNode(String name, File pdfFile) async {
   } else {
     final Map<String, dynamic>? data = result.data?['createNotes'];
     if (data != null) {
-      final bool success = data['success'] as bool;
-      final String message = data['message'] as String;
-      print('Create Notes Success: $success');
-      print('Message: $message');
+      final List<dynamic> noteData = data['notes'] as List<dynamic>;
+      if (noteData.isNotEmpty) {
+        final Map<String, dynamic> firstNote = noteData.first as Map<String, dynamic>;
+        final String notesName = firstNote['name'] as String;
+        final String notesAddress = firstNote['address'] as String;
+
+        print('Create Notes Success - Name: $notesName, Address: $notesAddress');
+      } else {
+        print('No notes returned in the response.');
+      }
     }
   }
 }
 
-Future<void> createArticleNode(String title, String summary, File pdfFile) async {
-  final rawContent = await pdfFile.readAsBytes();
-  final pdfContent = String.fromCharCodes(rawContent);
 
+
+
+Future<void> createArticleNode(String title, String summary, String address) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
-      mutation CreateArticle(\$title: String!, \$summary: String!, \$content: String!) {
-        createArticle(input: { title: \$title, summary: \$summary, content: \$content }) {
-          success
-          message
+      mutation CreateArticle(\$title: String!, \$summary: String!, \$address: String!) {
+        createArticle(input: { title: \$title, summary: \$summary, address: \$address }) {
+          article {
+            title
+            summary
+            address
+          }
         }
       }
     '''),
     variables: <String, dynamic>{
       'title': title,
       'summary': summary,
-      'content': pdfContent,
+      'address': address,
     },
   );
 
@@ -98,11 +105,18 @@ Future<void> createArticleNode(String title, String summary, File pdfFile) async
   if (result.hasException) {
     print('GraphQL Error: ${result.exception.toString()}');
   } else {
-    final Map<String, dynamic> data = result.data?['uploadPDF'];
-    final bool success = data['success'] as bool;
-    final String message = data['message'] as String;
-    print('Upload Success: $success');
-    print('Message: $message');
+    final Map<String, dynamic>? data = result.data?['createArticle'];
+    if (data != null) {
+      final Map<String, dynamic> article = data['article'] as Map<String, dynamic>;
+      final String articleTitle = article['title'] as String;
+      final String articleSummary = article['summary'] as String;
+      final String articleAddress = article['address'] as String;
+
+      print('Create Article Success:');
+      print('Title: $articleTitle');
+      print('Summary: $articleSummary');
+      print('Address: $articleAddress');
+    }
   }
 }
 
