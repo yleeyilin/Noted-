@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:noted/view/widgets/skeleton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:noted/view/reputationscore.dart';
-
-//get data for name and reputation score
+import 'package:noted/view/user_repository.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  const Profile({Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() {
@@ -20,14 +18,24 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final _controller = TextEditingController();
   ReputationScore reputationScore = ReputationScore();
-  //connect to database
-  String name = " ";
+  bool isEditingName = false;
+  String name = "";
 
   @override
   void dispose() {
-    // Clean up the controller when the widget is disposed.
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    UserRepository().getUserName().then((value) {
+      setState(() {
+        name = value ?? '';
+        _controller.text = name;
+      });
+    });
   }
 
   @override
@@ -55,19 +63,23 @@ class _ProfileState extends State<Profile> {
                   controller: _controller,
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+                  textAlign: TextAlign.center,
                   decoration: BoxDecoration(
                     color: inputbox,
                     borderRadius: BorderRadius.circular(9),
                   ),
+                  readOnly: !isEditingName,
                 ),
               ),
-              //'edit icon' button
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  const SizedBox(width: 300),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        isEditingName = true;
+                      });
+                    },
                     icon: const Icon(
                       Icons.edit,
                       color: Color.fromARGB(255, 9, 9, 82),
@@ -102,7 +114,6 @@ class _ProfileState extends State<Profile> {
                   readOnly: true,
                 ),
               ),
-
               const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -140,12 +151,10 @@ class _ProfileState extends State<Profile> {
                 children: [
                   OutlinedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Skeleton(),
-                        ),
-                      );
+                      setState(() {
+                        isEditingName = false;
+                        _controller.text = name;
+                      });
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: Colors.transparent,
@@ -168,7 +177,12 @@ class _ProfileState extends State<Profile> {
                   ),
                   OutlinedButton(
                     onPressed: () {
-                      name = _controller.text;
+                      setState(() {
+                        isEditingName = false;
+                        name = _controller.text;
+                      });
+                      //update database
+                      UserRepository().updateUserName(name);
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 9, 9, 82),
