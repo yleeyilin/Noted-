@@ -205,10 +205,10 @@ packages:
     dependency: "direct main"
     description:
       name: dropdown_search
-      sha256: "55106e8290acaa97ed15bea1fdad82c3cf0c248dd410e651f5a8ac6870f783ab"
+      sha256: "2fbca85ef08cf0c2d405041e1807d35d2e7ef6b36d74d053a5d195e894642089"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.6"
+    version: "3.0.1"
   easy_pdf_viewer:
     dependency: "direct main"
     description:
