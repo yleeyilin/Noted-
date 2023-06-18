@@ -22,18 +22,23 @@ class _PostNotesState extends State<PostNotes> {
   List<String> displayList = [];
   Future<List<String>>? _moduleCodes;
 
-  @override
-  void initState() {
-    super.initState();
-    updateList('');
-  }
-
   void updateList(String value) {
     setState(() {
       _moduleCodes!.then((moduleCodes) {
-        displayList = moduleCodes;
+        setState(() {
+          displayList = moduleCodes
+              .where((moduleCode) =>
+                  moduleCode.toLowerCase().contains(value.toLowerCase()))
+              .toList();
+        });
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _moduleCodes = _courseCon.fetchModuleCodes();
   }
 
   @override
