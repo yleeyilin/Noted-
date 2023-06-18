@@ -6,7 +6,7 @@ import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
-//index 0
+
 class PostNotes extends StatefulWidget {
   const PostNotes({Key? key}) : super(key: key);
 
@@ -18,9 +18,15 @@ class _PostNotesState extends State<PostNotes> {
   final int _selectedIndex = 0;
   final PostController _postCon = PostController();
   final CourseController _courseCon = CourseController();
+  bool isEmpty = true;
+
+  bool isSearchBarEmpty(String value) {
+    return value.trim().isEmpty;
+  }
 
   List<String> displayList = [];
   Future<List<String>>? _moduleCodes;
+  String? selectedModuleCode;
 
   void updateList(String value) {
     setState(() {
@@ -38,7 +44,14 @@ class _PostNotesState extends State<PostNotes> {
   @override
   void initState() {
     super.initState();
-    _moduleCodes = _courseCon.fetchModuleCodes();
+    _loadModuleCodes();
+  }
+
+  Future<void> _loadModuleCodes() async {
+    List<String> moduleCodes = await _courseCon.fetchModuleCodes();
+    setState(() {
+      _moduleCodes = Future.value(moduleCodes);
+    });
   }
 
   @override
@@ -64,7 +77,7 @@ class _PostNotesState extends State<PostNotes> {
             ),
           ],
         ),
-        //general search bar
+        // general search bar
         actions: [
           IconButton(
             onPressed: () {
@@ -110,20 +123,41 @@ class _PostNotesState extends State<PostNotes> {
               ],
             ),
             const SizedBox(height: 20),
-            DropdownSearch<String>(
-              mode: Mode.MENU,
-              showSelectedItems: true,
-              items: [],
-              dropdownSearchDecoration: const InputDecoration(
-                labelText: "Search Course",
-                contentPadding: EdgeInsets.all(10),
-              ),
-              showSearchBox: true,
-              searchFieldProps: const TextFieldProps(
-                decoration: InputDecoration(
-                  hintText: "Search",
-                ),
-              ),
+            FutureBuilder<List<String>>(
+              future: _moduleCodes,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(); // Display a loading indicator while fetching module codes
+                } else if (snapshot.hasError) {
+                  return const Text('Error loading module codes'); // Display an error message if fetching fails
+                } else {
+                  List<String>? moduleCodes = snapshot.data;
+                  if (moduleCodes == null || moduleCodes.isEmpty) {
+                    return const Text('No module codes available'); // Display a message if no module codes are found
+                  }
+                  return DropdownSearch<String>(
+                    mode: Mode.MENU,
+                    showSelectedItems: true,
+                    items: moduleCodes,
+                    onChanged: (selectedItem) {
+                      setState(() {
+                        selectedModuleCode = selectedItem;
+                      });
+                    },
+                    selectedItem: selectedModuleCode,
+                    dropdownSearchDecoration: const InputDecoration(
+                      labelText: "Search Course",
+                      contentPadding: EdgeInsets.all(10),
+                    ),
+                    showSearchBox: true,
+                    searchFieldProps: const TextFieldProps(
+                      decoration: InputDecoration(
+                        hintText: "Search",
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
             const SizedBox(
               height: 20,
