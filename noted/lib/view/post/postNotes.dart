@@ -22,23 +22,18 @@ class _PostNotesState extends State<PostNotes> {
   List<String> displayList = [];
   Future<List<String>>? _moduleCodes;
 
-  void updateList(String value) {
-    setState(() {
-      _moduleCodes!.then((moduleCodes) {
-        setState(() {
-          displayList = moduleCodes
-              .where((moduleCode) =>
-                  moduleCode.toLowerCase().contains(value.toLowerCase()))
-              .toList();
-        });
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    _moduleCodes = _courseCon.fetchModuleCodes();
+    updateList('');
+  }
+
+  void updateList(String value) {
+    setState(() {
+      _moduleCodes!.then((moduleCodes) {
+        displayList = moduleCodes;
+      });
+    });
   }
 
   @override
@@ -110,6 +105,20 @@ class _PostNotesState extends State<PostNotes> {
               ],
             ),
             const SizedBox(height: 20),
+            DropdownSearch<String>(
+              popupProps: const PopupProps.menu(
+                showSelectedItems: true,
+              ),
+              items: displayList,
+              dropdownDecoratorProps: const DropDownDecoratorProps(
+                dropdownSearchDecoration: InputDecoration(
+                  labelText: "Select Course",
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             Text(
               'PDF Selected: ${_postCon.fileName.isNotEmpty ? _postCon.fileName : "No PDF selected"}',
               style: const TextStyle(
