@@ -20,7 +20,6 @@ class UserRepository {
       }
       return false;
     } catch (e) {
-      print(e);
       return false;
     }
   }
