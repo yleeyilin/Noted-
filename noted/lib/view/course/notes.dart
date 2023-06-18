@@ -69,6 +69,32 @@ class _NotesState extends State<Notes> {
                 color: Color.fromARGB(255, 9, 9, 82),
               ),
             ),
+            const SizedBox(height: 20),
+            //notes search bar
+            SizedBox(
+              height: 60,
+              child: TextField(
+                onChanged: (value) {},
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: const BorderSide(
+                      color: Color.fromARGB(255, 9, 9, 82),
+                    ),
+                  ),
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  prefixIconColor: primary,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
