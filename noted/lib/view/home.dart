@@ -15,29 +15,35 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          ListView(
-            children: const [
-              SizedBox(height: 650),
-              // Add your other ListView items here
-            ],
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: primary,
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PostArticles(),
+        body: Column(
+      children: [
+        const SizedBox(height: 10),
+        //article search bar
+        SizedBox(
+          height: 60,
+          child: TextField(
+            onChanged: (value) {},
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(color: Colors.transparent),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8.0),
+                borderSide: const BorderSide(
+                  color: Color.fromARGB(255, 9, 9, 82),
+                ),
+              ),
+              hintText: 'Search',
+              prefixIcon: const Icon(Icons.search),
+              prefixIconColor: primary,
             ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
-    );
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    ));
   }
 }
