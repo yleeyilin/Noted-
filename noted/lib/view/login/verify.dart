@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
+import 'package:noted/view/login/signin.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 
 class Verify extends StatefulWidget {
@@ -59,7 +60,7 @@ class _VerifyScreenState extends State<Verify> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Skeleton(),
+                  builder: (context) => const SignIn(),
                 ),
               );
             },
