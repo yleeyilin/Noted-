@@ -111,13 +111,17 @@ class _PostNotesState extends State<PostNotes> {
             ),
             const SizedBox(height: 20),
             DropdownSearch<String>(
-              popupProps: const PopupProps.menu(
-                showSelectedItems: true,
+              mode: Mode.MENU,
+              showSelectedItems: true,
+              items: [],
+              dropdownSearchDecoration: const InputDecoration(
+                labelText: "Search Course",
+                contentPadding: EdgeInsets.all(10),
               ),
-              items: displayList,
-              dropdownDecoratorProps: const DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  labelText: "Select Course",
+              showSearchBox: true,
+              searchFieldProps: const TextFieldProps(
+                decoration: InputDecoration(
+                  hintText: "Search",
                 ),
               ),
             ),
