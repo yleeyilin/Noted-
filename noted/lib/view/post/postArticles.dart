@@ -96,19 +96,25 @@ class _PostArticlesState extends State<PostArticles> {
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: TextField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
             const SizedBox(height: 10),
-            TextField(
-              controller: summaryController,
-              decoration: const InputDecoration(
-                labelText: 'Summary',
-                border: OutlineInputBorder(),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: TextField(
+                controller: summaryController,
+                decoration: const InputDecoration(
+                  labelText: 'Summary',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -125,7 +131,8 @@ class _PostArticlesState extends State<PostArticles> {
                 ),
               ),
               onPressed: () {
-                _con.pickArticleFile(titleController.text, summaryController.text);
+                _con.pickArticleFile(
+                    titleController.text, summaryController.text);
               },
               child: const Text('Select PDF'),
             ),
