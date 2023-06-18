@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/view/post/postArticles.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
