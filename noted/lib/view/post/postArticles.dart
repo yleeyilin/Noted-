@@ -13,6 +13,8 @@ class PostArticles extends StatefulWidget {
 }
 
 class _PostArticlesState extends State<PostArticles> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController summaryController = TextEditingController();
   final int _selectedIndex = 1;
   late String pdfPath = '';
   final PostController _con = PostController();
@@ -94,6 +96,22 @@ class _PostArticlesState extends State<PostArticles> {
               ),
             ),
             const SizedBox(height: 20),
+            TextField(
+              controller: titleController,
+              decoration: const InputDecoration(
+                labelText: 'Title',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: summaryController,
+              decoration: const InputDecoration(
+                labelText: 'Summary',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(
@@ -106,7 +124,9 @@ class _PostArticlesState extends State<PostArticles> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: _con.pickFile,
+              onPressed: () {
+                _con.pickArticleFile(titleController.text, summaryController.text);
+              },
               child: const Text('Select PDF'),
             ),
           ],

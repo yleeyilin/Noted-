@@ -101,7 +101,6 @@ class _SearchState extends State<Search> {
                     final moduleCodes = snapshot.data!;
                     final filteredList =
                         displayList.isNotEmpty ? displayList : moduleCodes;
-
                     if (filteredList == moduleCodes && !isEmpty) {
                       return const Expanded(
                         child: Center(
