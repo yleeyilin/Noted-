@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/main.dart';
 
@@ -84,8 +83,8 @@ Future<void> createArticleNode(String title, String summary, String address) asy
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateArticle(\$title: String!, \$summary: String!, \$address: String!) {
-        createArticle(input: { title: \$title, summary: \$summary, address: \$address }) {
-          article {
+        createArticles(input: { title: \$title, summary: \$summary, address: \$address }) {
+          articles {
             title
             summary
             address
@@ -105,20 +104,23 @@ Future<void> createArticleNode(String title, String summary, String address) asy
   if (result.hasException) {
     print('GraphQL Error: ${result.exception.toString()}');
   } else {
-    final Map<String, dynamic>? data = result.data?['createArticle'];
+    final Map<String, dynamic>? data = result.data?['createArticles'];
     if (data != null) {
-      final Map<String, dynamic> article = data['article'] as Map<String, dynamic>;
-      final String articleTitle = article['title'] as String;
-      final String articleSummary = article['summary'] as String;
-      final String articleAddress = article['address'] as String;
+      final List<dynamic> articles = data['articles'] as List<dynamic>;
+      for (final article in articles) {
+        final String articleTitle = article['title'] as String;
+        final String articleSummary = article['summary'] as String;
+        final String articleAddress = article['address'] as String;
 
-      print('Create Article Success:');
-      print('Title: $articleTitle');
-      print('Summary: $articleSummary');
-      print('Address: $articleAddress');
+        print('Create Article Success:');
+        print('Title: $articleTitle');
+        print('Summary: $articleSummary');
+        print('Address: $articleAddress');
+      }
     }
   }
 }
+
 
 void createUserNode(String name, String email) async {
   final MutationOptions options = MutationOptions(
