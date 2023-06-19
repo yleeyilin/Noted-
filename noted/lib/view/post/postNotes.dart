@@ -6,7 +6,6 @@ import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 
-
 class PostNotes extends StatefulWidget {
   const PostNotes({Key? key}) : super(key: key);
 
@@ -129,11 +128,13 @@ class _PostNotesState extends State<PostNotes> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(); // Display a loading indicator while fetching module codes
                 } else if (snapshot.hasError) {
-                  return const Text('Error loading module codes'); // Display an error message if fetching fails
+                  return const Text(
+                      'Error loading module codes'); // Display an error message if fetching fails
                 } else {
                   List<String>? moduleCodes = snapshot.data;
                   if (moduleCodes == null || moduleCodes.isEmpty) {
-                    return const Text('No module codes available'); // Display a message if no module codes are found
+                    return const Text(
+                        'No module codes available'); // Display a message if no module codes are found
                   }
                   return DropdownSearch<String>(
                     mode: Mode.MENU,
@@ -182,7 +183,11 @@ class _PostNotesState extends State<PostNotes> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: _postCon.pickNotesFile,
+              onPressed: () {
+                if (selectedModuleCode != null) {
+                  _postCon.pickNotesFile(selectedModuleCode);
+                }
+              },
               child: const Text('Select PDF'),
             ),
           ],

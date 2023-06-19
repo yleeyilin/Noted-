@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:flutter/material.dart';
+import 'package:noted/model/query/createRelationship.dart';
 import 'package:noted/view/post/postNotes.dart';
 import 'package:noted/view/post/postArticles.dart';
 import 'dart:io';
@@ -43,7 +44,7 @@ class PostController extends ControllerMVC {
     return downloadLink;
   }
 
-  void pickNotesFile() async {
+  void pickNotesFile(String? selectedModuleCode) async {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
@@ -60,6 +61,7 @@ class PostController extends ControllerMVC {
         "url": downloadLink,
       });
       createNotesNode(fileName, downloadLink);
+      connectCourseToNotes(selectedModuleCode!, downloadLink);
 
       print("PDF Uploaded Successfully!");
     }
