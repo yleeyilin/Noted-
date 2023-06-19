@@ -10,18 +10,18 @@ const typeDefs = gql`
         read: [Article!]! @relationship(type: "READ", direction: OUT)
         likes: [Interest!]! @relationship(type: "LIKES", direction: OUT)
     }
-
+    
     type Course {
         name: String
-        notes: [Notes!]! @relationship(type: "NOTES", direction: OUT)
+        notes: [Notes!]! @relationship(type: "NOTES", direction: IN)
     }
-
+    
     type Notes {
         name: String
         address: String
-        course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
+        course: Course! @relationship(type: "NOTES", direction: OUT) 
     }
-
+    
     type Article {
         title: String
         summary: String
@@ -29,12 +29,13 @@ const typeDefs = gql`
         articles: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
     }
-
+    
     type Interest {
         name: String
         interests: [User!]! @relationship(type: "LIKES", direction: IN)
         includes: [Article!]! @relationship(type: "INCLUDES", direction: OUT)
     }
+    
 `;
 
 const driver = neo4j.driver(
