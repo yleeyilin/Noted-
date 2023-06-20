@@ -19,7 +19,7 @@ const typeDefs = gql`
     type Notes {
         name: String
         address: String
-        course: Course! @relationship(type: "NOTES", direction: OUT) 
+        course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
     }
     
     type Article {
