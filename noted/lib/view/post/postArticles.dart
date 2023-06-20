@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
@@ -18,6 +19,9 @@ class _PostArticlesState extends State<PostArticles> {
   final int _selectedIndex = 1;
   late String pdfPath = '';
   final PostController _con = PostController();
+  bool isFieldCompleted = false;
+  bool isPdfSelected = false;
+  late FilePickerResult res;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +108,13 @@ class _PostArticlesState extends State<PostArticles> {
                   labelText: 'Title',
                   border: OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  if (titleController.text.trim().isNotEmpty &&
+                      summaryController.text.trim().isNotEmpty) {
+                    isFieldCompleted = true;
+                  }
+                  isFieldCompleted = false;
+                },
               ),
             ),
             const SizedBox(height: 10),
@@ -115,6 +126,13 @@ class _PostArticlesState extends State<PostArticles> {
                   labelText: 'Summary',
                   border: OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  if (titleController.text.trim().isNotEmpty &&
+                      summaryController.text.trim().isNotEmpty) {
+                    isFieldCompleted = true;
+                  }
+                  isFieldCompleted = false;
+                },
               ),
             ),
             const SizedBox(height: 20),
@@ -130,11 +148,33 @@ class _PostArticlesState extends State<PostArticles> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: () {
-                _con.pickArticleFile(
-                    titleController.text, summaryController.text);
+              onPressed: () async {
+                res = (await _con.pickFile())!;
+                setState(() {
+                  isPdfSelected = true;
+                });
               },
               child: const Text('Select PDF'),
+            ),
+            Visibility(
+              visible: isFieldCompleted && isPdfSelected,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 50,
+                  ),
+                  backgroundColor: primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ),
+                onPressed: () {
+                  _con.articleUpload(res, titleController.text, summaryController.text);
+                },
+                child: const Text('Confirm Upload'),
+              ),
             ),
           ],
         ),
