@@ -60,7 +60,7 @@ class PostController extends ControllerMVC {
         "name": fileName,
         "url": downloadLink,
       });
-      createNotesNode(fileName, downloadLink);
+      await createNotesNode(fileName, downloadLink);
       connectCourseToNotes(selectedModuleCode!, downloadLink);
 
       print("PDF Uploaded Successfully!");
