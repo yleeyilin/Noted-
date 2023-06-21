@@ -1,5 +1,5 @@
 import 'package:noted/model/query/nusmods.dart';
-import 'package:noted/model/query/createNode.dart';
+import 'package:noted/model/neo4j/createNode.dart';
 
 Future<void> createCourseNodesFromNUSMODS() async {
   try {
