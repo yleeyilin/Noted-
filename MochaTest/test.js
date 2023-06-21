@@ -1,14 +1,19 @@
 const { ApolloServer } = require('apollo-server');
 const { expect } = require('chai');
 const createApolloServer = require('/Users/leeyilin/Noted-/GraphQLServer/index.js');
+const { createTestClient } = require('apollo-server-testing');
+const fetch = require('node-fetch');
 
 describe('Server', function () {
   let server;
+  let serverUrl;
+  let testClient;
 
   before(async function () {
     server = await createApolloServer();
-    const { url } = await server.listen();
-    console.log(`🚀 Server started at ${url}`);
+    testClient = createTestClient(server);
+    serverUrl = (await server.listen()).url;
+    console.log(`🚀 Server started at ${serverUrl}`);
   });
 
   after(async function () {
@@ -19,5 +24,26 @@ describe('Server', function () {
     expect(server).to.exist;
   });
 
-  // Add more test cases as needed
+  // it('should return a successful response code 200', async function () {
+  //   const response = await fetch(serverUrl);
+  //   console.log(response)
+  //   expect(response.status).to.equal(200);
+  // });
+
+  it('should return a successful response for a sample query', async function () {
+    const { query } = testClient;
+    const GET_USERS_QUERY = `
+      query {
+        users {
+          name
+          email
+        }
+      }
+    `;
+
+    const response = await query({ query: GET_USERS_QUERY });
+    expect(response.errors).to.be.undefined;
+    expect(response.data).to.exist;
+    expect(response.data.users).to.be.an('array');
+  });
 });
