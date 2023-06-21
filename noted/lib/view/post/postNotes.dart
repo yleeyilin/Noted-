@@ -6,6 +6,7 @@ import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:file_picker/file_picker.dart';
 
 class PostNotes extends StatefulWidget {
   const PostNotes({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _PostNotesState extends State<PostNotes> {
   List<String> displayList = [];
   Future<List<String>>? _moduleCodes;
   String? selectedModuleCode;
+  String? selectedFilePath;
 
   void updateList(String value) {
     setState(() {
@@ -55,6 +57,19 @@ class _PostNotesState extends State<PostNotes> {
     setState(() {
       _moduleCodes = Future.value(moduleCodes);
     });
+  }
+
+  Future<void> selectPDF() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+    if (result != null) {
+      setState(() {
+        selectedFilePath = result.files.single.path!;
+        _postCon.fileName = result.files.single.name;
+      });
+    }
   }
 
   @override
@@ -130,15 +145,13 @@ class _PostNotesState extends State<PostNotes> {
               future: _moduleCodes,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator(); // Display a loading indicator while fetching module codes
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
-                  return const Text(
-                      'Error loading module codes'); // Display an error message if fetching fails
+                  return const Text('Error loading module codes');
                 } else {
                   List<String>? moduleCodes = snapshot.data;
                   if (moduleCodes == null || moduleCodes.isEmpty) {
-                    return const Text(
-                        'No module codes available'); // Display a message if no module codes are found
+                    return const Text('No module codes available');
                   }
                   return DropdownSearch<String>(
                     mode: Mode.MENU,
@@ -169,7 +182,7 @@ class _PostNotesState extends State<PostNotes> {
               height: 20,
             ),
             Text(
-              'PDF Selected: ${_postCon.fileName.isNotEmpty ? _postCon.fileName : "No PDF selected"}',
+              'PDF Selected: ${selectedFilePath != null ? _postCon.fileName : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

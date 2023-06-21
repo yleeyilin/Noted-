@@ -4,6 +4,7 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
+import 'package:file_picker/file_picker.dart';
 
 //index 1
 class PostArticles extends StatefulWidget {
@@ -22,6 +23,19 @@ class _PostArticlesState extends State<PostArticles> {
   bool isFieldCompleted = false;
   bool isPdfSelected = false;
   late FilePickerResult res;
+
+  Future<void> selectPDF() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+    if (result != null) {
+      setState(() {
+        pdfPath = result.files.single.path!;
+        _con.fileName = result.files.single.name;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
