@@ -24,13 +24,7 @@ describe('Server', function () {
     expect(server).to.exist;
   });
 
-  // it('should return a successful response code 200', async function () {
-  //   const response = await fetch(serverUrl);
-  //   console.log(response)
-  //   expect(response.status).to.equal(200);
-  // });
-
-  it('should return a successful response for a sample query', async function () {
+  it('should return a successful response', async function () {
     const { query } = testClient;
     const GET_USERS_QUERY = `
       query {
