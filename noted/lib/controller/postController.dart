@@ -44,48 +44,43 @@ class PostController extends ControllerMVC {
     return downloadLink;
   }
 
-  void pickNotesFile(String? selectedModuleCode) async {
+  Future<FilePickerResult?> pickFile() async {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['pdf'],
     );
 
-    if (pickedFile != null) {
-      String fileName = pickedFile.files[0].name;
-      File file = File(pickedFile.files[0].path!);
-
-      final downloadLink = await uploadPDF(fileName, file);
-
-      await _firebaseFirestore.collection("pdfs").add({
-        "name": fileName,
-        "url": downloadLink,
-      });
-      await createNotesNode(fileName, downloadLink);
-      connectCourseToNotes(selectedModuleCode!, downloadLink);
-
-      print("PDF Uploaded Successfully!");
-    }
+    return pickedFile;
   }
 
-  void pickArticleFile(String title, String summary) async {
-    final pickedFile = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
+  Future<void> notesUpload(FilePickerResult pickedFile, String? selectedModuleCode) async {
+    String fileName = pickedFile.files[0].name;
+    File file = File(pickedFile.files[0].path!);
 
-    if (pickedFile != null) {
-      String fileName = pickedFile.files[0].name;
-      File file = File(pickedFile.files[0].path!);
+    final downloadLink = await uploadPDF(fileName, file);
 
-      final downloadLink = await uploadPDF(fileName, file);
+    await _firebaseFirestore.collection("pdfs").add({
+      "name": fileName,
+      "url": downloadLink,
+    });
+    await createNotesNode(fileName, downloadLink);
+    connectCourseToNotes(selectedModuleCode!, downloadLink);
 
-      await _firebaseFirestore.collection("pdfs").add({
-        "name": fileName,
-        "url": downloadLink,
-      });
-      createArticleNode(title, summary, downloadLink);
+    print("PDF Uploaded Successfully!");
+  }
 
-      print("PDF Uploaded Successfully!");
-    }
+  void articleUpload(FilePickerResult pickedFile, String title, String summary) async {
+    String fileName = pickedFile.files[0].name;
+    File file = File(pickedFile.files[0].path!);
+
+    final downloadLink = await uploadPDF(fileName, file);
+
+    await _firebaseFirestore.collection("pdfs").add({
+      "name": fileName,
+      "url": downloadLink,
+    });
+    createArticleNode(title, summary, downloadLink);
+
+    print("PDF Uploaded Successfully!");
   }
 }

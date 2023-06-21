@@ -43,8 +43,6 @@ const driver = neo4j.driver(
     neo4j.auth.basic("neo4j", "CCE-9y4M1VWFvtaOIuli84-LhP6vMbniNQze5WrX7WE")
 );
 
-const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
-
 neoSchema.getSchema().then((schema) => {
     const server = new ApolloServer({
         schema,
@@ -54,3 +52,12 @@ neoSchema.getSchema().then((schema) => {
         console.log(`🚀 Server ready at ${url}`);
     });
   })
+
+// const createApolloServer = async () => {
+//     const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
+//     const schema = await neoSchema.getSchema();
+  
+//     return new ApolloServer({ schema });
+//   };
+  
+// module.exports = createApolloServer;

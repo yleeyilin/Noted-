@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/controller/courseController.dart';
 import 'package:noted/view/constant/colors.dart';
@@ -19,6 +20,9 @@ class _PostNotesState extends State<PostNotes> {
   final PostController _postCon = PostController();
   final CourseController _courseCon = CourseController();
   bool isEmpty = true;
+  bool isCourseSelected = false;
+  bool isPdfSelected = false;
+  late FilePickerResult res;
 
   bool isSearchBarEmpty(String value) {
     return value.trim().isEmpty;
@@ -156,6 +160,7 @@ class _PostNotesState extends State<PostNotes> {
                     onChanged: (selectedItem) {
                       setState(() {
                         selectedModuleCode = selectedItem;
+                        isCourseSelected = true;
                       });
                     },
                     selectedItem: selectedModuleCode,
@@ -196,12 +201,33 @@ class _PostNotesState extends State<PostNotes> {
                   borderRadius: BorderRadius.circular(40),
                 ),
               ),
-              onPressed: () {
-                if (selectedModuleCode != null) {
-                  selectPDF();
-                }
+              onPressed: () async {
+                res = (await _postCon.pickFile())!;
+                setState(() {
+                  isPdfSelected = true;
+                });
               },
               child: const Text('Select PDF'),
+            ),
+            Visibility(
+              visible: isCourseSelected && isPdfSelected,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 50,
+                  ),
+                  backgroundColor: primary,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                ),
+                onPressed: () {
+                  _postCon.notesUpload(res, selectedModuleCode);
+                },
+                child: const Text('Confirm Upload'),
+              ),
             ),
           ],
         ),
