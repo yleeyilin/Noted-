@@ -47,23 +47,23 @@ const driver = neo4j.driver(
     neo4j.auth.basic("neo4j", "CCE-9y4M1VWFvtaOIuli84-LhP6vMbniNQze5WrX7WE")
 );
 
-const createApolloServer = async () => {
-    const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
-    const schema = await neoSchema.getSchema();
+// const createApolloServer = async () => {
+//     const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
+//     const schema = await neoSchema.getSchema();
   
-    return new ApolloServer({ schema });
-  };
+//     return new ApolloServer({ schema });
+//   };
   
-module.exports = createApolloServer;
+// module.exports = createApolloServer;
 
-// const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
+const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
 
-// neoSchema.getSchema().then((schema) => {
-//     const server = new ApolloServer({
-//         schema,
-//     });
+neoSchema.getSchema().then((schema) => {
+    const server = new ApolloServer({
+        schema,
+    });
   
-//     server.listen().then(({ url }) => {
-//         console.log(`🚀 Server ready at ${url}`);
-//     });
-//   })
+    server.listen().then(({ url }) => {
+        console.log(`🚀 Server ready at ${url}`);
+    });
+  })
