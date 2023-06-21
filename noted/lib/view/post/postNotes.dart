@@ -5,8 +5,8 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
+import 'package:noted/controller/authController.dart';
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:file_picker/file_picker.dart';
 
 class PostNotes extends StatefulWidget {
   const PostNotes({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class _PostNotesState extends State<PostNotes> {
   final int _selectedIndex = 0;
   final PostController _postCon = PostController();
   final CourseController _courseCon = CourseController();
+  final AuthController _authCon = AuthController();
   bool isEmpty = true;
   bool isCourseSelected = false;
   bool isPdfSelected = false;
@@ -224,7 +225,10 @@ class _PostNotesState extends State<PostNotes> {
                   ),
                 ),
                 onPressed: () {
-                  _postCon.notesUpload(res, selectedModuleCode);
+                  String? email = _authCon.retrieveEmail();
+                  _postCon.notesUpload(
+                      res, selectedModuleCode, email!
+                  );
                 },
                 child: const Text('Confirm Upload'),
               ),

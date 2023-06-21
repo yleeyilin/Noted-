@@ -33,4 +33,8 @@ class AuthController extends ControllerMVC {
       showErrorSnackbar(context, "Passwords do not match.");
     }
   }
+
+  String? retrieveEmail() {
+    return retrieveCurrUser()!.email;
+  }
 }
