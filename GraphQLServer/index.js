@@ -9,6 +9,8 @@ const typeDefs = gql`
         email: String 
         read: [Article!]! @relationship(type: "READ", direction: OUT)
         likes: [Interest!]! @relationship(type: "LIKES", direction: OUT)
+        posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
+        written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
     }
     
     type Course {
@@ -20,6 +22,7 @@ const typeDefs = gql`
         name: String
         address: String
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
+        author: [User!]! @relationship(type: "POSTER", direction: OUT)
     }
     
     type Article {
@@ -28,6 +31,7 @@ const typeDefs = gql`
         address: String
         articles: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
+        author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
     }
     
     type Interest {

@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:noted/model/query/createRelationship.dart';
+import 'package:noted/model/neo4j/createRelationship.dart';
 import 'package:noted/view/post/postNotes.dart';
 import 'package:noted/view/post/postArticles.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:noted/model/query/createNode.dart';
+import 'package:noted/model/neo4j/createNode.dart';
 
 class PostController extends ControllerMVC {
   factory PostController() => _this ??= PostController._();
