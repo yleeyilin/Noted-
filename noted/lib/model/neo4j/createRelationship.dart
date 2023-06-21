@@ -43,14 +43,14 @@ Future<void> connectNotesToAuthor(String notesAddress, String email) async {
     final List<dynamic> users = data['users'] as List<dynamic>;
     if (users.isNotEmpty) {
       final dynamic connectedUser = users[0];
-      final String connectedUserEmail = connectedUser['email'] as String;
-      final List<dynamic> connectedNotes =
-          connectedUser['notes'] as List<dynamic>;
+      final String? connectedUserEmail = connectedUser['email'] as String?;
+      final List? connectedNotes =
+          connectedUser['notes'] as List<dynamic>?;
 
       print('Connected Author to Notes:');
       print('Author Email: $connectedUserEmail');
       print('Notes:');
-      for (final note in connectedNotes) {
+      for (final note in connectedNotes ?? []) {
         final String noteName = note['name'] as String;
         final String noteAddress = note['address'] as String;
         print('Name: $noteName, Address: $noteAddress');
