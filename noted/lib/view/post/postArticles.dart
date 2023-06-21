@@ -4,7 +4,6 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
-import 'package:file_picker/file_picker.dart';
 
 //index 1
 class PostArticles extends StatefulWidget {

@@ -8,14 +8,14 @@ Future<void> connectNotesToAuthor(String notesAddress, String email) async {
         updateUsers(
           where: { email: \$email }
           connect: {
-            notes: {
+            posted: {
               where: { node: { address: \$notesAddress } }
             }
           }
         ) {
           users {
             name
-            notes {
+            posted {
               name
               address
             }
@@ -43,12 +43,12 @@ Future<void> connectNotesToAuthor(String notesAddress, String email) async {
     final List<dynamic> users = data['users'] as List<dynamic>;
     if (users.isNotEmpty) {
       final dynamic connectedUser = users[0];
-      final String connectedCourseName = connectedUser['email'] as String;
+      final String connectedUserEmail = connectedUser['email'] as String;
       final List<dynamic> connectedNotes =
           connectedUser['notes'] as List<dynamic>;
 
       print('Connected Author to Notes:');
-      print('Author Email: $connectedCourseName');
+      print('Author Email: $connectedUserEmail');
       print('Notes:');
       for (final note in connectedNotes) {
         final String noteName = note['name'] as String;

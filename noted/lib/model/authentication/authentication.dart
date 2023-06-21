@@ -42,8 +42,7 @@ bool authentication(
 
 void firebaseSignIn(String email, String password, BuildContext context) {
   FirebaseAuth.instance
-      .signInWithEmailAndPassword(
-          email: email, password: password)
+      .signInWithEmailAndPassword(email: email, password: password)
       .then((value) {
     Navigator.push(
       context,
@@ -58,8 +57,7 @@ void firebaseSignIn(String email, String password, BuildContext context) {
 
 void resetPassword(String email, BuildContext context) async {
   try {
-    await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: email);
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     // ignore: use_build_context_synchronously
     showDialog(
       context: context,
@@ -100,13 +98,12 @@ void resetPassword(String email, BuildContext context) async {
   }
 }
 
-void changePassword(String email, String oldPassword, String newPassword, BuildContext context) {
+void changePassword(String email, String oldPassword, String newPassword,
+    BuildContext context) {
   User? user = FirebaseAuth.instance.currentUser;
   AuthCredential credential =
-        EmailAuthProvider.credential(email: email, password: oldPassword);
-  user
-      ?.reauthenticateWithCredential(credential)
-      .then((AuthResult) {
+      EmailAuthProvider.credential(email: email, password: oldPassword);
+  user?.reauthenticateWithCredential(credential).then((AuthResult) {
     user.updatePassword(newPassword).then((_) {
       Navigator.push(
         context,
@@ -122,4 +119,8 @@ void changePassword(String email, String oldPassword, String newPassword, BuildC
     // Reauthentication failed
     showErrorSnackbar(context, error);
   });
+}
+
+User? retrieveCurrUser() {
+  return FirebaseAuth.instance.currentUser;
 }
