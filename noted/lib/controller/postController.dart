@@ -53,8 +53,8 @@ class PostController extends ControllerMVC {
     return pickedFile;
   }
 
-  Future<void> notesUpload(
-      FilePickerResult pickedFile, String? selectedModuleCode, String email) async {
+  Future<void> notesUpload(FilePickerResult pickedFile,
+      String? selectedModuleCode, String email) async {
     String fileName = pickedFile.files[0].name;
     File file = File(pickedFile.files[0].path!);
 
@@ -72,7 +72,7 @@ class PostController extends ControllerMVC {
   }
 
   void articleUpload(
-      FilePickerResult pickedFile, String title, String summary) async {
+      FilePickerResult pickedFile, String title, String summary, String email) async {
     String fileName = pickedFile.files[0].name;
     File file = File(pickedFile.files[0].path!);
 
@@ -83,6 +83,7 @@ class PostController extends ControllerMVC {
       "url": downloadLink,
     });
     createArticleNode(title, summary, downloadLink);
+    connectAuthorToArticle(downloadLink, email) ;
 
     print("PDF Uploaded Successfully!");
   }

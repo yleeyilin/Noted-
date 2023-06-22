@@ -59,6 +59,64 @@ Future<void> connectNotesToAuthor(String notesAddress, String email) async {
   }
 }
 
+Future<void> connectAuthorToArticle(String articleAddress, String email) async {
+  final MutationOptions connectArticleOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectAuthorToArticle(\$email: String!, \$articleAddress: String!) {
+        updateUsers(
+          where: { email: \$email }
+          connect: {
+            written: {
+              where: { node: { address: \$articleAddress } }
+            }
+          }
+        ) {
+          users {
+            name
+            written {
+              title
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'email': email,
+      'articleAddress': articleAddress,
+    },
+  );
+
+  final QueryResult connectArticleResult =
+      await client.value.mutate(connectArticleOptions);
+
+  if (connectArticleResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectArticleResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectArticleResult.data?['updateUsers'];
+  if (data != null) {
+    final List<dynamic> users = data['users'] as List<dynamic>;
+    if (users.isNotEmpty) {
+      final dynamic connectedUser = users[0];
+      final String? userName = connectedUser['name'] as String?;
+      final List? connectedArticles =
+          connectedUser['written'] as List<dynamic>?;
+
+      print('Connected Author to Article:');
+      print('Author Name: $userName');
+      print('Articles:');
+      for (final article in connectedArticles ?? []) {
+        final String articleTitle = article['title'] as String;
+        final String articleAddress = article['address'] as String;
+        print('Title: $articleTitle, Address: $articleAddress');
+      }
+    }
+  }
+}
+
 
 Future<void> connectCourseToNotes(
     String courseName, String notesAddress) async {

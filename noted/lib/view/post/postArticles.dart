@@ -4,6 +4,7 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
+import 'package:noted/controller/authController.dart';
 
 //index 1
 class PostArticles extends StatefulWidget {
@@ -19,6 +20,7 @@ class _PostArticlesState extends State<PostArticles> {
   final int _selectedIndex = 1;
   late String pdfPath = '';
   final PostController _con = PostController();
+  final AuthController _authCon = AuthController();
   bool isFieldCompleted = false;
   bool isPdfSelected = false;
   late FilePickerResult res;
@@ -122,11 +124,14 @@ class _PostArticlesState extends State<PostArticles> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  if (titleController.text.trim().isNotEmpty &&
-                      summaryController.text.trim().isNotEmpty) {
-                    isFieldCompleted = true;
-                  }
-                  isFieldCompleted = false;
+                  setState(() {
+                    if (titleController.text.trim().isNotEmpty &&
+                        summaryController.text.trim().isNotEmpty) {
+                      isFieldCompleted = true;
+                    } else {
+                      isFieldCompleted = false;
+                    }
+                  });
                 },
               ),
             ),
@@ -140,11 +145,14 @@ class _PostArticlesState extends State<PostArticles> {
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (value) {
-                  if (titleController.text.trim().isNotEmpty &&
-                      summaryController.text.trim().isNotEmpty) {
-                    isFieldCompleted = true;
-                  }
-                  isFieldCompleted = false;
+                  setState(() {
+                    if (titleController.text.trim().isNotEmpty &&
+                        summaryController.text.trim().isNotEmpty) {
+                      isFieldCompleted = true;
+                    } else {
+                      isFieldCompleted = false;
+                    }
+                  });
                 },
               ),
             ),
@@ -184,7 +192,9 @@ class _PostArticlesState extends State<PostArticles> {
                   ),
                 ),
                 onPressed: () {
-                  _con.articleUpload(res, titleController.text, summaryController.text);
+                  String? email = _authCon.retrieveEmail();
+                  _con.articleUpload(
+                      res, titleController.text, summaryController.text, email!);
                 },
                 child: const Text('Confirm Upload'),
               ),
