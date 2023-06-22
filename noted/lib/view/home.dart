@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import '../main.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,6 +14,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<Map<String, dynamic>> articles = [];
+  List<Map<String, dynamic>> allArticles = [];
+
   void viewPDF(String pdfUrl) {
     Navigator.push(
       context,
@@ -21,48 +26,38 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // temp data
-  final List<Map<String, String>> articleList = [
-    {
-      'title': 'Article 1',
-      'summary': 'Summary of article 1',
-    },
-    {
-      'title': 'Article 2',
-      'summary': 'Summary of article 2',
-    },
-    {
-      'title': 'Article 3',
-      'summary': 'Summary of article 3',
-    },
-    {
-      'title': 'Article 4',
-      'summary': 'Summary of article 4',
-    },
-    {
-      'title': 'Article 5',
-      'summary': 'Summary of article 5',
-    },
-    {
-      'title': 'Article 5',
-      'summary': 'Summary of article 5',
-    },
-    {
-      'title': 'Article 6',
-      'summary': 'Summary of article 6',
-    },
-    {
-      'title': 'Article 7',
-      'summary': 'Summary of article 7',
-    },
-  ];
-
-  List<Map<String, String>> filteredArticleList = [];
-
   @override
   void initState() {
     super.initState();
-    filteredArticleList = List.from(articleList);
+    fetchArticles();
+  }
+
+  Future<void> fetchArticles() async {
+    final QueryOptions options = QueryOptions(
+      document: gql('''
+        query GetArticles {
+          articles {
+            title
+            summary
+            address
+          }
+        }
+      '''),
+    );
+
+    final QueryResult result = await client.value.query(options);
+
+    if (result.hasException) {
+      print('GraphQL Error: ${result.exception.toString()}');
+    } else {
+      final dynamic data = result.data?['articles'];
+      if (data != null) {
+        setState(() {
+          articles = List<Map<String, dynamic>>.from(data);
+          allArticles = List<Map<String, dynamic>>.from(data);
+        });
+      }
+    }
   }
 
   @override
@@ -71,17 +66,20 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           const SizedBox(height: 10),
-          //code for article search
           SizedBox(
             height: 60,
             child: TextField(
               onChanged: (value) {
                 setState(() {
-                  filteredArticleList = articleList
-                      .where((article) => article['title']!
-                          .toLowerCase()
-                          .contains(value.toLowerCase()))
-                      .toList();
+                  if (value.isEmpty) {
+                    articles = List<Map<String, dynamic>>.from(allArticles);
+                  } else {
+                    articles = allArticles
+                        .where((article) => article['title']
+                            .toLowerCase()
+                            .contains(value.toLowerCase()))
+                        .toList();
+                  }
                 });
               },
               decoration: InputDecoration(
@@ -105,7 +103,7 @@ class _HomeState extends State<Home> {
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: filteredArticleList.isEmpty
+            child: articles.isEmpty
                 ? const Center(
                     child: Text(
                       'No Results Found',
@@ -117,9 +115,9 @@ class _HomeState extends State<Home> {
                     ),
                   )
                 : ListView.builder(
-                    itemCount: filteredArticleList.length,
+                    itemCount: articles.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final article = filteredArticleList[index];
+                      final article = articles[index];
                       return Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
@@ -129,14 +127,13 @@ class _HomeState extends State<Home> {
                             horizontal: 16, vertical: 8),
                         child: ListTile(
                           title: Text(
-                            article['title']!,
+                            article['title'] as String,
                           ),
                           subtitle: Text(
-                            article['summary']!,
+                            article['summary'] as String,
                           ),
                           onTap: () {
-                            // viewPDF(address);
-                            // the address param should be replaced with the address property
+                            viewPDF(article['address']);
                           },
                         ),
                       );
