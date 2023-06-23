@@ -33,6 +33,7 @@ class _PostNotesState extends State<PostNotes> {
   Future<List<String>>? _moduleCodes;
   String? selectedModuleCode;
   String? selectedFilePath;
+  String? selectedFileName;
 
   void updateList(String value) {
     setState(() {
@@ -68,6 +69,7 @@ class _PostNotesState extends State<PostNotes> {
     if (result != null) {
       setState(() {
         selectedFilePath = result.files.single.path!;
+        selectedFileName = result.files.single.name;
         _postCon.fileName = result.files.single.name;
       });
     }
@@ -183,7 +185,7 @@ class _PostNotesState extends State<PostNotes> {
               height: 20,
             ),
             Text(
-              'PDF Selected: ${selectedFilePath != null ? _postCon.fileName : "No PDF selected"}',
+              'PDF Selected: ${selectedFilePath != null ? selectedFileName! : "No PDF selected"}', // Display the selected file name
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -227,7 +229,9 @@ class _PostNotesState extends State<PostNotes> {
                 onPressed: () {
                   String? email = _authCon.retrieveEmail();
                   _postCon.notesUpload(
-                      res, selectedModuleCode, email!
+                    res,
+                    selectedModuleCode,
+                    email!,
                   );
                 },
                 child: const Text('Confirm Upload'),

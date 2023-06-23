@@ -24,6 +24,7 @@ class _PostArticlesState extends State<PostArticles> {
   bool isFieldCompleted = false;
   bool isPdfSelected = false;
   late FilePickerResult res;
+  String? selectedFileName;
 
   Future<void> selectPDF() async {
     final result = await FilePicker.platform.pickFiles(
@@ -33,6 +34,7 @@ class _PostArticlesState extends State<PostArticles> {
     if (result != null) {
       setState(() {
         pdfPath = result.files.single.path!;
+        selectedFileName = result.files.single.name;
         _con.fileName = result.files.single.name;
       });
     }
@@ -193,8 +195,8 @@ class _PostArticlesState extends State<PostArticles> {
                 ),
                 onPressed: () {
                   String? email = _authCon.retrieveEmail();
-                  _con.articleUpload(
-                      res, titleController.text, summaryController.text, email!);
+                  _con.articleUpload(res, titleController.text,
+                      summaryController.text, email!);
                 },
                 child: const Text('Confirm Upload'),
               ),
