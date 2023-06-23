@@ -185,7 +185,7 @@ class _PostNotesState extends State<PostNotes> {
               height: 20,
             ),
             Text(
-              'PDF Selected: ${selectedFilePath != null ? selectedFileName! : "No PDF selected"}', // Display the selected file name
+              'PDF Selected: ${selectedFilePath != null ? selectedFileName! : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
