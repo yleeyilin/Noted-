@@ -3,6 +3,7 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import '../main.dart';
+import 'widgets/comment.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -22,6 +23,15 @@ class _HomeState extends State<Home> {
       context,
       MaterialPageRoute(
         builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
+      ),
+    );
+  }
+
+  void openCommentScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Comment(),
       ),
     );
   }
@@ -135,6 +145,15 @@ class _HomeState extends State<Home> {
                           onTap: () {
                             viewPDF(article['address']);
                           },
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.comment,
+                              color: primary,
+                            ),
+                            onPressed: () {
+                              openCommentScreen();
+                            },
+                          ),
                         ),
                       );
                     },
