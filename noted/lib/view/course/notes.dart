@@ -5,6 +5,7 @@ import 'package:noted/main.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
+import 'package:noted/view/widgets/comment.dart';
 
 class Notes extends StatefulWidget {
   final String courseCode;
@@ -80,6 +81,15 @@ class _NotesState extends State<Notes> {
       context,
       MaterialPageRoute(
         builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
+      ),
+    );
+  }
+
+  void openCommentScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const Comment(),
       ),
     );
   }
@@ -187,13 +197,26 @@ class _NotesState extends State<Notes> {
                             onPressed: () {
                               viewPDF(note['address']);
                             },
-                            child: Text(
-                              note['name'],
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromARGB(255, 9, 9, 82),
-                              ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    note['name'],
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 9, 9, 82),
+                                    ),
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    openCommentScreen();
+                                  },
+                                  icon: const Icon(Icons.comment),
+                                  color: primary,
+                                ),
+                              ],
                             ),
                           ),
                         );
