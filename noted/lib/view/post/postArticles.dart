@@ -26,20 +26,6 @@ class _PostArticlesState extends State<PostArticles> {
   late FilePickerResult res;
   String? selectedFileName;
 
-  Future<void> selectPDF() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-    if (result != null) {
-      setState(() {
-        pdfPath = result.files.single.path!;
-        selectedFileName = result.files.single.name;
-        _con.fileName = result.files.single.name;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +96,7 @@ class _PostArticlesState extends State<PostArticles> {
             ),
             const SizedBox(height: 20),
             Text(
-              'PDF Selected: ${_con.fileName.isNotEmpty ? _con.fileName : "No PDF selected"}',
+              'PDF Selected: ${selectedFileName != null ? selectedFileName! : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -175,6 +161,7 @@ class _PostArticlesState extends State<PostArticles> {
                 res = (await _con.pickFile())!;
                 setState(() {
                   isPdfSelected = true;
+                  selectedFileName = res.files[0].name;
                 });
               },
               child: const Text('Select PDF'),
