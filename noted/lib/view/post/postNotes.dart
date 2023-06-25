@@ -61,20 +61,6 @@ class _PostNotesState extends State<PostNotes> {
     });
   }
 
-  Future<void> selectPDF() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['pdf'],
-    );
-    if (result != null) {
-      setState(() {
-        selectedFilePath = result.files.single.path!;
-        selectedFileName = result.files.single.name;
-        _postCon.fileName = result.files.single.name;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -185,7 +171,7 @@ class _PostNotesState extends State<PostNotes> {
               height: 20,
             ),
             Text(
-              'PDF Selected: ${selectedFilePath != null ? selectedFileName! : "No PDF selected"}',
+              'PDF Selected: ${selectedFileName != null ? selectedFileName! : "No PDF selected"}',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -208,6 +194,7 @@ class _PostNotesState extends State<PostNotes> {
                 res = (await _postCon.pickFile())!;
                 setState(() {
                   isPdfSelected = true;
+                  selectedFileName = res.files[0].name;
                 });
               },
               child: const Text('Select PDF'),
