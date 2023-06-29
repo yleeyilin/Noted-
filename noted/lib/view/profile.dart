@@ -3,7 +3,6 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:flutter/cupertino.dart';
-//import 'package:noted/view/user_repository.dart';
 import 'package:noted/controller/profileController.dart';
 
 class Profile extends StatefulWidget {

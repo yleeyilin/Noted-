@@ -22,14 +22,20 @@ class _NotesState extends State<Notes> {
   final CourseController _con = CourseController();
 
   @override
-  Future<void> initState() async {
+  void initState() {
     super.initState();
-    final List? notesData = await _con.retrieveAllNotes(widget.courseCode);
-    setState(() {
+    Future.delayed(Duration.zero, () {
+      _con.retrieveAllNotes(widget.courseCode).then((notesData) {
+        setState(() {
           filteredNotes = List<Map<String, dynamic>>.from(notesData!);
           searchResults = List<Map<String, dynamic>>.from(notesData);
+        });
+      }).catchError((error) {
+        print('Error: $error');
+      });
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
