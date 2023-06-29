@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:noted/main.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
-import 'package:noted/model/query/pdfviewerscreen.dart';
-import 'package:noted/view/widgets/comment.dart';
+import 'package:noted/controller/courseController.dart';
+
 
 class Notes extends StatefulWidget {
   final String courseCode;
@@ -21,77 +19,16 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   late List<Map<String, dynamic>> filteredNotes = [];
   late List<Map<String, dynamic>> searchResults = [];
-
-  Future<void> fetchNotes() async {
-    final QueryOptions options = QueryOptions(
-      document: gql('''
-        query GetNotes(\$courseCode: String!) {
-          courses(where: { name: \$courseCode }) {
-            notes {
-              name
-              address
-            }
-          }
-        }
-      '''),
-      variables: <String, dynamic>{
-        'courseCode': widget.courseCode,
-      },
-    );
-
-    final QueryResult result = await client.value.query(options);
-
-    if (result.hasException) {
-      print('GraphQL Error: ${result.exception.toString()}');
-    } else {
-      final dynamic data = result.data?['courses'];
-      if (data != null) {
-        final List<dynamic> notesData = data[0]['notes'] as List<dynamic>;
-        setState(() {
-          filteredNotes = List<Map<String, dynamic>>.from(notesData);
-          searchResults = List<Map<String, dynamic>>.from(notesData);
-        });
-      }
-    }
-  }
+  final CourseController _con = CourseController();
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    fetchNotes();
-  }
-
-  void searchNotes(String query) {
+    final List? notesData = await _con.retrieveAllNotes(widget.courseCode);
     setState(() {
-      if (query.isNotEmpty) {
-        searchResults = filteredNotes
-            .where((note) => note['name']
-                .toString()
-                .toLowerCase()
-                .contains(query.toLowerCase()))
-            .toList();
-      } else {
-        searchResults = List<Map<String, dynamic>>.from(filteredNotes);
-      }
+          filteredNotes = List<Map<String, dynamic>>.from(notesData!);
+          searchResults = List<Map<String, dynamic>>.from(notesData);
     });
-  }
-
-  void viewPDF(String pdfUrl) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
-      ),
-    );
-  }
-
-  void openCommentScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Comment(),
-      ),
-    );
   }
 
   @override
@@ -151,7 +88,7 @@ class _NotesState extends State<Notes> {
             SizedBox(
               height: 60,
               child: TextField(
-                onChanged: (value) => searchNotes(value),
+                onChanged: (value) => _con.searchNotes(value, filteredNotes, searchResults),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
@@ -195,7 +132,7 @@ class _NotesState extends State<Notes> {
                               ),
                             ),
                             onPressed: () {
-                              viewPDF(note['address']);
+                              _con.viewPDF(note['address'], context);
                             },
                             child: Row(
                               children: [
@@ -211,7 +148,7 @@ class _NotesState extends State<Notes> {
                                 ),
                                 IconButton(
                                   onPressed: () {
-                                    openCommentScreen();
+                                    _con.openCommentScreen(context);
                                   },
                                   icon: const Icon(Icons.comment),
                                   color: primary,
