@@ -35,19 +35,6 @@ class _PostNotesState extends State<PostNotes> {
   String? selectedFilePath;
   String? selectedFileName;
 
-  void updateList(String value) {
-    setState(() {
-      _moduleCodes!.then((moduleCodes) {
-        setState(() {
-          displayList = moduleCodes
-              .where((moduleCode) =>
-                  moduleCode.toLowerCase().contains(value.toLowerCase()))
-              .toList();
-        });
-      });
-    });
-  }
-
   @override
   void initState() {
     super.initState();

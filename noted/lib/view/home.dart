@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/model/query/pdfviewerscreen.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import '../main.dart';
-import 'widgets/comment.dart';
+import 'package:noted/controller/articleController.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,57 +14,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Map<String, dynamic>> articles = [];
   List<Map<String, dynamic>> allArticles = [];
-
-  void viewPDF(String pdfUrl) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PdfViewerScreen(pdfUrl: pdfUrl),
-      ),
-    );
-  }
-
-  void openCommentScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Comment(),
-      ),
-    );
-  }
+  final ArticleController _con = ArticleController();
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    fetchArticles();
-  }
-
-  Future<void> fetchArticles() async {
-    final QueryOptions options = QueryOptions(
-      document: gql('''
-        query GetArticles {
-          articles {
-            title
-            summary
-            address
-          }
-        }
-      '''),
-    );
-
-    final QueryResult result = await client.value.query(options);
-
-    if (result.hasException) {
-      print('GraphQL Error: ${result.exception.toString()}');
-    } else {
-      final dynamic data = result.data?['articles'];
-      if (data != null) {
-        setState(() {
+    dynamic data = _con.fetchAllArticles();
+    setState(() {
           articles = List<Map<String, dynamic>>.from(data);
           allArticles = List<Map<String, dynamic>>.from(data);
-        });
-      }
-    }
+    });
   }
 
   @override
@@ -143,7 +99,7 @@ class _HomeState extends State<Home> {
                             article['summary'] as String,
                           ),
                           onTap: () {
-                            viewPDF(article['address']);
+                            _con.viewPDF(article['address'], context);
                           },
                           trailing: IconButton(
                             icon: Icon(
@@ -151,7 +107,7 @@ class _HomeState extends State<Home> {
                               color: primary,
                             ),
                             onPressed: () {
-                              openCommentScreen();
+                              _con.openCommentScreen(context);
                             },
                           ),
                         ),
