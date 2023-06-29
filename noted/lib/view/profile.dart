@@ -100,18 +100,26 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 5),
               SizedBox(
                 width: 300,
-                child: CupertinoTextField(
-                  decoration: BoxDecoration(
-                    color: inputbox,
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                  textAlign: TextAlign.center,
-                  controller: TextEditingController(
-                    text: _con.retrieveReputation().toString(),
-                  )..text,
-                  readOnly: true,
+                child: FutureBuilder<int?>(
+                  future: _con.retrieveReputation(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<int?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return const Text('Error loading reputation');
+                    } else {
+                      final reputation = snapshot.data ?? 0;
+                      return Text(
+                        reputation.toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      );
+                    }
+                  },
                 ),
               ),
               const SizedBox(height: 40),
