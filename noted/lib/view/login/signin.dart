@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/forgetpassword.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:noted/controller/authController.dart';
 
 class SignIn extends StatefulWidget {
