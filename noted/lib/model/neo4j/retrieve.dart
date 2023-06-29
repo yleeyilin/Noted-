@@ -48,6 +48,30 @@ Future<int?> getReputationScore(String email) async {
   return reputation;
 }
 
+Future<String?> getUserName(String email) async {
+  const String findUserNameQuery = '''
+    query FindUserName(\$email: String!) {
+      user(email: \$email) {
+        name
+      }
+    }
+  ''';
+
+  final QueryOptions options = QueryOptions(
+    document: gql(findUserNameQuery),
+    variables: {'email': email},
+  );
+
+  final QueryResult result = await client.value.query(options);
+  if (result.hasException) {
+    print('Error loading user: ${result.exception.toString()}');
+    return null;
+  }
+
+  final name = result.data?['user']['name'] as String?;
+  return name;
+}
+
 Future<List?> fetchNotes(String courseCode) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
@@ -104,5 +128,3 @@ dynamic fetchArticles() async {
   }
   return null;
 }
-
-
