@@ -11,7 +11,7 @@ class ProfileController extends ControllerMVC {
     String? currEmail = retrieveCurrUser()?.email;
     return getReputationScore(currEmail!);
   }
-
+  
   Future<String?> retrieveUserName() {
     String? currEmail = retrieveCurrUser()?.email;
     return getUserName(currEmail!);

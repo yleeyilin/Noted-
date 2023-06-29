@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/signin.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:noted/controller/authController.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -23,57 +21,40 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           color: Colors.white,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 45),
-            Image.asset(
-              'assets/images/logo-white.png',
-              height: 100,
-            ),
-            const SizedBox(
-              height: 200,
-            ),
-            const Text(
-              'Enter your NUS email. The instructions will be sent to you shortly.',
-              style: TextStyle(
-                color: Color.fromARGB(255, 9, 9, 82),
-                fontSize: 20,
+  children: [
+    const Padding(
+      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+      child: Text(
+        'The instructions will be sent to you shortly.',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 9, 9, 82),
+                  fontSize: 20,
+                ),
               ),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            /*
-            const Text(
-              'NUS Email',
-              style: TextStyle(
-                color: Color.fromARGB(255, 9, 9, 82),
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            */
             SizedBox(
               width: 300,
-              child: CupertinoTextField(
-                controller: emailController,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                decoration: BoxDecoration(
-                  color: inputbox,
-                  borderRadius: BorderRadius.circular(9),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: TextField(
+                  controller: emailController,
+                  style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                  decoration: const InputDecoration(
+                    labelText: 'Enter NUS Email',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                    ),
+                  ),
                 ),
-                style: const TextStyle(color: Colors.black),
-                placeholder: 'Enter NUS Email',
-                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(
               height: 30,
             ),
-            Row(
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 OutlinedButton.icon(
@@ -111,7 +92,8 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   ),
                 ),
               ],
-            )
+            ),
+            ),
           ],
         ),
       ),
