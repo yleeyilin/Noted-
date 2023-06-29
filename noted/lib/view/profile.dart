@@ -3,8 +3,8 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:noted/view/reputationscore.dart';
 import 'package:noted/view/user_repository.dart';
+import 'package:noted/controller/profileController.dart';
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -17,9 +17,9 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   final _controller = TextEditingController();
-  ReputationScore reputationScore = ReputationScore();
   bool isEditingName = false;
   String name = "";
+  final ProfileController _con = ProfileController();
 
   @override
   void dispose() {
@@ -109,7 +109,7 @@ class _ProfileState extends State<Profile> {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                   textAlign: TextAlign.center,
                   controller: TextEditingController(
-                    text: reputationScore.score.toString(),
+                    text: _con.retrieveReputation().toString(),
                   )..text,
                   readOnly: true,
                 ),
