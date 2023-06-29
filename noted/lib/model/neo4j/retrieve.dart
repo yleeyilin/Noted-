@@ -1,33 +1,10 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/main.dart';
 
-Future<String?> getUserId(String email) async {
-  const String findUserIdQuery = '''
-    query FindUserId(\$email: String!) {
-      user(email: \$email) {
-        _id
-      }
-    }
-  ''';
-
-  final QueryOptions options = QueryOptions(
-    document: gql(findUserIdQuery),
-    variables: {'email': email},
-  );
-
-  final QueryResult result = await client.value.query(options);
-  if (result.hasException) {
-    print('Error loading user: ${result.exception.toString()}');
-    return null;
-  }
-  final userId = result.data?['user']['id'] as String?;
-  return userId;
-}
-
 Future<int?> getReputationScore(String email) async {
   const String findUserQuery = '''
     query FindUser(\$email: String!) {
-      user(email: \$email) {
+      users(where: { email: \$email }) {
         reputation
       }
     }
@@ -39,19 +16,27 @@ Future<int?> getReputationScore(String email) async {
   );
 
   final QueryResult result = await client.value.query(options);
+
   if (result.hasException) {
     print('Error loading user: ${result.exception.toString()}');
     return null;
   }
 
-  final reputation = result.data?['user']['reputation'] as int?;
-  return reputation;
+  final List<dynamic> users = result.data?['users'];
+  if (users.isNotEmpty) {
+    final reputation = users[0]['reputation'] as int?;
+    print(reputation);
+    return reputation;
+  }
+
+  return null;
 }
 
-Future<String?> getUserName(String email) async {
+
+Future<String?> getUserName(String currEmail) async {
   const String findUserNameQuery = '''
-    query FindUserName(\$email: String!) {
-      user(email: \$email) {
+    query FindUserName(\$currEmail: String!) {
+      users(where: { email: \$currEmail }) {
         name
       }
     }
@@ -59,17 +44,23 @@ Future<String?> getUserName(String email) async {
 
   final QueryOptions options = QueryOptions(
     document: gql(findUserNameQuery),
-    variables: {'email': email},
+    variables: {'currEmail': currEmail},
   );
 
   final QueryResult result = await client.value.query(options);
+
   if (result.hasException) {
     print('Error loading user: ${result.exception.toString()}');
     return null;
   }
 
-  final name = result.data?['user']['name'] as String?;
-  return name;
+  final List<dynamic> users = result.data?['users'];
+  if (users.isNotEmpty) {
+    final name = users[0]['name'] as String?;
+    print(name);
+    return name;
+  }
+  return null;
 }
 
 Future<List?> fetchNotes(String courseCode) async {

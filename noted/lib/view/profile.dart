@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:noted/controller/profileController.dart';
 
 class Profile extends StatefulWidget {
@@ -59,19 +57,16 @@ class _ProfileState extends State<Profile> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
-                      return const Text('Error loading username');
+                      return const Text('Error loading name');
                     } else {
-                      final userName = snapshot.data ?? '';
-
-                      return CupertinoTextField(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
-                        textAlign: TextAlign.center,
-                        decoration: BoxDecoration(
-                          color: inputbox,
-                          borderRadius: BorderRadius.circular(9),
+                      final name = snapshot.data ?? '';
+                      return Text(
+                        name.toString(),
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                        controller: TextEditingController(text: userName),
+                        textAlign: TextAlign.center,
                       );
                     }
                   },
