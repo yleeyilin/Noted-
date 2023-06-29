@@ -47,6 +47,7 @@ Future<int?> getReputationScore(String email) async {
   final reputation = result.data?['user']['reputation'] as int?;
   return reputation;
 }
+
 Future<String?> getUserName(String email) async {
   const String findUserNameQuery = '''
     query FindUserName(\$email: String!) {
@@ -69,4 +70,61 @@ Future<String?> getUserName(String email) async {
 
   final name = result.data?['user']['name'] as String?;
   return name;
+}
+
+Future<List?> fetchNotes(String courseCode) async {
+  final QueryOptions options = QueryOptions(
+    document: gql('''
+        query GetNotes(\$courseCode: String!) {
+          courses(where: { name: \$courseCode }) {
+            notes {
+              name
+              address
+            }
+          }
+        }
+      '''),
+    variables: <String, dynamic>{
+      'courseCode': courseCode,
+    },
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+  } else {
+    final dynamic data = result.data?['courses'];
+    if (data != null) {
+      final List<dynamic> notesData = data[0]['notes'] as List<dynamic>;
+      return notesData;
+    }
+  }
+  return null;
+}
+
+dynamic fetchArticles() async {
+  final QueryOptions options = QueryOptions(
+    document: gql('''
+        query GetArticles {
+          articles {
+            title
+            summary
+            address
+          }
+        }
+      '''),
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+  } else {
+    final dynamic data = result.data?['articles'];
+    if (data != null) {
+      return data;
+    }
+  }
+  return null;
 }
