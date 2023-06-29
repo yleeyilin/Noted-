@@ -76,9 +76,6 @@ Future<void> createNotesNode(String name, String address) async {
   }
 }
 
-
-
-
 Future<void> createArticleNode(String title, String summary, String address) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
@@ -122,21 +119,21 @@ Future<void> createArticleNode(String title, String summary, String address) asy
 }
 
 
-void createUserNode(String name, String email) async {
+Future<void> createUserNode(String name, String email) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
-        mutation CreateUser(\$name: String!, \$email: String!) {
-          createUsers(input: {name: \$name, email: \$email}) {
-            users {
-              name 
-              email
-            }
+        mutation CreateUser(\$name: String!, \$email: String!, \$reputation: Int!) {
+          createUser(name: \$name, email: \$email, reputation: \$reputation) {
+            name
+            email
+            reputation
           }
         }
       '''),
     variables: <String, dynamic>{
       'name': name,
       'email': email,
+      'reputation': 0,
     },
   );
 
@@ -148,6 +145,7 @@ void createUserNode(String name, String email) async {
     print('Created user data: ${result.data}');
   }
 }
+
 
 Future<void> createInterestNode(String name) async {
   final MutationOptions options = MutationOptions(
