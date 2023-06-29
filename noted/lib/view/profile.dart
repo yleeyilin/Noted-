@@ -3,7 +3,7 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/login/changepassword.dart';
 import 'package:noted/view/login/login.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:noted/view/user_repository.dart';
+//import 'package:noted/view/user_repository.dart';
 import 'package:noted/controller/profileController.dart';
 
 class Profile extends StatefulWidget {
@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final _controller = TextEditingController();
   bool isEditingName = false;
-  String name = "";
+  //String name = "";
   final ProfileController _con = ProfileController();
 
   @override
@@ -30,12 +30,6 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    UserRepository().getUserName().then((value) {
-      setState(() {
-        name = value ?? '';
-        _controller.text = name;
-      });
-    });
   }
 
   @override
@@ -59,16 +53,29 @@ class _ProfileState extends State<Profile> {
               const SizedBox(height: 5),
               SizedBox(
                 width: 300,
-                child: CupertinoTextField(
-                  controller: _controller,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                  textAlign: TextAlign.center,
-                  decoration: BoxDecoration(
-                    color: inputbox,
-                    borderRadius: BorderRadius.circular(9),
-                  ),
-                  readOnly: !isEditingName,
+                child: FutureBuilder<String?>(
+                  future: _con.retrieveUserName(),
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return const Text('Error loading username');
+                    } else {
+                      final userName = snapshot.data ?? '';
+
+                      return CupertinoTextField(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 50),
+                        textAlign: TextAlign.center,
+                        decoration: BoxDecoration(
+                          color: inputbox,
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        controller: TextEditingController(text: userName),
+                      );
+                    }
+                  },
                 ),
               ),
               Row(
@@ -161,7 +168,6 @@ class _ProfileState extends State<Profile> {
                     onPressed: () {
                       setState(() {
                         isEditingName = false;
-                        _controller.text = name;
                       });
                     },
                     style: OutlinedButton.styleFrom(
@@ -187,10 +193,7 @@ class _ProfileState extends State<Profile> {
                     onPressed: () {
                       setState(() {
                         isEditingName = false;
-                        name = _controller.text;
                       });
-                      //update database
-                      UserRepository().updateUserName(name);
                     },
                     style: OutlinedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 9, 9, 82),

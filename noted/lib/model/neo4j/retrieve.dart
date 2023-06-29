@@ -1,6 +1,29 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/main.dart';
 
+Future<String?> getUserName(String email) async {
+  const String findUserNameQuery = '''
+    query FindUserName(\$email: String!) {
+      user(email: \$email) {
+        name
+      }
+    }
+  ''';
+
+  final QueryOptions options = QueryOptions(
+    document: gql(findUserNameQuery),
+    variables: {'email': email},
+  );
+
+  final QueryResult result = await client.value.query(options);
+  if (result.hasException) {
+    print('Error loading user: ${result.exception.toString()}');
+    return null;
+  }
+
+  final name = result.data?['user']['name'] as String?;
+  return name;
+}
 
 Future<String?> getUserId(String email) async {
   const String findUserIdQuery = '''
@@ -44,7 +67,7 @@ Future<int?> getReputationScore(String email) async {
     print('Error loading user: ${result.exception.toString()}');
     return null;
   }
-  
+
   final reputation = result.data?['user']['reputation'] as int?;
   return reputation;
 }
