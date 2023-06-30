@@ -44,8 +44,7 @@ Future<void> connectNotesToAuthor(String notesAddress, String email) async {
     if (users.isNotEmpty) {
       final dynamic connectedUser = users[0];
       final String? connectedUserEmail = connectedUser['email'] as String?;
-      final List? connectedNotes =
-          connectedUser['notes'] as List<dynamic>?;
+      final List? connectedNotes = connectedUser['notes'] as List<dynamic>?;
 
       print('Connected Author to Notes:');
       print('Author Email: $connectedUserEmail');
@@ -117,7 +116,6 @@ Future<void> connectAuthorToArticle(String articleAddress, String email) async {
   }
 }
 
-
 Future<void> connectCourseToNotes(
     String courseName, String notesAddress) async {
   final MutationOptions connectNotesOptions = MutationOptions(
@@ -172,6 +170,180 @@ Future<void> connectCourseToNotes(
         final String noteName = note['name'] as String;
         final String noteAddress = note['address'] as String;
         print('Name: $noteName, Address: $noteAddress');
+      }
+    }
+  }
+}
+
+Future<void> connectUserToComment(
+    String userName, String commentContent) async {
+  final MutationOptions connectUserOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectUserToComment(\$userName: String!, \$commentContent: String!) {
+        updateUser(
+          where: { name: \$userName }
+          connect: {
+            commentedby: {
+              where: { node: { content: \$commentContent } }
+            }
+          }
+        ) {
+          user {
+            name
+            commentedby {
+              content
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'userName': userName,
+      'commentContent': commentContent,
+    },
+  );
+
+  final QueryResult connectUserResult =
+      await client.value.mutate(connectUserOptions);
+
+  if (connectUserResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectUserResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectUserResult.data?['updateUser'];
+  if (data != null) {
+    final dynamic connectedUser = data['user'];
+    final String connectedUserName = connectedUser['name'] as String;
+    final List<dynamic> connectedComments =
+        connectedUser['commentedby'] as List<dynamic>;
+
+    print('Connected User to Comment:');
+    print('User Name: $connectedUserName');
+    print('CommentedBy:');
+    for (final comment in connectedComments) {
+      final String commentContent = comment['content'] as String;
+      print('Content: $commentContent');
+    }
+  }
+}
+
+Future<void> connectCommentToNotes(
+    String commentContent, String notesAddress) async {
+  final MutationOptions connectCommentOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectCommentToNotes(\$commentContent: String!, \$notesAddress: String!) {
+        updateComments(
+          where: { content: \$commentContent }
+          connect: {
+            notescomment: {
+              where: { node: { address: \$notesAddress } }
+            }
+          }
+        ) {
+          comments {
+            content
+            notescomment {
+              name
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'commentContent': commentContent,
+      'notesAddress': notesAddress,
+    },
+  );
+
+  final QueryResult connectCommentResult =
+      await client.value.mutate(connectCommentOptions);
+
+  if (connectCommentResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectCommentResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectCommentResult.data?['updateComments'];
+  if (data != null) {
+    final List<dynamic> comments = data['comments'] as List<dynamic>;
+    if (comments.isNotEmpty) {
+      final dynamic connectedComment = comments[0];
+      final String connectedCommentContent =
+          connectedComment['content'] as String;
+      final List<dynamic> connectedNotes =
+          connectedComment['notescomment'] as List<dynamic>;
+
+      print('Connected Comment to Notes:');
+      print('Comment Content: $connectedCommentContent');
+      print('NotesComment:');
+      for (final note in connectedNotes) {
+        final String noteName = note['name'] as String;
+        final String noteAddress = note['address'] as String;
+        print('Name: $noteName, Address: $noteAddress');
+      }
+    }
+  }
+}
+
+Future<void> connectCommentToArticle(
+    String commentContent, String articleAddress) async {
+  final MutationOptions connectCommentOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectCommentToArticle(\$commentContent: String!, \$articleAddress: String!) {
+        updateComments(
+          where: { content: \$commentContent }
+          connect: {
+            articlescomment: {
+              where: { node: { address: \$articleAddress } }
+            }
+          }
+        ) {
+          comments {
+            content
+            articlescomment {
+              title
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'commentContent': commentContent,
+      'articleAddress': articleAddress,
+    },
+  );
+
+  final QueryResult connectCommentResult =
+      await client.value.mutate(connectCommentOptions);
+
+  if (connectCommentResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectCommentResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectCommentResult.data?['updateComments'];
+  if (data != null) {
+    final List<dynamic> comments = data['comments'] as List<dynamic>;
+    if (comments.isNotEmpty) {
+      final dynamic connectedComment = comments[0];
+      final String connectedCommentContent =
+          connectedComment['content'] as String;
+      final List<dynamic> connectedArticles =
+          connectedComment['articlescomment'] as List<dynamic>;
+
+      print('Connected Comment to Articles:');
+      print('Comment Content: $connectedCommentContent');
+      print('ArticlesComment:');
+      for (final article in connectedArticles) {
+        final String articleTitle = article['title'] as String;
+        final String articleAddress = article['address'] as String;
+        print('Title: $articleTitle, Address: $articleAddress');
       }
     }
   }
