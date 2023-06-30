@@ -42,6 +42,13 @@ const typeDefs = gql`
         interests: [User!]! @relationship(type: "INTERESTED", direction: IN)
         includes: [Article!]! @relationship(type: "INCLUDES", direction: OUT)
     }
+
+    type Comment {
+        content: String
+        notescomment: [Notes!]! @relationship(type: "NOTESCOMMENT", direction: OUT)
+        commentedby: [User!]! @relationship(type: "COMMENTEDBY", direction: IN)
+        articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: OUT)
+    }
     
 `;
 
