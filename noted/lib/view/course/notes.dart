@@ -4,7 +4,6 @@ import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/courseController.dart';
 
-
 class Notes extends StatefulWidget {
   final String courseCode;
 
@@ -35,7 +34,6 @@ class _NotesState extends State<Notes> {
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +92,8 @@ class _NotesState extends State<Notes> {
             SizedBox(
               height: 60,
               child: TextField(
-                onChanged: (value) => _con.searchNotes(value, filteredNotes, searchResults),
+                onChanged: (value) =>
+                    _con.searchNotes(value, filteredNotes, searchResults),
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
