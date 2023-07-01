@@ -121,29 +121,25 @@ dynamic fetchArticles() async {
 
 Future<void> updateLikeCount(String noteId, int newLikeCount) async {
   const mutation = r'''
-      mutation UpdateLikeCount($noteId: ID!, $newLikeCount: Int!) {
-        updateNoteLikeCount(noteId: $noteId, newLikeCount: $newLikeCount) {
-          id
-          like
-        }
+    mutation UpdateLikeCount($noteId: ID!, $newLikeCount: Int!) {
+      updateNoteLikeCount(noteId: $noteId, newLikeCount: $newLikeCount) {
+        id
+        like
       }
-    ''';
+    }
+  ''';
 
-  final options = MutationOptions(
+  final MutationOptions options = MutationOptions(
     document: gql(mutation),
-    variables: {
+    variables: <String, dynamic>{
       'noteId': noteId,
       'newLikeCount': newLikeCount,
     },
   );
 
-  try {
-    final result = await client.value.mutate(options);
+  final QueryResult result = await client.value.mutate(options);
 
-    if (result.hasException) {
-      throw result.exception!;
-    }
-  } catch (e) {
-    print('Error updating like count: $e');
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
   }
 }
