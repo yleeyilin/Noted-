@@ -32,7 +32,6 @@ Future<int?> getReputationScore(String email) async {
   return null;
 }
 
-
 Future<String?> getUserName(String currEmail) async {
   const String findUserNameQuery = '''
     query FindUserName(\$currEmail: String!) {
@@ -118,4 +117,33 @@ dynamic fetchArticles() async {
     }
   }
   return null;
+}
+
+Future<void> updateLikeCount(String noteId, int newLikeCount) async {
+  const mutation = r'''
+      mutation UpdateLikeCount($noteId: ID!, $newLikeCount: Int!) {
+        updateNoteLikeCount(noteId: $noteId, newLikeCount: $newLikeCount) {
+          id
+          like
+        }
+      }
+    ''';
+
+  final options = MutationOptions(
+    document: gql(mutation),
+    variables: {
+      'noteId': noteId,
+      'newLikeCount': newLikeCount,
+    },
+  );
+
+  try {
+    final result = await client.value.mutate(options);
+
+    if (result.hasException) {
+      throw result.exception!;
+    }
+  } catch (e) {
+    print('Error updating like count: $e');
+  }
 }
