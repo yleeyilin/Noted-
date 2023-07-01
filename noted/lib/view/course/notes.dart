@@ -3,6 +3,7 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/courseController.dart';
+//import 'package:noted/model/neo4j/retrieve.dart';
 
 class Notes extends StatefulWidget {
   final String courseCode;
@@ -120,6 +121,7 @@ class _NotesState extends State<Notes> {
                       itemCount: searchResults.length,
                       itemBuilder: (context, index) {
                         final note = searchResults[index];
+                        var likeCount = note['like'] ?? 0;
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
@@ -151,12 +153,30 @@ class _NotesState extends State<Notes> {
                                     ),
                                   ),
                                 ),
+                                const SizedBox(width: 8),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.favorite,
+                                      color: primary,
+                                    ),
+                                    Text(
+                                      '$likeCount',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(width: 8),
                                 IconButton(
                                   onPressed: () {
-                                    _con.openCommentScreen(context);
+                                    //edit
                                   },
-                                  icon: const Icon(Icons.comment),
-                                  color: primary,
+                                  icon: Icon(
+                                    Icons.comment,
+                                    color: primary,
+                                  ),
                                 ),
                               ],
                             ),
