@@ -24,6 +24,7 @@ const typeDefs = gql`
     type Notes {
         name: String
         address: String
+        likeCount: Int
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
         notescomment: [Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
