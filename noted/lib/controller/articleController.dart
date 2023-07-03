@@ -4,6 +4,7 @@ import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
 import 'package:noted/view/widgets/comment.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:noted/model/neo4j/updateNode.dart';
 import 'package:noted/main.dart';
 
 class ArticleController extends ControllerMVC {
@@ -33,32 +34,7 @@ class ArticleController extends ControllerMVC {
     );
   }
 
-  Future<void> updateLikeCount(String noteId, int newLikeCount) async {
-    const mutation = r'''
-    mutation UpdateLikeCount($noteId: ID!, $newLikeCount: Int!) {
-      updateNoteLikeCount(noteId: $noteId, newLikeCount: $newLikeCount) {
-        id
-        like
-      }
-    }
-  ''';
-
-    final MutationOptions options = MutationOptions(
-      document: gql(mutation),
-      variables: <String, dynamic>{
-        'noteId': noteId,
-        'newLikeCount': newLikeCount,
-      },
-    );
-
-    try {
-      final QueryResult result = await client.value.mutate(options);
-
-      if (result.hasException) {
-        print('GraphQL Error: ${result.exception.toString()}');
-      }
-    } catch (e) {
-      print('Error updating like count: $e');
-    }
+  void updateLikeCount(String noteId, int newLikeCount) {
+    return updateLikeCount(noteId, newLikeCount);
   }
 }
