@@ -40,7 +40,7 @@ def main(article1, article2):
     X = vectorizer.fit_transform(corpus)
 
     num_topics = 5
-    lda_model = LatentDirichletAllocation(n_components=num_topics, random_state=42)
+    lda_model = LatentDirichletAllocation(n_components=num_topics, random_state=3)
     lda_model.fit(X)
 
     article1_topic_dist = lda_model.transform(vectorizer.transform([preprocessed_article1]))
