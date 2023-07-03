@@ -22,14 +22,6 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  Future<void> updateLikeCount(String articleId, int newLikeCount) async {
-    try {
-      await _con.updateLikeCount(articleId, newLikeCount);
-    } catch (e) {
-      print('Error updating like count: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -142,11 +134,11 @@ class _HomeState extends State<Home> {
                                                 (likedArticle) =>
                                                     likedArticle['id'] ==
                                                     article['id']);
-                                            updateLikeCount(
+                                            _con.updateLikeCount(
                                                 article['id'], likeCount - 1);
                                           } else {
                                             likedArticles.add(article);
-                                            updateLikeCount(
+                                            _con.updateLikeCount(
                                                 article['id'], likeCount + 1);
                                           }
                                         });
