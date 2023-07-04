@@ -6,18 +6,18 @@ double calculate_score(int selfPost, int likes, int comments, int read) {
 }
 
 // Similarity Algorithm
-int calculate_selfPost(String userEmail, String articleAddress) {
+int? calculate_selfPost(String userEmail, String articleAddress) {
   return null;
 }
 
-int calculate_likes(String userEmail, String articleAddress) {
+int? calculate_likes(String userEmail, String articleAddress) {
   return null;
 }
 
-int calculate_comments(String userEmail, String articleAddress) {
+int? calculate_comments(String userEmail, String articleAddress) {
   return null;
 }
 
-int calculate_read(String userEmail, String articleAddress) {
+int? calculate_read(String userEmail, String articleAddress) {
   return null;
 }

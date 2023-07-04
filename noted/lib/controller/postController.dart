@@ -8,6 +8,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:noted/model/neo4j/createNode.dart';
+import 'package:noted/model/recommendation/similarity.dart';
+import 'package:noted/model/neo4j/retrieve.dart';
 
 class PostController extends ControllerMVC {
   factory PostController() => _this ??= PostController._();
@@ -17,6 +19,7 @@ class PostController extends ControllerMVC {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   late String fileName = '';
   List<Map<String, dynamic>> pdfData = [];
+  List<Map<String, dynamic>>? articles;
 
   void navigate(int index, BuildContext context) async {
     if (index == 0) {
@@ -71,8 +74,8 @@ class PostController extends ControllerMVC {
     print("PDF Uploaded Successfully!");
   }
 
-  void articleUpload(
-      FilePickerResult pickedFile, String title, String summary, String email) async {
+  void articleUpload(FilePickerResult pickedFile, String title, String summary,
+      String email) async {
     String fileName = pickedFile.files[0].name;
     File file = File(pickedFile.files[0].path!);
 
@@ -83,7 +86,16 @@ class PostController extends ControllerMVC {
       "url": downloadLink,
     });
     createArticleNode(title, summary, downloadLink);
-    connectAuthorToArticle(downloadLink, email) ;
+    connectAuthorToArticle(downloadLink, email);
+    articles = fetchArticles();
+    for (var article in articles!) {
+      String tempSummary = article['summary'];
+      String tempAddress = article['address'];
+      Future<double> varf = calculateSimilarity(summary, tempSummary);
+      varf.then((result) {
+        connectArticleToArticle(tempAddress, downloadLink, result);
+      });
+    }
 
     print("PDF Uploaded Successfully!");
   }
