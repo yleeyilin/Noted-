@@ -35,11 +35,10 @@ class _HomeState extends State<Home> {
           dynamic data = snapshot.data;
           articles ??= [];
           allArticles ??= [];
-          likedArticles = [];
+          likedArticles ??= []; // Initialize likedArticles as an empty list
           if (data != null) {
             articles = List<Map<String, dynamic>>.from(data);
             allArticles = List<Map<String, dynamic>>.from(data);
-            likedArticles = List<Map<String, dynamic>>.from(data);
           }
           return Scaffold(
             body: Column(
@@ -98,10 +97,8 @@ class _HomeState extends State<Home> {
                           itemCount: articles!.length,
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
-                            final isLiked = likedArticles.indexWhere(
-                                    (likedArticle) =>
-                                        likedArticle['id'] == article['id']) !=
-                                -1;
+                            final isLiked = likedArticles.any((likedArticle) =>
+                                likedArticle['id'] == article['id']);
                             final likeCount =
                                 article['like'] ?? 0; // Like count
                             return Card(
@@ -115,7 +112,10 @@ class _HomeState extends State<Home> {
                                 title: Text(article['title'] as String),
                                 subtitle: Text(article['summary'] as String),
                                 onTap: () {
-                                  _con.viewPDF(article['address'], context);
+                                  if (article['address'] != null) {
+                                    _con.viewPDF(
+                                        article['address'] as String, context);
+                                  }
                                 },
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
@@ -134,8 +134,18 @@ class _HomeState extends State<Home> {
                                                 (likedArticle) =>
                                                     likedArticle['id'] ==
                                                     article['id']);
+                                            if (article['id'] != null) {
+                                              _con.updateLikeCount(
+                                                  article['id'] as String,
+                                                  likeCount - 1);
+                                            }
                                           } else {
                                             likedArticles.add(article);
+                                            if (article['id'] != null) {
+                                              _con.updateLikeCount(
+                                                  article['id'] as String,
+                                                  likeCount + 1);
+                                            }
                                           }
                                         });
                                       },

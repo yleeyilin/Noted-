@@ -13,6 +13,7 @@ const typeDefs = gql`
         interests: [Interest!]! @relationship(type: "INTERESTED", direction: OUT)
         posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
         written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
+        commentedby: [Comment!]! @relationship(type: "COMMENTEDBY", direction: OUT)
     }
     
     type Course {
@@ -23,19 +24,24 @@ const typeDefs = gql`
     type Notes {
         name: String
         address: String
+        likeCount: Int
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
+        notescomment: [Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
     }
     
     type Article {
         title: String
         summary: String
         address: String
+        likeCount: Int
         likes: [User!]! @relationship(type: "LIKED", direction: IN)
         read: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
         author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
         related: [Article!]! @relationship(type" "RELATION", direction: OUT, queryDirection: DEFAULT_DIRECTED, properties: "Similarity")
+        articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: IN)
+
     }
     
     type Interest {

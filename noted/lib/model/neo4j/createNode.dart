@@ -41,11 +41,11 @@ Future<void> createNotesNode(String name, String address) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateNotes(\$name: String!, \$address: String!) {
-        createNotes(input: { name: \$name, address: \$address, likes: 0 }) {
+        createNotes(input: { name: \$name, address: \$address, likeCount: 0 }) {
           notes {
             name
             address
-            likes
+            likeCount
           }
         }
       }
@@ -69,10 +69,10 @@ Future<void> createNotesNode(String name, String address) async {
             noteData.first as Map<String, dynamic>;
         final String notesName = firstNote['name'] as String;
         final String notesAddress = firstNote['address'] as String;
-        final int notesLikes = firstNote['likes'] as int;
+        final int notesLikes = firstNote['likeCount'] as int;
 
         print(
-            'Create Notes Success - Name: $notesName, Address: $notesAddress, Likes: $notesLikes');
+            'Create Notes Success - Name: $notesName, Address: $notesAddress, likeCount: $notesLikes');
       } else {
         print('No notes returned in the response.');
       }
@@ -85,12 +85,12 @@ Future<void> createArticleNode(
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateArticle(\$title: String!, \$summary: String!, \$address: String!) {
-        createArticles(input: { title: \$title, summary: \$summary, address: \$address, likes: 0}) {
+        createArticles(input: { title: \$title, summary: \$summary, address: \$address, likeCount: 0}) {
           articles {
             title
             summary
             address
-            likes
+            likeCount
           }
         }
       }
@@ -114,7 +114,7 @@ Future<void> createArticleNode(
         final String articleTitle = article['title'] as String;
         final String articleSummary = article['summary'] as String;
         final String articleAddress = article['address'] as String;
-        final int articleLikes = article['likes'] as int;
+        final int articleLikes = article['likeCount'] as int;
 
         print('Create Article Success:');
         print('Title: $articleTitle');
