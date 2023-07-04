@@ -348,3 +348,60 @@ Future<void> connectCommentToArticle(
     }
   }
 }
+
+Future<void> connectArticleToArticle(String sourceArticleAddress, String targetArticleAddress, double score) async {
+  final MutationOptions connectArticleOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectArticleToArticle(\$sourceArticleAddress: String!, \$targetArticleAddress: String!, \$score: Float!) {
+        updateArticles(
+          where: { address: \$sourceArticleAddress }
+          connect: {
+            similarity: {
+              where: { node: { address: \$targetArticleAddress } }
+              edge: { score: \$score }  
+            }
+          }
+        ) {
+          articles {
+            title
+            similarity {
+              title
+              score 
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'sourceArticleAddress': sourceArticleAddress,
+      'targetArticleAddress': targetArticleAddress,
+      'score': score,
+    },
+  );
+
+  final QueryResult connectArticleResult =
+      await client.value.mutate(connectArticleOptions);
+
+  if (connectArticleResult.hasException) {
+    print('Connection GraphQL Error: ${connectArticleResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectArticleResult.data?['updateArticles'];
+  if (data != null) {
+    final List<dynamic> articles = data['articles'] as List<dynamic>;
+    if (articles.isNotEmpty) {
+      final dynamic connectedArticle = articles[0];
+      final String connectedArticleTitle = connectedArticle['title'] as String;
+      final List? similarArticles = connectedArticle['similarity'] as List<dynamic>?;
+
+      print('Connected Articles:');
+      print('Source Article Title: $connectedArticleTitle');
+      print('Similar Articles:');
+      for (final article in similarArticles ?? []) {
+        final String similarArticleTitle = article['title'] as String;
+        print('Similar Article Title: $similarArticleTitle');
+      }
+    }
+  }
+}

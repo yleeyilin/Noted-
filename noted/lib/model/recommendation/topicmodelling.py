@@ -7,6 +7,7 @@ from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_similarity
 import sys
 import ssl
+
 try:
     _create_unverified_https_context = ssl._create_unverified_context
 except AttributeError:
