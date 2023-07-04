@@ -88,7 +88,8 @@ class PostController extends ControllerMVC {
     createArticleNode(title, summary, downloadLink);
     connectAuthorToArticle(downloadLink, email);
     articles = fetchArticles();
-    for (var article in articles!) {
+    if (articles != null) {
+      for (var article in articles!) {
       String tempSummary = article['summary'];
       String tempAddress = article['address'];
       Future<double> varf = calculateSimilarity(summary, tempSummary);
@@ -96,7 +97,7 @@ class PostController extends ControllerMVC {
         connectArticleToArticle(tempAddress, downloadLink, result);
       });
     }
-
+    }
     print("PDF Uploaded Successfully!");
   }
 }
