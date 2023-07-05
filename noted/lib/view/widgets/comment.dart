@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:noted/model/neo4j/createNode.dart';
 
-class Comment extends StatelessWidget {
-  const Comment({super.key});
+class Comment extends StatefulWidget {
+  const Comment({Key? key});
+
+  @override
+  _CommentState createState() => _CommentState();
+}
+
+class _CommentState extends State<Comment> {
+  TextEditingController _commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +24,9 @@ class Comment extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              controller: _commentController,
+              decoration: const InputDecoration(
                 hintText: 'Enter your comment',
               ),
               maxLines: 5,
@@ -24,13 +34,26 @@ class Comment extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                //returns to prev page
+                String commentText = _commentController.text;
+                createCommentNode(commentText);
                 Navigator.pop(context);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 9, 9, 82),
               ),
               child: const Text('Submit'),
+            ),
+            const SizedBox(height: 10),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "All Comments",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
