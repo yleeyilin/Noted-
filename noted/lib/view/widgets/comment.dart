@@ -19,7 +19,7 @@ class _CommentState extends State<Comment> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: primary,
-        title: const Text('Add Comment'),
+        title: const Text('Comments'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
