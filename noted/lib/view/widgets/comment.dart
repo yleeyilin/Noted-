@@ -36,6 +36,7 @@ class _CommentState extends State<Comment> {
             ElevatedButton(
               onPressed: () {
                 String commentText = _commentController.text;
+                //update the code for createCommentNode
                 createCommentNode(commentText);
                 Navigator.pop(context);
               },
