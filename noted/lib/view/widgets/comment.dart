@@ -4,7 +4,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/model/neo4j/createNode.dart';
 
 class Comment extends StatefulWidget {
-  const Comment({Key? key});
+  const Comment(
+      {Key? key, required String articleId, required String articleAddress});
 
   @override
   _CommentState createState() => _CommentState();
