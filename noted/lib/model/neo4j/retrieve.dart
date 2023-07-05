@@ -93,28 +93,30 @@ Future<List?> fetchNotes(String courseCode) async {
   return null;
 }
 
-dynamic fetchArticles() async {
+Future<List<dynamic>> fetchArticles() async {
   final QueryOptions options = QueryOptions(
     document: gql('''
-        query GetArticles {
-          articles {
-            title
-            summary
-            address
-          }
+      query GetArticles {
+        articles {
+          title
+          summary
+          address
         }
-      '''),
+      }
+    '''),
   );
 
   final QueryResult result = await client.value.query(options);
 
   if (result.hasException) {
     print('GraphQL Error: ${result.exception.toString()}');
+    return []; // Return an empty list on error
   } else {
     final dynamic data = result.data?['articles'];
     if (data != null) {
-      return data;
+      return List<Map<String, dynamic>>.from(data);
     }
   }
-  return null;
+
+  return [];
 }
