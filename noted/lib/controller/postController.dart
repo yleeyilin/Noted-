@@ -87,16 +87,16 @@ class PostController extends ControllerMVC {
     });
     createArticleNode(title, summary, downloadLink);
     connectAuthorToArticle(downloadLink, email);
-    articles = fetchArticles();
+    articles = fetchArticles() as List<Map<String, dynamic>>?;
     if (articles != null) {
       for (var article in articles!) {
-      String tempSummary = article['summary'];
-      String tempAddress = article['address'];
-      Future<double> varf = calculateSimilarity(summary, tempSummary);
-      varf.then((result) {
-        connectArticleToArticle(tempAddress, downloadLink, result);
-      });
-    }
+        String tempSummary = article['summary'];
+        String tempAddress = article['address'];
+        Future<double> varf = calculateSimilarity(summary, tempSummary);
+        varf.then((result) {
+          connectArticleToArticle(tempAddress, downloadLink, result);
+        });
+      }
     }
     print("PDF Uploaded Successfully!");
   }
