@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
           dynamic data = snapshot.data;
           articles ??= [];
           allArticles ??= [];
-          likedArticles ??= []; // Initialize likedArticles as an empty list
+          likedArticles ??= [];
           if (data != null) {
             articles = List<Map<String, dynamic>>.from(data);
             allArticles = List<Map<String, dynamic>>.from(data);
@@ -54,9 +54,12 @@ class _HomeState extends State<Home> {
                               List<Map<String, dynamic>>.from(allArticles!);
                         } else {
                           articles = allArticles!
-                              .where((article) => article['title']
-                                  .toLowerCase()
-                                  .contains(value.toLowerCase()))
+                              .where((article) =>
+                                  article['title'] != null &&
+                                  article['summary'] != null &&
+                                  article['title']
+                                      .toLowerCase()
+                                      .contains(value.toLowerCase()))
                               .toList();
                         }
                       });
@@ -109,12 +112,14 @@ class _HomeState extends State<Home> {
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               child: ListTile(
-                                title: Text(article['title'] as String),
-                                subtitle: Text(article['summary'] as String),
+                                title: Text(article['title']?.toString() ?? ''),
+                                subtitle:
+                                    Text(article['summary']?.toString() ?? ''),
                                 onTap: () {
                                   if (article['address'] != null) {
                                     _con.viewPDF(
-                                        article['address'] as String, context);
+                                        article['address']?.toString() ?? '',
+                                        context);
                                   }
                                 },
                                 trailing: Row(
@@ -136,14 +141,16 @@ class _HomeState extends State<Home> {
                                                     article['id']);
                                             if (article['id'] != null) {
                                               _con.updateLikeCount(
-                                                  article['id'] as String,
+                                                  article['id']?.toString() ??
+                                                      '',
                                                   likeCount - 1);
                                             }
                                           } else {
                                             likedArticles.add(article);
                                             if (article['id'] != null) {
                                               _con.updateLikeCount(
-                                                  article['id'] as String,
+                                                  article['id']?.toString() ??
+                                                      '',
                                                   likeCount + 1);
                                             }
                                           }
@@ -162,7 +169,8 @@ class _HomeState extends State<Home> {
                                         color: primary,
                                       ),
                                       onPressed: () {
-                                        _con.openCommentScreen(context);
+                                        _con.openCommentScreen(context,
+                                            article['id']?.toString() ?? '');
                                       },
                                     ),
                                   ],
