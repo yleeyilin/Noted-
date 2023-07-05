@@ -18,7 +18,8 @@ class CourseController extends ControllerMVC {
     return fetchNotes(course);
   }
 
-  void searchNotes(String query, List<Map<String, dynamic>> filteredNotes, List<Map<String, dynamic>> searchResults) {
+  void searchNotes(String query, List<Map<String, dynamic>> filteredNotes,
+      List<Map<String, dynamic>> searchResults) {
     setState(() {
       if (query.isNotEmpty) {
         searchResults = filteredNotes
@@ -46,7 +47,10 @@ class CourseController extends ControllerMVC {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Comment(),
+        builder: (context) => Comment(
+          articleId: '',
+          articleAddress: '',
+        ),
       ),
     );
   }

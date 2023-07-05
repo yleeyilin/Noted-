@@ -13,7 +13,7 @@ class ArticleController extends ControllerMVC {
   ArticleController._();
   static ArticleController? _this;
 
-  dynamic fetchAllArticles() {
+  Future<List?> fetchAllArticles() {
     return fetchArticles();
   }
 
@@ -26,11 +26,14 @@ class ArticleController extends ControllerMVC {
     );
   }
 
-  void openCommentScreen(BuildContext context) {
+  void openCommentScreen(BuildContext context, String article) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const Comment(),
+        builder: (context) => Comment(
+          articleId: '',
+          articleAddress: '',
+        ),
       ),
     );
   }
