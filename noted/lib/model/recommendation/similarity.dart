@@ -1,23 +1,22 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:http/http.dart' as http;
 
 Future<double> calculateSimilarity(String article1, String article2) async {
-  const pythonScriptPath =
-      '/Users/leeyilin/Noted-/noted/lib/model/recommendation/topicmodelling.py';
-  final process = await Process.start(
-    'python3',
-    [pythonScriptPath],
+  const apiUrl = 'http://localhost:3000/calculate-similarity'; // Replace with your server URL
+
+  final response = await http.post(
+    Uri.parse(apiUrl),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode({'article1': article1, 'article2': article2}),
   );
 
-  await Future.delayed(const Duration(seconds: 1));
-
-  final sink = process.stdin..writeln('"$article1"\n"$article2"');
-  sink.close();
-
-  final similarityOutput = await process.stdout.transform(utf8.decoder).join();
-  final similarityScore = double.parse(similarityOutput.trim());
-
-  return similarityScore;
+  if (response.statusCode == 200) {
+    final data = jsonDecode(response.body);
+    final similarityScore = data['similarityScore'] as double;
+    return similarityScore;
+  } else {
+    throw Exception('Failed to calculate similarity. Status code: ${response.statusCode}');
+  }
 }
 
 // how to use 
