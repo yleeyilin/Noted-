@@ -68,7 +68,7 @@ class PostController extends ControllerMVC {
       "url": downloadLink,
     });
     await createNotesNode(fileName, downloadLink);
-    connectCourseToNotes(selectedModuleCode!, downloadLink);
+    await connectCourseToNotes(selectedModuleCode!, downloadLink);
     connectNotesToAuthor(downloadLink, email);
 
     print("PDF Uploaded Successfully!");
@@ -85,9 +85,11 @@ class PostController extends ControllerMVC {
       "name": fileName,
       "url": downloadLink,
     });
-    createArticleNode(title, summary, downloadLink);
-    connectAuthorToArticle(downloadLink, email);
-    articles = fetchArticles() as List<Map<String, dynamic>>?;
+    await createArticleNode(title, summary, downloadLink);
+    await connectAuthorToArticle(downloadLink, email);
+    dynamic data = await fetchArticles();
+    articles = List<Map<String, dynamic>>.from(data);
+    print("start");
     if (articles != null) {
       for (var article in articles!) {
         String tempSummary = article['summary'];

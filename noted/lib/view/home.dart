@@ -16,18 +16,41 @@ class _HomeState extends State<Home> {
   List<Map<String, dynamic>>? allArticles;
   List<Map<String, dynamic>> likedArticles = [];
   final ArticleController _con = ArticleController();
+  bool _isRefreshing = false;
 
   @override
   void initState() {
     super.initState();
   }
 
+  Future<void> _refreshData() async {
+    setState(() {
+      _isRefreshing = true;
+    });
+    dynamic data = await _con.fetchAllArticles();
+    setState(() {
+      articles = List<Map<String, dynamic>>.from(data);
+      allArticles = List<Map<String, dynamic>>.from(data);
+      _isRefreshing = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    return RefreshIndicator(
+        onRefresh: _refreshData,
+        child: NotificationListener<ScrollNotification>(
+            onNotification: (notification) {
+              return false;
+            },
+            child: _buildArticleList()));
+  }
+
+  Widget _buildArticleList() {
     return FutureBuilder(
       future: _con.fetchAllArticles(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+        if (_isRefreshing) {
           return const CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
