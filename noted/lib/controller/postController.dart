@@ -94,7 +94,6 @@ class PostController extends ControllerMVC {
       for (var article in articles!) {
         String tempSummary = article['summary'];
         String tempAddress = article['address'];
-        print("here");
         Future<double> varf = calculateSimilarity(summary, tempSummary);
         varf.then((result) {
           connectArticleToArticle(tempAddress, downloadLink, result);

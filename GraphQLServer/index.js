@@ -39,7 +39,7 @@ const typeDefs = gql`
         read: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
         author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
-        related: [Article!]! @relationship(type: "RELATION", direction: OUT, properties: "Similarity", queryDirection: DEFAULT_DIRECTED)
+        related: [Article!]! @relationship(type: "RELATION", direction : OUT, queryDirection: DEFAULT_DIRECTED, properties: "Similarity")
         articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: IN)
 
     }
