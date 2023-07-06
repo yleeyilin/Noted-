@@ -5,7 +5,6 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   firebase_core
-  python_channel
   syncfusion_pdfviewer_windows
   url_launcher_windows
 )
