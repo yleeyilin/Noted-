@@ -89,14 +89,13 @@ class PostController extends ControllerMVC {
     await connectAuthorToArticle(downloadLink, email);
     dynamic data = await fetchArticles();
     articles = List<Map<String, dynamic>>.from(data);
-    print("start");
     if (articles != null) {
       for (var article in articles!) {
         String tempSummary = article['summary'];
         String tempAddress = article['address'];
-        print("here");
         Future<double> varf = calculateSimilarity(summary, tempSummary);
         varf.then((result) {
+          print("here");
           connectArticleToArticle(tempAddress, downloadLink, result);
         });
       }
