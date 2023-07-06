@@ -47,7 +47,7 @@ class CourseController extends ControllerMVC {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Comment(
+        builder: (context) => const Comment(
           articleId: '',
           articleAddress: '',
         ),
