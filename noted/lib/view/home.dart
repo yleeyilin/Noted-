@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/controller/articleController.dart';
+import '../controller/authController.dart';
+import 'package:noted/model/neo4j/retrieve.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,7 +18,12 @@ class _HomeState extends State<Home> {
   List<Map<String, dynamic>>? allArticles;
   List<Map<String, dynamic>> likedArticles = [];
   final ArticleController _con = ArticleController();
+  final AuthController _authCon = AuthController();
   bool _isRefreshing = false;
+  var likeIcon = Icon(
+    Icons.favorite_border,
+    color: primary,
+  );
 
   @override
   void initState() {
@@ -38,12 +45,13 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-        onRefresh: _refreshData,
-        child: NotificationListener<ScrollNotification>(
-            onNotification: (notification) {
-              return false;
-            },
-            child: _buildArticleList()));
+      onRefresh: _refreshData,
+      child: NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            return false;
+          },
+          child: _buildArticleList()),
+    );
   }
 
   Widget _buildArticleList() {
@@ -58,7 +66,6 @@ class _HomeState extends State<Home> {
           dynamic data = snapshot.data;
           articles ??= [];
           allArticles ??= [];
-          likedArticles ??= [];
           if (data != null) {
             articles = List<Map<String, dynamic>>.from(data);
             allArticles = List<Map<String, dynamic>>.from(data);
@@ -123,10 +130,10 @@ class _HomeState extends State<Home> {
                           itemCount: articles!.length,
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
-                            final isLiked = likedArticles.any((likedArticle) =>
-                                likedArticle['id'] == article['id']);
-                            final likeCount =
-                                article['like'] ?? 0; // Like count
+
+                            //change to get data from database
+                            final likeCount = article['like'] ?? 0;
+
                             return Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
@@ -149,33 +156,29 @@ class _HomeState extends State<Home> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: Icon(
-                                        isLiked
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: primary,
-                                      ),
+                                      icon: likeIcon,
                                       onPressed: () {
-                                        setState(() {
-                                          if (isLiked) {
-                                            likedArticles.removeWhere(
-                                                (likedArticle) =>
-                                                    likedArticle['id'] ==
-                                                    article['id']);
-                                            if (article['id'] != null) {
-                                              _con.updateLikeCount(
-                                                  article['id']?.toString() ??
-                                                      '',
-                                                  likeCount - 1);
-                                            }
+                                        setState(() async {
+                                          // like relationship
+                                          if (await checkArticleLikes(
+                                              article['address'])) {
+                                            String? email =
+                                                _authCon.retrieveEmail();
+                                            _con.likeArticle(email!);
+
+                                            likeIcon = Icon(
+                                              Icons.favorite,
+                                              color: primary,
+                                            );
                                           } else {
-                                            likedArticles.add(article);
-                                            if (article['id'] != null) {
-                                              _con.updateLikeCount(
-                                                  article['id']?.toString() ??
-                                                      '',
-                                                  likeCount + 1);
-                                            }
+                                            //dislike relationship
+                                            String? email =
+                                                _authCon.retrieveEmail();
+                                            _con.dislikeArticle(email!);
+                                            likeIcon = Icon(
+                                              Icons.favorite_border,
+                                              color: primary,
+                                            );
                                           }
                                         });
                                       },
