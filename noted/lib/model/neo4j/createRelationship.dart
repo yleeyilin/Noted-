@@ -470,11 +470,13 @@ Future<void> connectUserToArticle(String email) async {
 Future<void> disconnectUserFromArticle(String email) async {
   final MutationOptions disconnectArticleOptions = MutationOptions(
     document: gql('''
-      mutation DisconnectUserFromArticle(\$email: String!) {
+      mutation DisconnectUserToArticle(\$email: String!) {
         updateUsers(
           where: { email: \$email }
           disconnect: {
-            liked: true
+            liked: {
+              where: { node: { address: \$articleAddress } }
+            }
           }
         ) {
           users {
