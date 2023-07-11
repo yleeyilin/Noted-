@@ -349,7 +349,8 @@ Future<void> connectCommentToArticle(
   }
 }
 
-Future<void> connectArticleToArticle(String sourceArticleAddress, String targetArticleAddress, double score) async {
+Future<void> connectArticleToArticle(String sourceArticleAddress,
+    String targetArticleAddress, double score) async {
   final MutationOptions connectArticleOptions = MutationOptions(
     document: gql('''
       mutation ConnectArticleToArticle(\$sourceArticleAddress: String!, \$targetArticleAddress: String!, \$score: Float!) {
@@ -383,7 +384,8 @@ Future<void> connectArticleToArticle(String sourceArticleAddress, String targetA
       await client.value.mutate(connectArticleOptions);
 
   if (connectArticleResult.hasException) {
-    print('Connection GraphQL Error: ${connectArticleResult.exception.toString()}');
+    print(
+        'Connection GraphQL Error: ${connectArticleResult.exception.toString()}');
     return;
   }
 
@@ -393,7 +395,8 @@ Future<void> connectArticleToArticle(String sourceArticleAddress, String targetA
     if (articles.isNotEmpty) {
       final dynamic connectedArticle = articles[0];
       final String connectedArticleTitle = connectedArticle['title'] as String;
-      final List? similarArticles = connectedArticle['similarity'] as List<dynamic>?;
+      final List? similarArticles =
+          connectedArticle['similarity'] as List<dynamic>?;
 
       print('Connected Articles:');
       print('Source Article Title: $connectedArticleTitle');
@@ -401,6 +404,118 @@ Future<void> connectArticleToArticle(String sourceArticleAddress, String targetA
       for (final article in similarArticles ?? []) {
         final String similarArticleTitle = article['title'] as String;
         print('Similar Article Title: $similarArticleTitle');
+      }
+    }
+  }
+}
+
+//relationship to connect users and liked articles
+Future<void> connectUserToArticle(String email) async {
+  final MutationOptions connectArticleOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectUserToArticle(\$email: String!) {
+        updateUsers(
+          where: { email: \$email }
+          connect: {
+            liked: {
+              where: { node: { address: \$articleAddress } }
+            }
+          }
+        ) {
+          users {
+            name
+            written {
+              title
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'email': email,
+    },
+  );
+
+  final QueryResult connectArticleResult =
+      await client.value.mutate(connectArticleOptions);
+
+  if (connectArticleResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectArticleResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectArticleResult.data?['updateUsers'];
+  if (data != null) {
+    final List<dynamic> users = data['users'] as List<dynamic>;
+    if (users.isNotEmpty) {
+      final dynamic connectedUser = users[0];
+      final String? userName = connectedUser['name'] as String?;
+      final List? connectedArticles = connectedUser['liked'] as List<dynamic>?;
+
+      print('Connected User to Article:');
+      print('User Name: $userName');
+      print('Articles:');
+      for (final article in connectedArticles ?? []) {
+        final String articleTitle = article['title'] as String;
+        final String articleAddress = article['address'] as String;
+        print('Title: $articleTitle, Address: $articleAddress');
+      }
+    }
+  }
+}
+
+//remove relationship between article and user
+Future<void> disconnectUserFromArticle(String email) async {
+  final MutationOptions disconnectArticleOptions = MutationOptions(
+    document: gql('''
+      mutation DisconnectUserFromArticle(\$email: String!) {
+        updateUsers(
+          where: { email: \$email }
+          disconnect: {
+            liked: true
+          }
+        ) {
+          users {
+            name
+            written {
+              title
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'email': email,
+    },
+  );
+
+  final QueryResult disconnectArticleResult =
+      await client.value.mutate(disconnectArticleOptions);
+
+  if (disconnectArticleResult.hasException) {
+    print(
+        'Disconnection GraphQL Error: ${disconnectArticleResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = disconnectArticleResult.data?['updateUsers'];
+  if (data != null) {
+    final List<dynamic> users = data['users'] as List<dynamic>;
+    if (users.isNotEmpty) {
+      final dynamic connectedUser = users[0];
+      final String? userName = connectedUser['name'] as String?;
+      final List? connectedArticles = connectedUser['liked'] as List<dynamic>?;
+
+      print('Disconnected User from Article:');
+      print('User Name: $userName');
+      print('Articles:');
+      for (final article in connectedArticles ?? []) {
+        final String articleTitle = article['title'] as String;
+        final String articleAddress = article['address'] as String;
+        print('Title: $articleTitle, Address: $articleAddress');
       }
     }
   }
