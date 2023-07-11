@@ -4,6 +4,7 @@ import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
 import 'package:noted/view/widgets/comment.dart';
+import '../model/neo4j/createRelationship.dart';
 //import 'package:graphql_flutter/graphql_flutter.dart';
 //import 'package:noted/model/neo4j/updateNode.dart';
 //import 'package:noted/main.dart';
@@ -38,7 +39,15 @@ class ArticleController extends ControllerMVC {
     );
   }
 
-  void updateLikeCount(String noteId, int newLikeCount) {
-    return updateLikeCount(noteId, newLikeCount);
+  // void updateLikeCount(String noteId, int newLikeCount) {
+  //   return updateLikeCount(noteId, newLikeCount);
+  // }
+
+  void likeArticle(String email) async {
+    await connectUserToArticle(email);
+  }
+
+  void dislikeArticle(String email) async {
+    await disconnectUserFromArticle(email);
   }
 }

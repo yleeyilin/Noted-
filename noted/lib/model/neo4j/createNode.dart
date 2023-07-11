@@ -85,13 +85,12 @@ Future<void> createArticleNode(
   final MutationOptions options = MutationOptions(
     document: gql('''
       mutation CreateArticle(\$title: String!, \$summary: String!, \$address: String!) {
-        createArticles(input: { title: \$title, summary: \$summary, address: \$address, likeCount: 0, liked : false}) {
+        createArticles(input: { title: \$title, summary: \$summary, address: \$address, likeCount: 0}) {
           articles {
             title
             summary
             address
             likeCount
-            liked
           }
         }
       }
@@ -116,14 +115,12 @@ Future<void> createArticleNode(
         final String articleSummary = article['summary'] as String;
         final String articleAddress = article['address'] as String;
         final int articleLikes = article['likeCount'] as int;
-        final bool articleLiked = article['liked'] as bool;
 
         print('Create Article Success:');
         print('Title: $articleTitle');
         print('Summary: $articleSummary');
         print('Address: $articleAddress');
         print('Likes: $articleLikes');
-        print('Liked: $articleLiked');
       }
     }
   }
