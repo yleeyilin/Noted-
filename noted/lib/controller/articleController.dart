@@ -6,7 +6,7 @@ import 'package:noted/model/query/pdfviewerscreen.dart';
 import 'package:noted/view/widgets/comment.dart';
 import '../model/neo4j/createRelationship.dart';
 //import 'package:graphql_flutter/graphql_flutter.dart';
-//import 'package:noted/model/neo4j/updateNode.dart';
+import 'package:noted/model/neo4j/updateNode.dart';
 //import 'package:noted/main.dart';
 
 class ArticleController extends ControllerMVC {
@@ -49,5 +49,9 @@ class ArticleController extends ControllerMVC {
 
   void dislikeArticle(String email) async {
     await disconnectUserFromArticle(email);
+  }
+
+  void updateLikes(String address, int likeCount) async {
+    updateLikeCount(address, likeCount);
   }
 }

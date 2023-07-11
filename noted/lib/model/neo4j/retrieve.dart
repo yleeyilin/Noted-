@@ -121,6 +121,7 @@ Future<List<dynamic>> fetchArticles() async {
   return [];
 }
 
+//check for liked relationship
 Future<bool> checkArticleLikes(String articleAddress) async {
   final QueryOptions checkLikesOptions = QueryOptions(
     document: gql('''

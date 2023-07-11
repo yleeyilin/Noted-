@@ -131,9 +131,6 @@ class _HomeState extends State<Home> {
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
 
-                            //change to get data from database
-                            final likeCount = article['like'] ?? 0;
-
                             return Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
@@ -166,6 +163,11 @@ class _HomeState extends State<Home> {
                                                 _authCon.retrieveEmail();
                                             _con.likeArticle(email!);
 
+                                            //increment like count
+                                            _con.updateLikes(article['address'],
+                                                article['likeCount'] + 1);
+
+                                            //change icon
                                             likeIcon = Icon(
                                               Icons.favorite,
                                               color: primary,
@@ -175,6 +177,12 @@ class _HomeState extends State<Home> {
                                             String? email =
                                                 _authCon.retrieveEmail();
                                             _con.dislikeArticle(email!);
+
+                                            //decrement like count
+                                            _con.updateLikes(article['address'],
+                                                article['likeCount'] - 1);
+
+                                            //change icon
                                             likeIcon = Icon(
                                               Icons.favorite_border,
                                               color: primary,
@@ -184,7 +192,7 @@ class _HomeState extends State<Home> {
                                       },
                                     ),
                                     Text(
-                                      '$likeCount',
+                                      article['likeCount']?.toString() ?? '0',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
