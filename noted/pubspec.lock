@@ -768,6 +768,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  python_channel:
+    dependency: "direct main"
+    description:
+      name: python_channel
+      sha256: "90bd3bf84d7c51d0fa19d0227ca8a7ef1ea48e592d0bb02468b16f1de5e2b0e6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   rxdart:
     dependency: transitive
     description:

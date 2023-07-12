@@ -4,7 +4,7 @@ import 'package:noted/model/neo4j/createNode.dart';
 
 class Comment extends StatefulWidget {
   const Comment(
-      {super.key, Key? key, required String articleId, required String articleAddress});
+      {super.key, required String articleId, required String articleAddress});
 
   @override
   _CommentState createState() => _CommentState();

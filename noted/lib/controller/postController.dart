@@ -95,7 +95,7 @@ class PostController extends ControllerMVC {
         String tempAddress = article['address'];
         Future<double> varf = calculateSimilarity(summary, tempSummary);
         varf.then((result) {
-          print("here");
+          print("does not reach here");
           connectArticleToArticle(tempAddress, downloadLink, result);
         });
       }
