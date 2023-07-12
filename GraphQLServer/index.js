@@ -58,7 +58,7 @@ const typeDefs = gql`
     }
 
     interface Similarity @relationshipProperties {
-        Score: Float
+        score: Float
     }
     
 `;

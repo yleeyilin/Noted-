@@ -27,8 +27,7 @@ def preprocess_text(text):
     tokens = [lemmatizer.lemmatize(token) for token in tokens if token.isalpha() and token not in stop_words]
     return " ".join(tokens)
 
-
-def main(article1, article2):
+def calculate_similarity(article1, article2):
     preprocessed_article1 = preprocess_text(article1)
     preprocessed_article2 = preprocess_text(article2)
 
@@ -46,11 +45,11 @@ def main(article1, article2):
 
     similarity_score = cosine_similarity(article1_topic_dist, article2_topic_dist)[0][0]
 
-    print(similarity_score)
-
     return similarity_score
 
-article1 = sys.stdin.readline().strip()
-article2 = sys.stdin.readline().strip()
-similarity_score = main(article1, article2)
-sys.stdout.write(similarity_score)
+if __name__ == '__main__':
+    print("1")
+    article1 = sys.stdin.readline().strip()
+    article2 = sys.stdin.readline().strip()
+    similarity_score = calculate_similarity(article1, article2)
+    sys.stdout.write(str(similarity_score))
