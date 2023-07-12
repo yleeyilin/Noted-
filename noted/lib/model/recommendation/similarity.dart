@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+//changed local host from 3000 to 5000?
 Future<double> calculateSimilarity(String article1, String article2) async {
-  const apiUrl = 'http://localhost:3000/calculate-similarity'; // Replace with your server URL
+  const apiUrl =
+      'http://localhost:3000/calculate-similarity'; // Replace with your server URL
 
   final response = await http.post(
     Uri.parse(apiUrl),
@@ -15,11 +17,12 @@ Future<double> calculateSimilarity(String article1, String article2) async {
     final similarityScore = data['similarityScore'] as double;
     return similarityScore;
   } else {
-    throw Exception('Failed to calculate similarity. Status code: ${response.statusCode}');
+    throw Exception(
+        'Failed to calculate similarity. Status code: ${response.statusCode}');
   }
 }
 
-// how to use 
+// how to use
 Future<void> main() async {
   String article1 =
       "This is the first article about topic modeling and similarity.";
@@ -30,4 +33,3 @@ Future<void> main() async {
     print(result);
   });
 }
-
