@@ -9,7 +9,7 @@ const typeDefs = gql`
         email: String 
         reputation: Int
         read: [Article!]! @relationship(type: "READ", direction: OUT)
-        likes: [Article!]! @relationship(type: "LIKED", direction: OUT)
+        likes: [Article!]! @relationship(type: "LIKED", direction: IN)
         interests: [Interest!]! @relationship(type: "INTERESTED", direction: OUT)
         posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
         written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
@@ -35,7 +35,7 @@ const typeDefs = gql`
         summary: String
         address: String
         likeCount: Int
-        likes: [User!]! @relationship(type: "LIKED", direction: IN)
+        likes: [User!]! @relationship(type: "LIKED", direction: OUT)
         read: [User!]! @relationship(type: "READ", direction: IN)
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
         author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
