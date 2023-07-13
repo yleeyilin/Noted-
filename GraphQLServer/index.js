@@ -41,7 +41,6 @@ const typeDefs = gql`
         author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
         related: [Article!]! @relationship(type: "RELATION", direction : OUT, queryDirection: DEFAULT_DIRECTED, properties: "Similarity")
         articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: IN)
-
     }
     
     type Interest {
@@ -60,7 +59,6 @@ const typeDefs = gql`
     interface Similarity @relationshipProperties {
         score: Float
     }
-    
 `;
 
 const driver = neo4j.driver(
