@@ -357,7 +357,7 @@ Future<void> connectArticleToArticle(String sourceArticleAddress,
         updateArticles(
           where: { address: \$sourceArticleAddress }
           connect: {
-            Similarity: {
+            related: {
               where: { node: { address: \$targetArticleAddress } }
               edge: { score: \$score }  
             }
@@ -365,9 +365,8 @@ Future<void> connectArticleToArticle(String sourceArticleAddress,
         ) {
           articles {
             title
-            Similarity {
+            related {
               title
-              score 
             }
           }
         }
