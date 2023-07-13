@@ -154,41 +154,49 @@ class _HomeState extends State<Home> {
                                   children: [
                                     IconButton(
                                       icon: likeIcon,
-                                      onPressed: () {
-                                        setState(() async {
-                                          // like relationship
-                                          if (await checkArticleLikes(
-                                              article['address'])) {
-                                            String? email =
-                                                _authCon.retrieveEmail();
-                                            _con.likeArticle(email!);
+                                      onPressed: () async {
+                                        // like relationship
+                                        if (await checkArticleLikes(
+                                            article['address'])) {
+                                          String? email =
+                                              _authCon.retrieveEmail();
+                                          _con.likeArticle(
+                                              email!, article['address']);
 
-                                            //increment like count
+                                          // increment like count
+                                          if (article['likeCount'] != null) {
                                             _con.updateLikes(article['address'],
                                                 article['likeCount'] + 1);
+                                          }
 
-                                            //change icon
+                                          // change icon
+                                          setState(() {
                                             likeIcon = Icon(
                                               Icons.favorite,
                                               color: primary,
                                             );
-                                          } else {
-                                            //dislike relationship
-                                            String? email =
-                                                _authCon.retrieveEmail();
-                                            _con.dislikeArticle(email!);
+                                          });
+                                        } else {
+                                          // dislike relationship
+                                          String? email =
+                                              _authCon.retrieveEmail();
+                                          _con.dislikeArticle(
+                                              email!, article['address']);
 
-                                            //decrement like count
+                                          // decrement like count
+                                          if (article['likeCount'] != null) {
                                             _con.updateLikes(article['address'],
                                                 article['likeCount'] - 1);
+                                          }
 
-                                            //change icon
+                                          // change icon
+                                          setState(() {
                                             likeIcon = Icon(
                                               Icons.favorite_border,
                                               color: primary,
                                             );
-                                          }
-                                        });
+                                          });
+                                        }
                                       },
                                     ),
                                     Text(

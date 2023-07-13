@@ -43,12 +43,12 @@ class ArticleController extends ControllerMVC {
   //   return updateLikeCount(noteId, newLikeCount);
   // }
 
-  void likeArticle(String email) async {
-    await connectUserToArticle(email);
+  void likeArticle(String email, String articleAddress) async {
+    await connectUserToArticle(email, articleAddress);
   }
 
-  void dislikeArticle(String email) async {
-    await disconnectUserFromArticle(email);
+  void dislikeArticle(String email, String articleAddress) async {
+    await disconnectUserFromArticle(email, articleAddress);
   }
 
   void updateLikes(String address, int likeCount) async {

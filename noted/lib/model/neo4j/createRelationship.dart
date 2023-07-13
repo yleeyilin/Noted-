@@ -410,21 +410,21 @@ Future<void> connectArticleToArticle(String sourceArticleAddress,
 }
 
 //relationship to connect users and liked articles
-Future<void> connectUserToArticle(String email) async {
+Future<void> connectUserToArticle(String email, String articleAddress) async {
   final MutationOptions connectArticleOptions = MutationOptions(
     document: gql('''
-      mutation ConnectUserToArticle(\$email: String!) {
+      mutation ConnectUserToArticle(\$email: String!, \$address: articleAddress!) {
         updateUsers(
           where: { email: \$email }
           connect: {
-            liked: {
+            likes: {
               where: { node: { address: \$articleAddress } }
             }
           }
         ) {
           users {
             name
-            written {
+            liked {
               title
               address
             }
@@ -434,6 +434,7 @@ Future<void> connectUserToArticle(String email) async {
     '''),
     variables: <String, dynamic>{
       'email': email,
+      'articleAddress': articleAddress,
     },
   );
 
@@ -467,14 +468,15 @@ Future<void> connectUserToArticle(String email) async {
 }
 
 //remove relationship between article and user
-Future<void> disconnectUserFromArticle(String email) async {
+Future<void> disconnectUserFromArticle(
+    String email, String articleAddress) async {
   final MutationOptions disconnectArticleOptions = MutationOptions(
     document: gql('''
-      mutation DisconnectUserToArticle(\$email: String!) {
+      mutation DisconnectUserFromArticle(\$email: String!, \$address: articleAddress!) {
         updateUsers(
           where: { email: \$email }
           disconnect: {
-            liked: {
+            likes: {
               where: { node: { address: \$articleAddress } }
             }
           }
@@ -491,6 +493,7 @@ Future<void> disconnectUserFromArticle(String email) async {
     '''),
     variables: <String, dynamic>{
       'email': email,
+      'articleAddress': articleAddress,
     },
   );
 
