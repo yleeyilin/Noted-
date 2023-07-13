@@ -424,7 +424,7 @@ Future<void> connectUserToArticle(String email, String articleAddress) async {
         ) {
           users {
             name
-            liked {
+            likes {
               title
               address
             }
@@ -483,7 +483,7 @@ Future<void> disconnectUserFromArticle(
         ) {
           users {
             name
-            written {
+            likes {
               title
               address
             }
