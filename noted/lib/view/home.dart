@@ -155,28 +155,19 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       icon: likeIcon,
                                       onPressed: () async {
+                                        String userName;
+                                        if (_authCon.retrieveName() == null) {
+                                          userName = "";
+                                        } else {
+                                          userName = _authCon.retrieveName()!;
+                                        }
+
+                                        print(await checkArticleLikes(
+                                            article['address'], userName));
+
                                         // like relationship
                                         if (await checkArticleLikes(
-                                            article['address'])) {
-                                          String? email =
-                                              _authCon.retrieveEmail();
-                                          _con.likeArticle(
-                                              email!, article['address']);
-
-                                          // increment like count
-                                          if (article['likeCount'] != null) {
-                                            _con.updateLikes(article['address'],
-                                                article['likeCount'] + 1);
-                                          }
-
-                                          // change icon
-                                          setState(() {
-                                            likeIcon = Icon(
-                                              Icons.favorite,
-                                              color: primary,
-                                            );
-                                          });
-                                        } else {
+                                            article['address'], userName)) {
                                           // dislike relationship
                                           String? email =
                                               _authCon.retrieveEmail();
@@ -193,6 +184,25 @@ class _HomeState extends State<Home> {
                                           setState(() {
                                             likeIcon = Icon(
                                               Icons.favorite_border,
+                                              color: primary,
+                                            );
+                                          });
+                                        } else {
+                                          String? email =
+                                              _authCon.retrieveEmail();
+                                          _con.likeArticle(
+                                              email!, article['address']);
+
+                                          // increment like count
+                                          if (article['likeCount'] != null) {
+                                            _con.updateLikes(article['address'],
+                                                article['likeCount'] + 1);
+                                          }
+
+                                          // change icon
+                                          setState(() {
+                                            likeIcon = Icon(
+                                              Icons.favorite,
                                               color: primary,
                                             );
                                           });

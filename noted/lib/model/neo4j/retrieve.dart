@@ -122,12 +122,12 @@ Future<List<dynamic>> fetchArticles() async {
 }
 
 //check for liked relationship
-Future<bool> checkArticleLikes(String articleAddress) async {
+Future<bool> checkArticleLikes(String articleAddress, String name) async {
   final QueryOptions checkLikesOptions = QueryOptions(
     document: gql('''
-      query CheckArticleLikes(\$articleAddress: String!) {
-        article(address: \$articleAddress) {
-          likes {
+      query CheckArticleLikes(\$articleAddress: String!, \$name: String!) {
+        articles(where: { address: \$articleAddress }) {
+          likes(where: { name: \$name }) {
             name
           }
         }
@@ -135,6 +135,7 @@ Future<bool> checkArticleLikes(String articleAddress) async {
     '''),
     variables: <String, dynamic>{
       'articleAddress': articleAddress,
+      'name': name,
     },
   );
 
@@ -146,9 +147,9 @@ Future<bool> checkArticleLikes(String articleAddress) async {
     return false;
   }
 
-  final dynamic data = checkLikesResult.data?['article'];
+  final dynamic data = checkLikesResult.data?['articles'];
   if (data != null) {
-    final List<dynamic> likes = data['likes'] as List<dynamic>;
+    final List<dynamic> likes = data[0]['likes'] as List<dynamic>;
 
     return likes.isNotEmpty;
   }
