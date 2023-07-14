@@ -144,6 +144,7 @@ class _HomeState extends State<Home> {
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
                             final articleAddress = article['address'];
+                            var articleLikeCount = article['likeCount'];
                             final isLiked =
                                 likedArticles.contains(articleAddress);
 
@@ -182,6 +183,7 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       icon: likeIcons[index]!,
                                       onPressed: () async {
+                                        print(articleLikeCount);
                                         // String userName;
                                         // if (_authCon.retrieveName() == null) {
                                         //   userName = "";
@@ -202,9 +204,11 @@ class _HomeState extends State<Home> {
                                               email!, articleAddress);
 
                                           // Decrement like count
-                                          if (article['likeCount'] != null) {
+                                          if (articleLikeCount != null) {
+                                            print(articleLikeCount - 1);
+                                            print(articleAddress);
                                             _con.updateLikes(articleAddress,
-                                                article['likeCount'] - 1);
+                                                articleLikeCount - 1);
                                           }
 
                                           // Update likedArticles list
@@ -228,9 +232,11 @@ class _HomeState extends State<Home> {
                                               email!, articleAddress);
 
                                           // Increment like count
-                                          if (article['likeCount'] != null) {
+                                          if (articleLikeCount != null) {
                                             _con.updateLikes(articleAddress,
-                                                article['likeCount'] + 1);
+                                                articleLikeCount + 1);
+                                          } else {
+                                            _con.updateLikes(articleAddress, 1);
                                           }
 
                                           // Update likedArticles list

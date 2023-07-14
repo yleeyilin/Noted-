@@ -4,22 +4,21 @@ import 'package:noted/main.dart';
 //updates the like count
 Future<void> updateLikeCount(String address, int likeCount) async {
   const mutation = r'''
-    mutation UpdateLikeCount(\$address: ID!, \$likeCount: Int!) {
-      updateArticles(
-        where: {
-          address: \$address
-        }
-        update: {
-          likeCount: \$likeCount
-        }
-      ) {
-        articles {
-          likeCount
-        }
+  mutation UpdateLikeCount($address: String!, $likeCount: Int!) {
+    updateArticles(
+      where: {
+        address: $address
+      }
+      update: {
+        likeCount: $likeCount
+      }
+    ) {
+      articles {
+        likeCount
       }
     }
-  ''';
-
+  }
+''';
   final MutationOptions options = MutationOptions(
     document: gql(mutation),
     variables: <String, dynamic>{
