@@ -16,17 +16,25 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Map<String, dynamic>>? articles;
   List<Map<String, dynamic>>? allArticles;
+  List<String> likedArticles = [];
   final ArticleController _con = ArticleController();
   final AuthController _authCon = AuthController();
   bool _isRefreshing = false;
-  var likeIcon = Icon(
-    Icons.favorite_border,
-    color: primary,
-  );
+  var likeIcons = <int, Icon>{};
 
   @override
   void initState() {
     super.initState();
+    fetchLikedArticles();
+  }
+
+  Future<void> fetchLikedArticles() async {
+    String? userName = _authCon.retrieveName() ?? "";
+    List<String> likedArticleAddresses =
+        _con.fetchLikedArticles(userName) as List<String>;
+    setState(() {
+      likedArticles = likedArticleAddresses;
+    });
   }
 
   Future<void> _refreshData() async {
@@ -46,10 +54,11 @@ class _HomeState extends State<Home> {
     return RefreshIndicator(
       onRefresh: _refreshData,
       child: NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            return false;
-          },
-          child: _buildArticleList()),
+        onNotification: (notification) {
+          return false;
+        },
+        child: _buildArticleList(),
+      ),
     );
   }
 
@@ -129,6 +138,21 @@ class _HomeState extends State<Home> {
                           itemCount: articles!.length,
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
+                            final articleAddress = article['address'];
+                            final isLiked =
+                                likedArticles.contains(articleAddress);
+
+                            if (!likeIcons.containsKey(index)) {
+                              likeIcons[index] = isLiked
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: primary,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      color: primary,
+                                    );
+                            }
 
                             return Card(
                               shape: RoundedRectangleBorder(
@@ -142,17 +166,16 @@ class _HomeState extends State<Home> {
                                 subtitle:
                                     Text(article['summary']?.toString() ?? ''),
                                 onTap: () {
-                                  if (article['address'] != null) {
+                                  if (articleAddress != null) {
                                     _con.viewPDF(
-                                        article['address']?.toString() ?? '',
-                                        context);
+                                        articleAddress.toString(), context);
                                   }
                                 },
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: likeIcon,
+                                      icon: likeIcons[index]!,
                                       onPressed: () async {
                                         String userName;
                                         if (_authCon.retrieveName() == null) {
@@ -161,46 +184,58 @@ class _HomeState extends State<Home> {
                                           userName = _authCon.retrieveName()!;
                                         }
 
-                                        print(await checkArticleLikes(
-                                            article['address'], userName));
+                                        // Check if article is already liked
+                                        final isArticleLiked = likedArticles
+                                            .contains(articleAddress);
 
-                                        // like relationship
-                                        if (await checkArticleLikes(
-                                            article['address'], userName)) {
-                                          // dislike relationship
+                                        // Toggle like relationship
+                                        if (isArticleLiked) {
+                                          // Dislike relationship
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.dislikeArticle(
-                                              email!, article['address']);
+                                              email!, articleAddress);
 
-                                          // decrement like count
+                                          // Decrement like count
                                           if (article['likeCount'] != null) {
-                                            _con.updateLikes(article['address'],
+                                            _con.updateLikes(articleAddress,
                                                 article['likeCount'] - 1);
                                           }
 
-                                          // change icon
+                                          // Update likedArticles list
                                           setState(() {
-                                            likeIcon = Icon(
+                                            likedArticles
+                                                .remove(articleAddress);
+                                          });
+
+                                          // Change icon
+                                          setState(() {
+                                            likeIcons[index] = Icon(
                                               Icons.favorite_border,
                                               color: primary,
                                             );
                                           });
                                         } else {
+                                          // Like relationship
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.likeArticle(
-                                              email!, article['address']);
+                                              email!, articleAddress);
 
-                                          // increment like count
+                                          // Increment like count
                                           if (article['likeCount'] != null) {
-                                            _con.updateLikes(article['address'],
+                                            _con.updateLikes(articleAddress,
                                                 article['likeCount'] + 1);
                                           }
 
-                                          // change icon
+                                          // Update likedArticles list
                                           setState(() {
-                                            likeIcon = Icon(
+                                            likedArticles.add(articleAddress);
+                                          });
+
+                                          // Change icon
+                                          setState(() {
+                                            likeIcons[index] = Icon(
                                               Icons.favorite,
                                               color: primary,
                                             );

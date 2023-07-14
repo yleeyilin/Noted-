@@ -156,3 +156,34 @@ Future<bool> checkArticleLikes(String articleAddress, String name) async {
 
   return false;
 }
+
+Future<List<dynamic>> likedArticles(String name) async {
+  final QueryOptions options = QueryOptions(
+    document: gql('''
+      query GetLikedArticles(\$name: String!) {
+        users(name: \$name) {
+          likedArticles {
+            title
+            summary
+            address
+          }
+        }
+      }
+    '''),
+    variables: {'name': name},
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+    return []; // Return an empty list on error
+  } else {
+    final dynamic data = result.data?['user']?['likedArticles'];
+    if (data != null) {
+      return List<Map<String, dynamic>>.from(data);
+    }
+  }
+
+  return [];
+}
