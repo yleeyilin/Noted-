@@ -16,7 +16,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<Map<String, dynamic>>? articles;
   List<Map<String, dynamic>>? allArticles;
-  List<Map<String, dynamic>> likedArticles = [];
   final ArticleController _con = ArticleController();
   final AuthController _authCon = AuthController();
   bool _isRefreshing = false;
