@@ -29,12 +29,17 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchLikedArticles() async {
-    String? userName = _authCon.retrieveName() ?? "";
-    List<String> likedArticleAddresses =
-        _con.fetchLikedArticles(userName) as List<String>;
-    setState(() {
-      likedArticles = likedArticleAddresses;
-    });
+    String? userName = _authCon.retrieveName();
+    if (userName != null) {
+      List<dynamic>? likedArticleAddresses =
+          await _con.fetchLikedArticles(userName);
+      if (likedArticleAddresses != null) {
+        List<String> addresses = likedArticleAddresses.cast<String>();
+        setState(() {
+          likedArticles = addresses;
+        });
+      }
+    }
   }
 
   Future<void> _refreshData() async {
@@ -243,11 +248,21 @@ class _HomeState extends State<Home> {
                                         }
                                       },
                                     ),
-                                    Text(
-                                      article['likeCount']?.toString() ?? '0',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    FutureBuilder(
+                                      future: _con.getLikeCount(articleAddress),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          Object? likeCount = snapshot.data;
+                                          return Text(
+                                            likeCount.toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      },
                                     ),
                                     IconButton(
                                       icon: Icon(

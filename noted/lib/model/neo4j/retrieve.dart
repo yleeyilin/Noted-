@@ -62,6 +62,36 @@ Future<String?> getUserName(String currEmail) async {
   return null;
 }
 
+Future<int?> likeCount(String articleAddress) async {
+  const String findLikeCountQuery = '''
+    query FindLikeCount(\$articleAddress: String!) {
+      articles(where: { address: \$articleAddress }) {
+        likeCount
+      }
+    }
+  ''';
+
+  final QueryOptions options = QueryOptions(
+    document: gql(findLikeCountQuery),
+    variables: {'articleAddress': articleAddress},
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('Error loading like count: ${result.exception.toString()}');
+    return null;
+  }
+
+  final List<dynamic> articles = result.data?['articles'];
+  if (articles.isNotEmpty) {
+    final likeCount = articles[0]['likeCount'] as int?;
+    print(likeCount);
+    return likeCount;
+  }
+  return null;
+}
+
 Future<List?> fetchNotes(String courseCode) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
@@ -160,16 +190,16 @@ Future<bool> checkArticleLikes(String articleAddress, String name) async {
 Future<List<dynamic>> likedArticles(String name) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
-      query GetLikedArticles(\$name: String!) {
-        users(name: \$name) {
-          likedArticles {
-            title
-            summary
-            address
-          }
+    query LikedArticles(\$name: String!) {
+      users(where: {name: \$name}) {
+        likes {
+          title
+          summary
+          address
         }
       }
-    '''),
+    }
+  '''),
     variables: {'name': name},
   );
 

@@ -58,4 +58,8 @@ class ArticleController extends ControllerMVC {
   void updateLikes(String address, int likeCount) async {
     updateLikeCount(address, likeCount);
   }
+
+  Future<int?> getLikeCount(String address) async {
+    return likeCount(address);
+  }
 }
