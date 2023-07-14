@@ -39,6 +39,10 @@ class ArticleController extends ControllerMVC {
     );
   }
 
+  Future<List?> fetchLikedArticles(String name) {
+    return likedArticles(name);
+  }
+
   // void updateLikeCount(String noteId, int newLikeCount) {
   //   return updateLikeCount(noteId, newLikeCount);
   // }
