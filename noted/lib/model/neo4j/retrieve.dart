@@ -131,6 +131,7 @@ Future<List<dynamic>> fetchArticles() async {
           title
           summary
           address
+          likeCount
         }
       }
     '''),
