@@ -20,10 +20,7 @@ class _HomeState extends State<Home> {
   final ArticleController _con = ArticleController();
   final AuthController _authCon = AuthController();
   bool _isRefreshing = false;
-  var likeIcon = Icon(
-    Icons.favorite_border,
-    color: primary,
-  );
+  var likeIcons = <int, Icon>{};
 
   @override
   void initState() {
@@ -47,10 +44,11 @@ class _HomeState extends State<Home> {
     return RefreshIndicator(
       onRefresh: _refreshData,
       child: NotificationListener<ScrollNotification>(
-          onNotification: (notification) {
-            return false;
-          },
-          child: _buildArticleList()),
+        onNotification: (notification) {
+          return false;
+        },
+        child: _buildArticleList(),
+      ),
     );
   }
 
@@ -130,6 +128,21 @@ class _HomeState extends State<Home> {
                           itemCount: articles!.length,
                           itemBuilder: (BuildContext context, int index) {
                             final article = articles![index];
+                            final articleAddress = article['address'];
+                            final isLiked =
+                                likedArticles.contains(articleAddress);
+
+                            if (!likeIcons.containsKey(index)) {
+                              likeIcons[index] = isLiked
+                                  ? Icon(
+                                      Icons.favorite,
+                                      color: primary,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                      color: primary,
+                                    );
+                            }
 
                             return Card(
                               shape: RoundedRectangleBorder(
@@ -143,17 +156,16 @@ class _HomeState extends State<Home> {
                                 subtitle:
                                     Text(article['summary']?.toString() ?? ''),
                                 onTap: () {
-                                  if (article['address'] != null) {
+                                  if (articleAddress != null) {
                                     _con.viewPDF(
-                                        article['address']?.toString() ?? '',
-                                        context);
+                                        articleAddress.toString(), context);
                                   }
                                 },
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     IconButton(
-                                      icon: likeIcon,
+                                      icon: likeIcons[index]!,
                                       onPressed: () async {
                                         String userName;
                                         if (_authCon.retrieveName() == null) {
@@ -162,27 +174,28 @@ class _HomeState extends State<Home> {
                                           userName = _authCon.retrieveName()!;
                                         }
 
+                                        //to debug
                                         print(await checkArticleLikes(
-                                            article['address'], userName));
+                                            articleAddress, userName));
 
                                         // like relationship
                                         if (await checkArticleLikes(
-                                            article['address'], userName)) {
+                                            articleAddress, userName)) {
                                           // dislike relationship
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.dislikeArticle(
-                                              email!, article['address']);
+                                              email!, articleAddress);
 
                                           // decrement like count
                                           if (article['likeCount'] != null) {
-                                            _con.updateLikes(article['address'],
+                                            _con.updateLikes(articleAddress,
                                                 article['likeCount'] - 1);
                                           }
 
                                           // change icon
                                           setState(() {
-                                            likeIcon = Icon(
+                                            likeIcons[index] = Icon(
                                               Icons.favorite_border,
                                               color: primary,
                                             );
@@ -191,17 +204,17 @@ class _HomeState extends State<Home> {
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.likeArticle(
-                                              email!, article['address']);
+                                              email!, articleAddress);
 
                                           // increment like count
                                           if (article['likeCount'] != null) {
-                                            _con.updateLikes(article['address'],
+                                            _con.updateLikes(articleAddress,
                                                 article['likeCount'] + 1);
                                           }
 
                                           // change icon
                                           setState(() {
-                                            likeIcon = Icon(
+                                            likeIcons[index] = Icon(
                                               Icons.favorite,
                                               color: primary,
                                             );
