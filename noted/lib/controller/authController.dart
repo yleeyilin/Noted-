@@ -37,4 +37,8 @@ class AuthController extends ControllerMVC {
   String? retrieveEmail() {
     return retrieveCurrUser()!.email;
   }
+
+  String? retrieveName() {
+    return retrieveCurrUser()!.displayName;
+  }
 }
