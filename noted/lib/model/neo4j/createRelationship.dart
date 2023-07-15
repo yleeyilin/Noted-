@@ -524,3 +524,119 @@ Future<void> disconnectUserFromArticle(
     }
   }
 }
+
+//remove relationship between note and user
+Future<void> disconnectUserFromNote(String email, String noteAddress) async {
+  final MutationOptions disconnectNotesOptions = MutationOptions(
+    document: gql('''
+      mutation DisconnectUserFromNote(\$email: String!, \$address: String!) {
+        updateUsers(
+          where: { email: \$email }
+          disconnect: {
+            like: {
+              where: { node: { address: \$address } }
+            }
+          }
+        ) {
+          users {
+            name
+            like {
+              name
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'email': email,
+      'address': noteAddress,
+    },
+  );
+
+  final QueryResult disconnectNoteResult =
+      await client.value.mutate(disconnectNotesOptions);
+
+  if (disconnectNoteResult.hasException) {
+    print(
+        'Disconnection GraphQL Error: ${disconnectNoteResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = disconnectNoteResult.data?['updateUsers'];
+  if (data != null) {
+    final List<dynamic> users = data['users'] as List<dynamic>;
+    if (users.isNotEmpty) {
+      final dynamic connectedUser = users[0];
+      final String? userName = connectedUser['name'] as String?;
+      final List? connectedNotes = connectedUser['liked by'] as List<dynamic>?;
+
+      print('Disconnected User from Note:');
+      print('User Name: $userName');
+      print('Notes:');
+      for (final note in connectedNotes ?? []) {
+        final String noteName = note['name'] as String;
+        final String noteAddress = note['address'] as String;
+        print('Name: $noteName, Address: $noteAddress');
+      }
+    }
+  }
+}
+
+//relationship to connect users and liked notes
+Future<void> connectUserToNote(String email, String noteAddress) async {
+  final MutationOptions connectNoteOptions = MutationOptions(
+    document: gql('''
+      mutation ConnectUserToNote(\$email: String!, \$address: String!) {
+        updateUsers(
+          where: { email: \$email }
+          connect: {
+            like: {
+              where: { node: { address: \$address } }
+            }
+          }
+        ) {
+          users {
+            name
+            like {
+              name
+              address
+            }
+          }
+        }
+      }
+    '''),
+    variables: <String, dynamic>{
+      'email': email,
+      'address': noteAddress,
+    },
+  );
+
+  final QueryResult connectNoteResult =
+      await client.value.mutate(connectNoteOptions);
+
+  if (connectNoteResult.hasException) {
+    print(
+        'Connection GraphQL Error: ${connectNoteResult.exception.toString()}');
+    return;
+  }
+
+  final dynamic data = connectNoteResult.data?['updateUsers'];
+  if (data != null) {
+    final List<dynamic> users = data['users'] as List<dynamic>;
+    if (users.isNotEmpty) {
+      final dynamic connectedUser = users[0];
+      final String? userName = connectedUser['name'] as String?;
+      final List? connectedNotes = connectedUser['liked by'] as List<dynamic>?;
+
+      print('Connected User to Article:');
+      print('User Name: $userName');
+      print('Notes:');
+      for (final note in connectedNotes ?? []) {
+        final String noteName = note['name'] as String;
+        final String noteAddress = note['address'] as String;
+        print('Name: $noteName, Address: $noteAddress');
+      }
+    }
+  }
+}
