@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/controller/articleController.dart';
 import '../controller/authController.dart';
-//import 'package:noted/model/neo4j/retrieve.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

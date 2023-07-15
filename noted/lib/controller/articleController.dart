@@ -43,10 +43,6 @@ class ArticleController extends ControllerMVC {
     return likedArticles(name);
   }
 
-  // void updateLikeCount(String noteId, int newLikeCount) {
-  //   return updateLikeCount(noteId, newLikeCount);
-  // }
-
   void likeArticle(String email, String articleAddress) async {
     await connectUserToArticle(email, articleAddress);
   }
