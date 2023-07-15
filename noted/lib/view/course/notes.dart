@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noted/controller/authController.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
@@ -18,7 +19,10 @@ class Notes extends StatefulWidget {
 class _NotesState extends State<Notes> {
   late List<Map<String, dynamic>> filteredNotes = [];
   late List<Map<String, dynamic>> searchResults = [];
+  List<String> likedNotes = [];
   final CourseController _con = CourseController();
+  final AuthController _authCon = AuthController();
+  var likeIcons = <int, Icon>{};
 
   @override
   void initState() {
@@ -120,7 +124,22 @@ class _NotesState extends State<Notes> {
                       itemCount: searchResults.length,
                       itemBuilder: (context, index) {
                         final note = searchResults[index];
-                        var likeCount = note['like'] ?? 0;
+                        final noteAddress = note['address'];
+                        var noteLikeCount = note['likeCount'];
+                        print(noteLikeCount);
+                        final isLiked = likedNotes.contains(noteAddress);
+                        if (!likeIcons.containsKey(index)) {
+                          likeIcons[index] = isLiked
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: primary,
+                                )
+                              : Icon(
+                                  Icons.favorite_border,
+                                  color: primary,
+                                );
+                        }
+
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ElevatedButton(
@@ -155,28 +174,96 @@ class _NotesState extends State<Notes> {
                                 const SizedBox(width: 8),
                                 Row(
                                   children: [
-                                    Icon(
-                                      Icons.favorite,
-                                      color: primary,
+                                    IconButton(
+                                      icon: likeIcons[index]!,
+                                      onPressed: () {
+                                        final isNoteLiked =
+                                            likedNotes.contains(noteAddress);
+                                        // Toggle like relationship
+                                        if (isNoteLiked) {
+                                          // Dislike relationship
+                                          String? email =
+                                              _authCon.retrieveEmail();
+                                          _con.dislikeNote(email!, noteAddress);
+
+                                          // Decrement like count
+                                          if (noteLikeCount != null) {
+                                            //print(noteAddress);
+                                            _con.updateLikesNotes(
+                                                noteAddress, noteLikeCount - 1);
+                                          }
+
+                                          // Update likedArticles list
+                                          setState(() {
+                                            likedNotes.remove(noteAddress);
+                                          });
+
+                                          // Change icon
+                                          setState(() {
+                                            likeIcons[index] = Icon(
+                                              Icons.favorite_border,
+                                              color: primary,
+                                            );
+                                          });
+                                        } else {
+                                          // Like relationship
+                                          String? email =
+                                              _authCon.retrieveEmail();
+                                          _con.likeNote(email!, noteAddress);
+
+                                          // Increment like count
+                                          if (noteLikeCount != null) {
+                                            _con.updateLikesNotes(
+                                                noteAddress, noteLikeCount + 1);
+                                          } else {
+                                            _con.updateLikesNotes(
+                                                noteAddress, 1);
+                                          }
+
+                                          // Update likedArticles list
+                                          setState(() {
+                                            likedNotes.add(noteAddress);
+                                          });
+
+                                          // Change icon
+                                          setState(() {
+                                            likeIcons[index] = Icon(
+                                              Icons.favorite,
+                                              color: primary,
+                                            );
+                                          });
+                                        }
+                                      },
                                     ),
-                                    Text(
-                                      '$likeCount',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                    FutureBuilder(
+                                      future:
+                                          _con.getLikeCountNotes(noteAddress),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasData) {
+                                          Object? likeCount = snapshot.data;
+                                          return Text(
+                                            likeCount.toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: Icon(
+                                        Icons.comment,
+                                        color: primary,
                                       ),
+                                      onPressed: () {
+                                        //to edit
+                                      },
                                     ),
                                   ],
                                 ),
                                 const SizedBox(width: 8),
-                                IconButton(
-                                  onPressed: () {
-                                    //edit
-                                  },
-                                  icon: Icon(
-                                    Icons.comment,
-                                    color: primary,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
