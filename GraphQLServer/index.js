@@ -10,6 +10,7 @@ const typeDefs = gql`
         reputation: Int
         read: [Article!]! @relationship(type: "READ", direction: OUT)
         likes: [Article!]! @relationship(type: "LIKED", direction: IN)
+        like: [Notes!]! @relationship(type: "LIKED BY", direction: IN)
         interests: [Interest!]! @relationship(type: "INTERESTED", direction: OUT)
         posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
         written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
@@ -25,6 +26,7 @@ const typeDefs = gql`
         name: String
         address: String
         likeCount: Int
+        like: [User!]! @relationship(type: "LIKED BY", direction: OUT)
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
         notescomment: [Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
