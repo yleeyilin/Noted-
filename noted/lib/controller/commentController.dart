@@ -1,118 +1,24 @@
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:noted/main.dart';
+//import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+//import 'package:noted/main.dart';
+import 'package:noted/model/neo4j/retrieve.dart';
+import 'package:noted/model/neo4j/createRelationship.dart';
 
-class CommentController {
-  Future<void> createCommentNode(String commentContent) async {
-    final MutationOptions createCommentOptions = MutationOptions(
-      document: gql('''
-        mutation CreateComment(\$commentContent: String!) {
-          createComment(input: { content: \$commentContent }) {
-            comment {
-              content
-            }
-          }
-        }
-      '''),
-      variables: <String, dynamic>{
-        'commentContent': commentContent,
-      },
-    );
+class CommentController extends ControllerMVC {
+  factory CommentController() => _this ??= CommentController._();
+  CommentController._();
+  static CommentController? _this;
 
-    final QueryResult createCommentResult =
-        await client.value.mutate(createCommentOptions);
-
-    if (createCommentResult.hasException) {
-      print(
-          'Create Comment GraphQL Error: ${createCommentResult.exception.toString()}');
-      return;
-    }
-
-    final dynamic data = createCommentResult.data?['createComment'];
-    if (data != null) {
-      final dynamic comment = data['comment'];
-      final String commentContent = comment['content'] as String;
-
-      print('Created Comment:');
-      print('Comment Content: $commentContent');
-    }
+  //fetches all the comments for the particular note
+  Future<List?> fetchAllComments(String address) {
+    return fetchComments(address);
   }
 
-  Future<List<dynamic>> fetchCommentsForArticle(String articleId) async {
-    final QueryOptions fetchCommentsOptions = QueryOptions(
-      document: gql('''
-        query FetchCommentsForArticle(\$articleId: ID!) {
-          article(id: \$articleId) {
-            articlescomment {
-              content
-            }
-          }
-        }
-      '''),
-      variables: <String, dynamic>{
-        'articleId': articleId,
-      },
-    );
-
-    final QueryResult fetchCommentsResult =
-        await client.value.query(fetchCommentsOptions);
-
-    if (fetchCommentsResult.hasException) {
-      print(
-          'Fetch Comments GraphQL Error: ${fetchCommentsResult.exception.toString()}');
-      return [];
-    }
-
-    final dynamic data = fetchCommentsResult.data?['article'];
-    if (data != null) {
-      final List<dynamic> comments = data['articlescomment'] as List<dynamic>;
-
-      print('Comments for Article:');
-      for (final comment in comments) {
-        final String commentContent = comment['content'] as String;
-
-        print('Comment Content: $commentContent');
-      }
-
-      return comments;
-    }
-
-    return [];
+  void commentByUser(String content, String email) async {
+    await connectCommentToAuthor(content, email);
   }
 
-  Future<List<dynamic>> fetchComments() async {
-    final QueryOptions fetchCommentsOptions = QueryOptions(
-      document: gql('''
-        query FetchComments {
-          comments {
-            content
-          }
-        }
-      '''),
-    );
-
-    final QueryResult fetchCommentsResult =
-        await client.value.query(fetchCommentsOptions);
-
-    if (fetchCommentsResult.hasException) {
-      print(
-          'Fetch Comments GraphQL Error: ${fetchCommentsResult.exception.toString()}');
-      return [];
-    }
-
-    final dynamic data = fetchCommentsResult.data;
-    if (data != null) {
-      final List<dynamic> comments = data['comments'] as List<dynamic>;
-
-      print('Comments:');
-      for (final comment in comments) {
-        final String commentContent = comment['content'] as String;
-
-        print('Comment Content: $commentContent');
-      }
-
-      return comments;
-    }
-
-    return [];
+  void commentOnNote(String content, String address) async {
+    await connectCommentToNote(content, address);
   }
 }
