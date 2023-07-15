@@ -533,14 +533,14 @@ Future<void> disconnectUserFromNote(String email, String noteAddress) async {
         updateUsers(
           where: { email: \$email }
           disconnect: {
-            like: {
+            likedNotes: {
               where: { node: { address: \$address } }
             }
           }
         ) {
           users {
             name
-            like {
+            likedNotes {
               name
               address
             }
@@ -569,7 +569,7 @@ Future<void> disconnectUserFromNote(String email, String noteAddress) async {
     if (users.isNotEmpty) {
       final dynamic connectedUser = users[0];
       final String? userName = connectedUser['name'] as String?;
-      final List? connectedNotes = connectedUser['liked by'] as List<dynamic>?;
+      final List? connectedNotes = connectedUser['likedby'] as List<dynamic>?;
 
       print('Disconnected User from Note:');
       print('User Name: $userName');
@@ -591,14 +591,14 @@ Future<void> connectUserToNote(String email, String noteAddress) async {
         updateUsers(
           where: { email: \$email }
           connect: {
-            like: {
+            likedNotes: {
               where: { node: { address: \$address } }
             }
           }
         ) {
           users {
             name
-            like {
+            likedNotes {
               name
               address
             }
@@ -627,7 +627,7 @@ Future<void> connectUserToNote(String email, String noteAddress) async {
     if (users.isNotEmpty) {
       final dynamic connectedUser = users[0];
       final String? userName = connectedUser['name'] as String?;
-      final List? connectedNotes = connectedUser['liked by'] as List<dynamic>?;
+      final List? connectedNotes = connectedUser['likedby'] as List<dynamic>?;
 
       print('Connected User to Article:');
       print('User Name: $userName');
