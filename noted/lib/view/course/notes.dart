@@ -3,7 +3,6 @@ import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/courseController.dart';
-//import 'package:noted/model/neo4j/retrieve.dart';
 
 class Notes extends StatefulWidget {
   final String courseCode;
