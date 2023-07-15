@@ -30,7 +30,7 @@ type User {
         likedNotes: [Notes!]! @relationship(type: "LIKEDBY", direction: IN)
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
-        notescomment: [Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
+        notesComment:[Notes!]! @relationship(type: "NOTESCOMMENT", direction: IN)
     }
     
     type Article {
@@ -43,7 +43,6 @@ type User {
         includes: [Interest!]! @relationship(type: "INCLUDES", direction: IN)
         author: [User!]! @relationship(type: "WRITTEN", direction: OUT)
         related: [Article!]! @relationship(type: "RELATION", direction : OUT, queryDirection: DEFAULT_DIRECTED, properties: "Similarity")
-        articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: IN)
     }
     
     type Interest {
@@ -54,9 +53,8 @@ type User {
 
     type Comment {
         content: String
-        notescomment: [Notes!]! @relationship(type: "NOTESCOMMENT", direction: OUT)
-        commentedby: [User!]! @relationship(type: "COMMENTEDBY", direction: IN)
-        articlescomment: [Article!]! @relationship(type: "ARTICLESCOMMENTS", direction: OUT)
+        commentAuthor: [User!]! @relationship(type: "AUTHOR", direction: OUT)
+        notesComment:[Notes!]! @relationship(type: "NOTESCOMMENT", direction: OUT)
     }
 
     interface Similarity @relationshipProperties {
