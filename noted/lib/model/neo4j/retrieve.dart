@@ -218,3 +218,65 @@ Future<List<dynamic>> likedArticles(String name) async {
 
   return [];
 }
+
+//gets liked notes
+Future<List<dynamic>> likedNotes(String name) async {
+  final QueryOptions options = QueryOptions(
+    document: gql('''
+    query LikedNotes(\$name: String!) {
+      users(where: {name: \$name}) {
+        like {
+          name
+          address
+        }
+      }
+    }
+  '''),
+    variables: {'name': name},
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('GraphQL Error: ${result.exception.toString()}');
+    return []; // Return an empty list on error
+  } else {
+    final dynamic data = result.data?['user']?['likedNotes'];
+    if (data != null) {
+      return List<Map<String, dynamic>>.from(data);
+    }
+  }
+
+  return [];
+}
+
+//get like count of notes
+Future<int?> likeCountNotes(String noteAddress) async {
+  const String findLikeCountQuery = '''
+    query FindLikeCount(\$noteAddress: String!) {
+      notes(where: { address: \$noteAddress }) {
+        likeCount
+      }
+    }
+  ''';
+
+  final QueryOptions options = QueryOptions(
+    document: gql(findLikeCountQuery),
+    variables: {'noteAddress': noteAddress},
+  );
+
+  final QueryResult result = await client.value.query(options);
+
+  if (result.hasException) {
+    print('Error loading like count: ${result.exception.toString()}');
+    return null;
+  }
+
+  final List<dynamic> notes = result.data?['notes'];
+  if (notes.isNotEmpty) {
+    final likeCount = notes[0]['likeCount'] as int?;
+    print(likeCount);
+    return likeCount;
+  }
+  return null;
+}

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:noted/model/neo4j/createRelationship.dart';
 import 'package:noted/model/query/nusmods.dart';
 import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
 import 'package:noted/view/widgets/comment.dart';
+import 'package:noted/model/neo4j/updateNode.dart';
 
 class CourseController extends ControllerMVC {
   factory CourseController() => _this ??= CourseController._();
@@ -53,5 +55,26 @@ class CourseController extends ControllerMVC {
         ),
       ),
     );
+  }
+
+  Future<List?> fetchLikedNotes(String name) {
+    return likedNotes(name);
+  }
+
+  void likeNote(String email, String articleAddress) async {
+    await connectUserToNote(email, articleAddress);
+  }
+
+  void dislikeNote(String email, String articleAddress) async {
+    await disconnectUserFromNote(email, articleAddress);
+  }
+
+//change
+  void updateLikesNotes(String address, int likeCount) async {
+    updateLikeCountNotes(address, likeCount);
+  }
+
+  Future<int?> getLikeCountNotes(String address) async {
+    return likeCountNotes(address);
   }
 }
