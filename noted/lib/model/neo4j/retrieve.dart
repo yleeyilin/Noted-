@@ -100,6 +100,7 @@ Future<List?> fetchNotes(String courseCode) async {
             notes {
               name
               address
+              likeCount
             }
           }
         }
@@ -225,7 +226,7 @@ Future<List<dynamic>> likedNotes(String name) async {
     document: gql('''
     query LikedNotes(\$name: String!) {
       users(where: {name: \$name}) {
-        like {
+        likedNotes {
           name
           address
         }
