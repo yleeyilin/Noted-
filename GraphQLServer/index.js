@@ -4,18 +4,19 @@ const neo4j = require("neo4j-driver");
 
 const typeDefs = gql`
 
-    type User {
-        name: String
-        email: String 
-        reputation: Int
-        read: [Article!]! @relationship(type: "READ", direction: OUT)
-        likes: [Article!]! @relationship(type: "LIKED", direction: IN)
-        like: [Notes!]! @relationship(type: "LIKED BY", direction: IN)
-        interests: [Interest!]! @relationship(type: "INTERESTED", direction: OUT)
-        posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
-        written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
-        commentedby: [Comment!]! @relationship(type: "COMMENTEDBY", direction: OUT)
-    }
+type User {
+    name: String
+    email: String 
+    reputation: Int
+    read: [Article!]! @relationship(type: "READ", direction: OUT)
+    likes: [Article!]! @relationship(type: "LIKED", direction: IN)
+    likedNotes: [Notes!]! @relationship(type: "LIKEDBY", direction: IN)
+    interests: [Interest!]! @relationship(type: "INTERESTED", direction: OUT)
+    posted: [Notes!]! @relationship(type: "POSTER", direction: IN)
+    written: [Article!]! @relationship(type: "WRITTEN", direction: IN)
+    commentedby: [Comment!]! @relationship(type: "COMMENTEDBY", direction: OUT)
+  }
+  
     
     type Course {
         name: String
@@ -26,7 +27,7 @@ const typeDefs = gql`
         name: String
         address: String
         likeCount: Int
-        like: [User!]! @relationship(type: "LIKED BY", direction: OUT)
+        likedNotes: [Notes!]! @relationship(type: "LIKEDBY", direction: IN)
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
         notescomment: [Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
@@ -71,10 +72,10 @@ const driver = neo4j.driver(
 // const createApolloServer = async () => {
 //     const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
 //     const schema = await neoSchema.getSchema();
-  
+
 //     return new ApolloServer({ schema });
 //   };
-  
+
 // module.exports = createApolloServer;
 
 const neoSchema = new Neo4jGraphQL({ typeDefs, driver });
@@ -83,8 +84,8 @@ neoSchema.getSchema().then((schema) => {
     const server = new ApolloServer({
         schema,
     });
-  
+
     server.listen().then(({ url }) => {
         console.log(`🚀 Server ready at ${url}`);
     });
-  })
+})
