@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
-import 'package:noted/view/widgets/comment.dart';
 import '../model/neo4j/createRelationship.dart';
 //import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noted/model/neo4j/updateNode.dart';
@@ -27,17 +26,17 @@ class ArticleController extends ControllerMVC {
     );
   }
 
-  void openCommentScreen(BuildContext context, String article) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Comment(
-          articleId: '',
-          articleAddress: '',
-        ),
-      ),
-    );
-  }
+  // void openCommentScreen(BuildContext context, String article) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const Comment(
+  //         articleId: '',
+  //         articleAddress: '',
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<List?> fetchLikedArticles(String name) {
     return likedArticles(name);
