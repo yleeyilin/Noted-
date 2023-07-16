@@ -12,6 +12,7 @@ class CommentController extends ControllerMVC {
 
   //fetches all the comments for the particular note
   Future<List?> fetchAllComments(String address) {
+    print("executed");
     return fetchComments(address);
   }
 
