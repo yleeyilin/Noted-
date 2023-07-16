@@ -14,19 +14,21 @@ class Skeleton extends StatefulWidget {
 }
 
 class _SkeletonState extends State<Skeleton> {
-  //navigation
-  List<Widget> navigationFunction = [
-    const Home(),
-    const Search(),
-    const Post(),
-    const Profile(),
-  ];
-
   //index for bottom navigation bar
   int _currentIndex = 0;
 
+  List<Widget> get navigationFunction {
+    return [
+      const Home(),
+      const Search(),
+      const Post(),
+      const Profile(),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: navigationFunction[_currentIndex],
       backgroundColor: primary,
@@ -95,9 +97,9 @@ class _SkeletonState extends State<Skeleton> {
               label: 'Profile'),
         ],
         onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
+            setState(() {
+              _currentIndex = index;
+            });
         },
       ),
     );
