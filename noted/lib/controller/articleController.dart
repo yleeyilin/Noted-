@@ -14,7 +14,7 @@ class ArticleController extends ControllerMVC {
   ArticleController._();
   static ArticleController? _this;
 
-  Future<List?> fetchAllArticles() {
+  Future<List<Map<String, dynamic>>> fetchAllArticles() {
     return fetchArticles();
   }
 
