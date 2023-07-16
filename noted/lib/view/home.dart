@@ -275,8 +275,7 @@ class _HomeState extends State<Home> {
                                         color: primary,
                                       ),
                                       onPressed: () {
-                                        _con.openCommentScreen(context,
-                                            article['id']?.toString() ?? '');
+                                        //to edit
                                       },
                                     ),
                                   ],
