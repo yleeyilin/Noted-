@@ -30,7 +30,7 @@ type User {
         likedNotes: [Notes!]! @relationship(type: "LIKEDBY", direction: IN)
         course: [Course!]! @relationship(type: "NOTES", direction: OUT) 
         author: [User!]! @relationship(type: "POSTER", direction: OUT)
-        notesComment:[Notes!]! @relationship(type: "NOTESCOMMENT", direction: IN)
+        notesComment:[Comment!]! @relationship(type: "NOTESCOMMENT", direction: IN)
     }
     
     type Article {
@@ -53,6 +53,7 @@ type User {
 
     type Comment {
         content: String
+        noteAddress: String
         commentAuthor: [User!]! @relationship(type: "AUTHOR", direction: OUT)
         notesComment:[Notes!]! @relationship(type: "NOTESCOMMENT", direction: OUT)
     }

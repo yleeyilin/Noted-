@@ -185,35 +185,29 @@ Future<void> createInterestNode(String name) async {
   }
 }
 
-Future<void> createCommentNode(String content) async {
+Future<void> createCommentNode(String content, String noteAddress) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
-      mutation CreateComment(\$content: String!) {
-        createComment(input: { content: \$content }) {
-          comment {
+      mutation CreateComment(\$content: String!, \$noteAddress: String!) {
+        createComments(input: { content: \$content, noteAddress: \$noteAddress }) {
+          comments {
             content
+            noteAddress
           }
         }
       }
     '''),
     variables: <String, dynamic>{
       'content': content,
+      'noteAddress': noteAddress,
     },
   );
 
   final QueryResult result = await client.value.mutate(options);
-
   if (result.hasException) {
-    print('GraphQL Error: ${result.exception.toString()}');
+    print('Error creating comment: ${result.exception.toString()}');
   } else {
-    final Map<String, dynamic>? data = result.data?['createComment'];
-    if (data != null) {
-      final Map<String, dynamic> comment =
-          data['comment'] as Map<String, dynamic>;
-      final String commentContent = comment['content'] as String;
-
-      print('Create Comment Success:');
-      print('Content: $commentContent');
-    }
+    print('Comment created successfully');
+    print('Created comment data: ${result.data}');
   }
 }
