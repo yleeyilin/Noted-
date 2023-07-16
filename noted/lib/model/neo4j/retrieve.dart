@@ -283,19 +283,17 @@ Future<int?> likeCountNotes(String noteAddress) async {
 }
 
 //fetch comments
-Future<List?> fetchComments(String address) async {
+Future<List?> fetchComments(String noteAddress) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
-        query GetComments(\$address: String!) {
-          notes(where: { address: \$address}) {
-            comments {
-              comment
+        query GetComments(\$noteAddress: String!) {
+          comments(where: { noteAddress: \$noteAddress}) {
+            content
             }
           }
-        }
       '''),
     variables: <String, dynamic>{
-      'address': address,
+      'noteAddress': noteAddress,
     },
   );
 
