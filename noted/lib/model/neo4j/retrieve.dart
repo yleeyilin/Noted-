@@ -282,15 +282,15 @@ Future<int?> likeCountNotes(String noteAddress) async {
 }
 
 //fetch comments
-Future<List?> fetchComments(String noteAddress) async {
+Future<List<dynamic>?> fetchComments(String noteAddress) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
-        query GetComments(\$noteAddress: String!) {
-          comments(where: { noteAddress: \$noteAddress}) {
-            content
-            }
-          }
-      '''),
+      query GetComments(\$noteAddress: String!) {
+        comments(where: { noteAddress: \$noteAddress}) {
+          content
+        }
+      }
+    '''),
     variables: <String, dynamic>{
       'noteAddress': noteAddress,
     },
@@ -301,10 +301,9 @@ Future<List?> fetchComments(String noteAddress) async {
   if (result.hasException) {
     print('GraphQL Error: ${result.exception.toString()}');
   } else {
-    final dynamic data = result.data?['notes'];
+    final List<dynamic>? data = result.data?['comments'];
     if (data != null) {
-      final List<dynamic> commentsData = data[0]['comments'] as List<dynamic>;
-      return commentsData;
+      return data;
     }
   }
   return null;

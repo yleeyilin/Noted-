@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noted/controller/authController.dart';
 import 'package:noted/controller/commentController.dart';
-import 'package:noted/model/neo4j/retrieve.dart';
+//import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/view/constant/colors.dart';
 
 class NotesComment extends StatefulWidget {
@@ -29,13 +29,18 @@ class _NotesCommentState extends State<NotesComment> {
   }
 
   Future<void> fetchCommentsAsync() async {
-    List<dynamic>? fetchedComments = await fetchComments(widget.address);
+    List<dynamic>? fetchedComments =
+        await _commentCon.fetchAllComments(widget.address);
     if (fetchedComments != null) {
       setState(() {
+        //debug
         print("here");
         print(fetchedComments);
-        comments = fetchedComments.cast<String>();
+        comments = fetchedComments;
       });
+    } else {
+      //debug
+      print("not");
     }
   }
 
@@ -67,7 +72,7 @@ class _NotesCommentState extends State<NotesComment> {
                   widget.address,
                 );
                 setState(() {
-                  comments?.add(commentText);
+                  // comments?.add(newComment as dynamic);
                   _textCon.clear();
                 });
               },
@@ -92,9 +97,11 @@ class _NotesCommentState extends State<NotesComment> {
               child: ListView.builder(
                 itemCount: comments?.length,
                 itemBuilder: (context, index) {
+                  final dynamic comment = comments![index];
+                  final String commentText = comment['content'].toString();
                   return Card(
                     child: ListTile(
-                      title: Text(comments![index]),
+                      title: Text(commentText),
                     ),
                   );
                 },
