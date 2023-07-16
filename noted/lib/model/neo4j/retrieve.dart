@@ -124,7 +124,7 @@ Future<List?> fetchNotes(String courseCode) async {
   return null;
 }
 
-Future<List<dynamic>> fetchArticles() async {
+Future<List<Map<String, dynamic>>> fetchArticles() async {
   final QueryOptions options = QueryOptions(
     document: gql('''
       query GetArticles {
@@ -149,7 +149,6 @@ Future<List<dynamic>> fetchArticles() async {
       return List<Map<String, dynamic>>.from(data);
     }
   }
-
   return [];
 }
 

@@ -13,8 +13,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Map<String, dynamic>>? articles;
-  List<Map<String, dynamic>>? allArticles;
+  List<Map<String, dynamic>> articles = [];
+  Future<List<Map<String, dynamic>>>? allArticles;
   List<String> likedArticles = [];
   final ArticleController _con = ArticleController();
   final AuthController _authCon = AuthController();
@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    allArticles = _con.fetchAllArticles();
     fetchLikedArticles();
   }
 
@@ -45,121 +46,116 @@ class _HomeState extends State<Home> {
     setState(() {
       _isRefreshing = true;
     });
-    dynamic data = await _con.fetchAllArticles();
+    allArticles = _con.fetchAllArticles();
     setState(() {
-      articles = List<Map<String, dynamic>>.from(data);
-      allArticles = List<Map<String, dynamic>>.from(data);
       _isRefreshing = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _refreshData,
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          return false;
-        },
-        child: _buildArticleList(),
+    return Scaffold(
+      body: RefreshIndicator(
+        onRefresh: _refreshData,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (notification) {
+            return false;
+          },
+          child: _buildArticleList(),
+        ),
       ),
     );
   }
 
   Widget _buildArticleList() {
-    return FutureBuilder(
-      future: _con.fetchAllArticles(),
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: allArticles,
       builder: (context, snapshot) {
         if (_isRefreshing) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
-        } else {
-          dynamic data = snapshot.data;
-          articles ??= [];
-          allArticles ??= [];
-          if (data != null) {
-            articles = List<Map<String, dynamic>>.from(data);
-            allArticles = List<Map<String, dynamic>>.from(data);
-          }
-          return Scaffold(
-            body: Column(
-              children: [
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 60,
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        if (value.isEmpty) {
-                          articles =
-                              List<Map<String, dynamic>>.from(allArticles!);
-                        } else {
-                          articles = allArticles!
-                              .where((article) =>
-                                  article['title'] != null &&
-                                  article['summary'] != null &&
-                                  article['title']
-                                      .toLowerCase()
-                                      .contains(value.toLowerCase()))
-                              .toList();
-                        }
-                      });
-                    },
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(color: Colors.transparent),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                        borderSide: const BorderSide(
-                          color: Color.fromARGB(255, 9, 9, 82),
-                        ),
-                      ),
-                      hintText: 'Search',
-                      prefixIcon: const Icon(Icons.search),
-                      prefixIconColor: primary,
+        } else if (snapshot.hasData) {
+          final data = snapshot.data!;
+          articles = data;
+          return Column(
+            children: [
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 60,
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      if (value.isEmpty) {
+                        articles = List<Map<String, dynamic>>.from(data);
+                      } else {
+                        articles = data
+                            .where((article) =>
+                                article['title'] != null &&
+                                article['summary'] != null &&
+                                article['title']
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(value.toLowerCase()))
+                            .toList();
+                      }
+                    });
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(color: Colors.transparent),
                     ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 9, 9, 82),
+                      ),
+                    ),
+                    hintText: 'Search',
+                    prefixIcon: const Icon(Icons.search),
+                    prefixIconColor: primary,
                   ),
                 ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: articles!.isEmpty
-                      ? const Center(
-                          child: Text(
-                            'No Results Found',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 9, 9, 82),
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: articles.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No Results Found',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 9, 9, 82),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                           ),
-                        )
-                      : ListView.builder(
-                          itemCount: articles!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final article = articles![index];
-                            final articleAddress = article['address'];
-                            var articleLikeCount = article['likeCount'];
-                            final isLiked =
-                                likedArticles.contains(articleAddress);
-
-                            if (!likeIcons.containsKey(index)) {
-                              likeIcons[index] = isLiked
-                                  ? Icon(
-                                      Icons.favorite,
-                                      color: primary,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                      color: primary,
-                                    );
-                            }
-
-                            return Card(
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: articles.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final article = articles[index];
+                          final articleAddress = article['address'];
+                          var articleLikeCount = article['likeCount'];
+                          final isLiked =
+                              likedArticles.contains(articleAddress);
+                          if (!likeIcons.containsKey(index)) {
+                            likeIcons[index] = isLiked
+                                ? Icon(
+                                    Icons.favorite,
+                                    color: primary,
+                                  )
+                                : Icon(
+                                    Icons.favorite_border,
+                                    color: primary,
+                                  );
+                          }
+                          return SizedBox(
+                            width: 200,
+                            height: 150,
+                            child: Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                               ),
@@ -167,9 +163,15 @@ class _HomeState extends State<Home> {
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               child: ListTile(
-                                title: Text(article['title']?.toString() ?? ''),
-                                subtitle:
-                                    Text(article['summary']?.toString() ?? ''),
+                                title:
+                                    Text(article['title']?.toString() ?? ''),
+                                subtitle: Expanded(
+                                    child: Text(
+                                      article['summary']?.toString() ?? '',
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
                                 onTap: () {
                                   if (articleAddress != null) {
                                     _con.viewPDF(
@@ -182,14 +184,6 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       icon: likeIcons[index]!,
                                       onPressed: () async {
-                                        print(articleLikeCount);
-                                        // String userName;
-                                        // if (_authCon.retrieveName() == null) {
-                                        //   userName = "";
-                                        // } else {
-                                        //   userName = _authCon.retrieveName()!;
-                                        // }
-
                                         // Check if article is already liked
                                         final isArticleLiked = likedArticles
                                             .contains(articleAddress);
@@ -204,8 +198,6 @@ class _HomeState extends State<Home> {
 
                                           // Decrement like count
                                           if (articleLikeCount != null) {
-                                            print(articleLikeCount - 1);
-                                            print(articleAddress);
                                             _con.updateLikes(articleAddress,
                                                 articleLikeCount - 1);
                                           }
@@ -235,7 +227,8 @@ class _HomeState extends State<Home> {
                                             _con.updateLikes(articleAddress,
                                                 articleLikeCount + 1);
                                           } else {
-                                            _con.updateLikes(articleAddress, 1);
+                                            _con.updateLikes(
+                                                articleAddress, 1);
                                           }
 
                                           // Update likedArticles list
@@ -253,22 +246,26 @@ class _HomeState extends State<Home> {
                                         }
                                       },
                                     ),
-                                    FutureBuilder(
-                                      future: _con.getLikeCount(articleAddress),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          Object? likeCount = snapshot.data;
-                                          return Text(
-                                            likeCount.toString(),
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          );
-                                        } else {
-                                          return const SizedBox();
-                                        }
-                                      },
-                                    ),
+                                    FutureBuilder<Object?>(
+                                        future: _con.getLikeCount(articleAddress),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState == ConnectionState.waiting) {
+                                            return const CircularProgressIndicator();
+                                          } else if (snapshot.hasError) {
+                                            return Text('Error: ${snapshot.error}');
+                                          } else if (snapshot.hasData) {
+                                            final likeCount = snapshot.data as int?;
+                                            return Text(
+                                              likeCount.toString(),
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          } else {
+                                            return const SizedBox();
+                                          }
+                                        },
+                                      ),
                                     IconButton(
                                       icon: Icon(
                                         Icons.comment,
@@ -276,18 +273,21 @@ class _HomeState extends State<Home> {
                                       ),
                                       onPressed: () {
                                         //to edit
+
                                       },
                                     ),
                                   ],
                                 ),
                               ),
-                            );
-                          },
-                        ),
-                ),
-              ],
-            ),
+                            ),
+                          );
+                        },
+                      ),
+              ),
+            ],
           );
+        } else {
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
