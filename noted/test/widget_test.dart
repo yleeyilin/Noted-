@@ -1,30 +1,40 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter_test/flutter_test.dart';
-
+import 'package:flutter/material.dart';
 import 'package:noted/main.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mockito/mockito.dart';
+import 'package:fake_async/fake_async.dart';
 
+
+class MockGraphQLClient extends Mock implements GraphQLClient {}
+
+class MockHttpLink extends Mock implements HttpLink {}
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('App initialization test', (WidgetTester tester) async {
+    // Mock the GraphQL client
+    final client = ValueNotifier(MockGraphQLClient());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Build the widget
+    await tester.pumpWidget(
+      GraphQLProvider(
+        client: client,
+        child: const MyApp(),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Wait for any asynchronous operations to complete
+    await tester.pumpAndSettle();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    final fakeAsync = FakeAsync();
+    fakeAsync.run((fakeAsync) {
+
+      // Dispose of any pending timers
+      fakeAsync.flushTimers();
+    });
+
+    // Verify the root widget
+    expect(find.byType(AnimatedSplashScreen), findsOneWidget); // Ensure MaterialApp is present
+    expect(find.byType(MaterialApp), findsOneWidget); // Ensure SplashScreen is present
   });
 }
