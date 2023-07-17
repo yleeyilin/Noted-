@@ -4,8 +4,8 @@ import 'package:noted/model/neo4j/createRelationship.dart';
 import 'package:noted/model/query/nusmods.dart';
 import 'package:noted/model/neo4j/retrieve.dart';
 import 'package:noted/model/query/pdfviewerscreen.dart';
-import 'package:noted/view/widgets/comment.dart';
 import 'package:noted/model/neo4j/updateNode.dart';
+//import 'package:noted/view/comment/notesComment.dart';
 
 class CourseController extends ControllerMVC {
   factory CourseController() => _this ??= CourseController._();
@@ -45,17 +45,17 @@ class CourseController extends ControllerMVC {
     );
   }
 
-  void openCommentScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const Comment(
-          articleId: '',
-          articleAddress: '',
-        ),
-      ),
-    );
-  }
+  // void openCommentScreen(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const NotesComment(
+  //         articleId: '',
+  //         articleAddress: '',
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Future<List?> fetchLikedNotes(String name) {
     return likedNotes(name);

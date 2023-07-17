@@ -514,7 +514,7 @@ Future<void> connectCommentToAuthor(String content, String email) async {
 
       print('Connected Author to Comment:');
       print('Author Email: $connectedUserEmail');
-      print('Notes:');
+      print('Comments:');
       for (final comment in connectedComment ?? []) {
         final String noteContent = comment['content'] as String;
         print('Name: $noteContent');
@@ -523,55 +523,59 @@ Future<void> connectCommentToAuthor(String content, String email) async {
   }
 }
 
-//connect comment node to the notes node
-Future<void> connectCommentToNote(String content, String address) async {
-  final MutationOptions connectCommentOptions = MutationOptions(
-    document: gql('''
-      mutation ConnectCommentToNote(\$content: String!, \$address: String!) {
-        updateNotes(
-          where: { address: \$address }
-          connect: {
-            notesComment: {
-              where: { node: { content: \$content } }
-            }
-          }
-        ) {
-          notes {
-            address
-            notesComment{
-              content
-            }
-          }
-        }
-      }
-    '''),
-    variables: <String, dynamic>{'content': content, 'address': address},
-  );
+// //connect comment node to the notes node
+// Future<void> connectCommentToNote(String content, String address) async {
+//   final MutationOptions connectCommentOptions = MutationOptions(
+//     document: gql('''
+//       mutation ConnectCommentToNote(\$content: String!, \$address: String!) {
+//         updateNotes(
+//           where: { address: \$address }
+//           connect: {
+//             notesComment: {
+//               where: { node: { content: \$content } }
+//             }
+//           }
+//         ) {
+//           notes{
+//             name
+//             notesComment{
+//               content
+//             }
+//           }
+//         }
+//       }
+//     '''),
+//     variables: <String, dynamic>{
+//       'content': content,
+//       'address': address,
+//     },
+//   );
 
-  final QueryResult connectCommentResult =
-      await client.value.mutate(connectCommentOptions);
+//   final QueryResult connectCommentResult =
+//       await client.value.mutate(connectCommentOptions);
 
-  if (connectCommentResult.hasException) {
-    print(
-        'Connection GraphQL Error: ${connectCommentResult.exception.toString()}');
-    return;
-  }
+//   if (connectCommentResult.hasException) {
+//     print(
+//         'Connection GraphQL Error: ${connectCommentResult.exception.toString()}');
+//     return;
+//   }
 
-  final dynamic data = connectCommentResult.data?['updateUsers'];
-  if (data != null) {
-    final List<dynamic> notes = data['notes'] as List<dynamic>;
-    if (notes.isNotEmpty) {
-      final dynamic connectedNote = notes[0];
-      final String? connectedAddress = connectedNote['address'] as String?;
-      final List? connectedComment = connectedNote['comment'] as List<dynamic>?;
+//   final dynamic data = connectCommentResult.data?['updateNotes'];
+//   if (data != null) {
+//     final List<dynamic> notes = data['notes'] as List<dynamic>;
+//     if (notes.isNotEmpty) {
+//       final dynamic connectedNote = notes[0];
+//       final String? connectedAddress = connectedNote['address'] as String?;
+//       final List? connectedComment =
+//           connectedNote['notesComment'] as List<dynamic>?;
 
-      print('Connected Author to Comment:');
-      print('Author Email: $connectedAddress');
-      print('Notes:');
-      for (final comment in connectedComment ?? []) {
-        final String noteContent = comment['content'] as String;
-        print('Name: $noteContent');
-      }
-    }
-  }
-}
+//       print('Connected Note to Comment:');
+//       print('Author Email: $connectedAddress');
+//       print('Notes:');
+//       for (final comment in connectedComment ?? []) {
+//         final String noteContent = comment['content'] as String;
+//         print('Name: $noteContent');
+//       }
+//     }
+//   }
+// }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noted/view/comment/articleComment.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/controller/articleController.dart';
 import '../controller/authController.dart';
@@ -163,15 +164,12 @@ class _HomeState extends State<Home> {
                               margin: const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                               child: ListTile(
-                                title:
-                                    Text(article['title']?.toString() ?? ''),
-                                subtitle: Expanded(
-                                    child: Text(
-                                      article['summary']?.toString() ?? '',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
+                                title: Text(article['title']?.toString() ?? ''),
+                                subtitle: Text(
+                                  article['summary']?.toString() ?? '',
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                                 onTap: () {
                                   if (articleAddress != null) {
                                     _con.viewPDF(
@@ -227,8 +225,7 @@ class _HomeState extends State<Home> {
                                             _con.updateLikes(articleAddress,
                                                 articleLikeCount + 1);
                                           } else {
-                                            _con.updateLikes(
-                                                articleAddress, 1);
+                                            _con.updateLikes(articleAddress, 1);
                                           }
 
                                           // Update likedArticles list
@@ -247,34 +244,42 @@ class _HomeState extends State<Home> {
                                       },
                                     ),
                                     FutureBuilder<Object?>(
-                                        future: _con.getLikeCount(articleAddress),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator();
-                                          } else if (snapshot.hasError) {
-                                            return Text('Error: ${snapshot.error}');
-                                          } else if (snapshot.hasData) {
-                                            final likeCount = snapshot.data as int?;
-                                            return Text(
-                                              likeCount.toString(),
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            );
-                                          } else {
-                                            return const SizedBox();
-                                          }
-                                        },
-                                      ),
+                                      future: _con.getLikeCount(articleAddress),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const CircularProgressIndicator();
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              'Error: ${snapshot.error}');
+                                        } else if (snapshot.hasData) {
+                                          final likeCount =
+                                              snapshot.data as int?;
+                                          return Text(
+                                            likeCount.toString(),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      },
+                                    ),
                                     IconButton(
                                       icon: Icon(
                                         Icons.comment,
                                         color: primary,
                                       ),
                                       onPressed: () {
-                                        _con.openCommentScreen(
-                                            context,
-                                            article['id']?.toString() ?? '');
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ArticleComment(
+                                                    address: articleAddress),
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],

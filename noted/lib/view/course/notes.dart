@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:noted/controller/authController.dart';
+import 'package:noted/view/comment/notesComment.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
@@ -255,7 +256,13 @@ class _NotesState extends State<Notes> {
                                       color: primary,
                                     ),
                                     onPressed: () {
-                                      //to edit
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NotesComment(
+                                              address: noteAddress),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ],
