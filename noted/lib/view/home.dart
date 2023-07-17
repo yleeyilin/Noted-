@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
       _isRefreshing = true;
     });
     allArticles = _con.fetchAllArticles();
-    setState(() {
+    setState(() { 
       _isRefreshing = false;
     });
   }
