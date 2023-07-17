@@ -281,7 +281,7 @@ Future<int?> likeCountNotes(String noteAddress) async {
   return null;
 }
 
-//fetch comments
+//fetch comments -- notes
 Future<List<dynamic>?> fetchComments(String noteAddress) async {
   final QueryOptions options = QueryOptions(
     document: gql('''
