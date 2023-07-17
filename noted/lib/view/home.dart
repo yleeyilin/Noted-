@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noted/view/comment/articleComment.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/controller/articleController.dart';
 import '../controller/authController.dart';
@@ -271,7 +272,14 @@ class _HomeState extends State<Home> {
                                         color: primary,
                                       ),
                                       onPressed: () {
-                                        //to edit
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                ArticleComment(
+                                                    address: articleAddress),
+                                          ),
+                                        );
                                       },
                                     ),
                                   ],
