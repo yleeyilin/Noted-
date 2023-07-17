@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noted/view/constant/colors.dart';
 import 'package:noted/view/widgets/skeleton.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:noted/controller/authController.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -40,184 +38,156 @@ class _ChangePasswordState extends State<ChangePassword> {
               height: 100,
             ),
             const SizedBox(height: 155),
-            const Center(
-              child: Text(
-                'NUS Email',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 9, 9, 82),
-                  fontSize: 20,
-                ),
-              ),
-            ),
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: CupertinoTextField(
+              child: TextField(
                 controller: emailController,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                decoration: BoxDecoration(
-                  color: inputbox,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                style: const TextStyle(color: Colors.black),
-                placeholder: 'Enter NUS Email',
-                textAlign: TextAlign.center,
+                style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                decoration: const InputDecoration(
+                  labelText: 'NUS Email',
+                  border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                    ),
+                  ),
               ),
             ),
             const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Old Password',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 9, 9, 82),
-                  fontSize: 20,
-                ),
-              ),
-            ),
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: CupertinoTextField(
+              child: TextField(
                 controller: oldPasswordController,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                decoration: BoxDecoration(
-                  color: inputbox,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                obscureText: _obscurePassword,
-                placeholder: "Enter Old Password",
-                textAlign: TextAlign.center,
-                suffix: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _obscurePassword = !_obscurePassword;
-                    });
-                  },
-                  child: Icon(
-                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
+                  style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                  decoration: InputDecoration(
+                    labelText: 'Old password',
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                    ),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
+                  obscureText: _obscurePassword,
                 ),
               ),
-            ),
             const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'New Password',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 9, 9, 82),
-                  fontSize: 20,
-                ),
-              ),
-            ),
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: CupertinoTextField(
+              child: TextField(
                 controller: newPasswordController,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                decoration: BoxDecoration(
-                  color: inputbox,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                obscureText: _obscurePassword2,
-                placeholder: "Enter Password",
-                textAlign: TextAlign.center,
-                suffix: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _obscurePassword2 = !_obscurePassword2;
-                    });
-                  },
-                  child: Icon(
-                    _obscurePassword2 ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
+                 style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                  decoration: InputDecoration(
+                    labelText: 'New Password',
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                    ),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword2 = !_obscurePassword2;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword2
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
+                  obscureText: _obscurePassword2,
                 ),
               ),
-            ),
             const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Confirm Password',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 9, 9, 82),
-                  fontSize: 20,
-                ),
-              ),
-            ),
             const SizedBox(height: 5),
             SizedBox(
               width: 300,
-              child: CupertinoTextField(
+              child: TextField(
                 controller: rNewPasswordController,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-                decoration: BoxDecoration(
-                  color: inputbox,
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                obscureText: _obscurePassword3,
-                placeholder: "Enter Password",
-                textAlign: TextAlign.center,
-                suffix: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _obscurePassword3 = !_obscurePassword3;
-                    });
-                  },
-                  child: Icon(
-                    _obscurePassword3 ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey,
+                style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                    ),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword3 = !_obscurePassword3;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword3
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.grey,
+                      ),
+                    ),
                   ),
+                  obscureText: _obscurePassword3,
                 ),
               ),
-            ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Skeleton()),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 9, 9, 82),
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 9, 9, 82),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Skeleton()),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color.fromARGB(255, 9, 9, 82),
+                      side: const BorderSide(
+                        color: Color.fromARGB(255, 9, 9, 82),
+                      ),
                     ),
+                    icon: const Icon(Icons.arrow_back),
+                    label: const Text('Back'),
                   ),
-                  icon: const Icon(Icons.arrow_back),
-                  label: const Text('Back'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    _con.change(
-                        emailController.text,
-                        oldPasswordController.text,
-                        newPasswordController.text,
-                        rNewPasswordController.text,
-                        context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 9, 9, 82),
-                  ),
-                  icon: const Icon(Icons.arrow_right_outlined,
-                      color: Colors.white),
-                  label: const Text(
-                    'Change',
-                    style: TextStyle(
-                      color: Colors.white,
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      _con.change(
+                          emailController.text,
+                          oldPasswordController.text,
+                          newPasswordController.text,
+                          rNewPasswordController.text,
+                          context);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 9, 9, 82),
                     ),
-                  ),
-                )
-              ],
+                    icon: const Icon(Icons.arrow_right_outlined,
+                        color: Colors.white),
+                    label: const Text(
+                      'Change',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
         ),
