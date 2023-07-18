@@ -155,36 +155,6 @@ Future<void> createUserNode(String name, String email) async {
   }
 }
 
-Future<void> createInterestNode(String name) async {
-  final MutationOptions options = MutationOptions(
-    document: gql('''
-      mutation CreateInterest(\$name: String!) {
-        createInterest(input: { name: \$name }) {
-          success
-          message
-        }
-      }
-    '''),
-    variables: <String, dynamic>{
-      'name': name,
-    },
-  );
-
-  final QueryResult result = await client.value.mutate(options);
-
-  if (result.hasException) {
-    print('GraphQL Error: ${result.exception.toString()}');
-  } else {
-    final Map<String, dynamic>? data = result.data?['createInterest'];
-    if (data != null) {
-      final bool success = data['success'] as bool;
-      final String message = data['message'] as String;
-      print('Create Interest Success: $success');
-      print('Message: $message');
-    }
-  }
-}
-
 Future<void> createCommentNode(String content, String noteAddress) async {
   final MutationOptions options = MutationOptions(
     document: gql('''
