@@ -172,9 +172,6 @@ class _HomeState extends State<Home> {
                                 ),
                                 onTap: () {
                                   if (articleAddress != null) {
-                                    print("executed!");
-                                    print(articleAddress);
-                                    print(context);
                                     _con.viewPDF(articleAddress, context);
                                   }
                                 },
