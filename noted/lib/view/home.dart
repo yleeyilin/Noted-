@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
       _isRefreshing = true;
     });
     allArticles = _con.fetchAllArticles();
-    setState(() { 
+    setState(() {
       _isRefreshing = false;
     });
   }
@@ -172,8 +172,10 @@ class _HomeState extends State<Home> {
                                 ),
                                 onTap: () {
                                   if (articleAddress != null) {
-                                    _con.viewPDF(
-                                        articleAddress.toString(), context);
+                                    print("executed!");
+                                    print(articleAddress);
+                                    print(context);
+                                    _con.viewPDF(articleAddress, context);
                                   }
                                 },
                                 trailing: Row(
