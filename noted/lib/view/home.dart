@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noted/controller/profileController.dart';
 import 'package:noted/view/comment/articleComment.dart';
 import 'package:noted/view/constant/colors.dart';
 import 'package:noted/controller/articleController.dart';
@@ -19,6 +20,7 @@ class _HomeState extends State<Home> {
   List<String> likedArticles = [];
   final ArticleController _con = ArticleController();
   final AuthController _authCon = AuthController();
+  final ProfileController _pCon = ProfileController();
   bool _isRefreshing = false;
   var likeIcons = <int, Icon>{};
 
@@ -29,8 +31,10 @@ class _HomeState extends State<Home> {
     fetchLikedArticles();
   }
 
+//error
   Future<void> fetchLikedArticles() async {
-    String? userName = _authCon.retrieveName();
+    String? userName = await _pCon.retrieveUserName();
+    print(userName);
     if (userName != null) {
       List<dynamic>? likedArticleAddresses =
           await _con.fetchLikedArticles(userName);
@@ -38,8 +42,13 @@ class _HomeState extends State<Home> {
         List<String> addresses = likedArticleAddresses.cast<String>();
         setState(() {
           likedArticles = addresses;
+          print(likedArticles);
         });
+      } else {
+        print("liked articles is null");
       }
+    } else {
+      print("username is null");
     }
   }
 
@@ -203,6 +212,8 @@ class _HomeState extends State<Home> {
                                           setState(() {
                                             likedArticles
                                                 .remove(articleAddress);
+                                            article['likeCount'] =
+                                                article['likeCount'] - 1;
                                           });
 
                                           // Change icon
@@ -230,6 +241,8 @@ class _HomeState extends State<Home> {
                                           // Update likedArticles list
                                           setState(() {
                                             likedArticles.add(articleAddress);
+                                            article['likeCount'] =
+                                                article['likeCount'] + 1;
                                           });
 
                                           // Change icon
@@ -276,7 +289,8 @@ class _HomeState extends State<Home> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 ArticleComment(
-                                                    address: articleAddress),
+                                              address: articleAddress,
+                                            ),
                                           ),
                                         );
                                       },

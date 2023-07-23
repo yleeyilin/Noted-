@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:noted/controller/authController.dart';
 import 'package:noted/view/comment/notesComment.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/courseController.dart';
 
@@ -63,18 +62,6 @@ class _NotesState extends State<Notes> {
             ),
           ],
         ),
-        // General search bar
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: GeneralSearchBar(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
         backgroundColor: primary,
       ),
       body: Column(
