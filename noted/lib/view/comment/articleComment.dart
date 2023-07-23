@@ -32,14 +32,8 @@ class _ArticleCommentState extends State<ArticleComment> {
         await _commentCon.fetchAllComments(widget.address);
     if (fetchedComments != null) {
       setState(() {
-        //debug
-        print("here");
-        print(fetchedComments);
         comments = fetchedComments;
       });
-    } else {
-      //debug
-      print("not");
     }
   }
 

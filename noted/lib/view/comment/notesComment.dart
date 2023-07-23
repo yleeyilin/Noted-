@@ -33,14 +33,8 @@ class _NotesCommentState extends State<NotesComment> {
         await _commentCon.fetchAllComments(widget.address);
     if (fetchedComments != null) {
       setState(() {
-        //debug
-        print("here");
-        print(fetchedComments);
         comments = fetchedComments;
       });
-    } else {
-      //debug
-      print("not");
     }
   }
 
@@ -72,7 +66,6 @@ class _NotesCommentState extends State<NotesComment> {
                   widget.address,
                 );
                 setState(() {
-                  // comments?.add(newComment as dynamic);
                   _textCon.clear();
                 });
               },
