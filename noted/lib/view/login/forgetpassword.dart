@@ -16,85 +16,92 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-  children: [
-    const Padding(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-      child: Text(
-        'The instructions will be sent to you shortly.',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 9, 9, 82),
-                  fontSize: 20,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 300,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 40),
-                child: TextField(
-                  controller: emailController,
-                  style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
-                  decoration: const InputDecoration(
-                    labelText: 'Enter NUS Email',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
-                    ),
+      child: Center(
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center content vertically
+            children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Text(
+                  'The instructions will be sent to you shortly.',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 9, 9, 82),
+                    fontSize: 20,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignIn(),
+              SizedBox(
+                width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: TextField(
+                    controller: emailController,
+                    style:
+                        const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
+                    decoration: const InputDecoration(
+                      labelText: 'Enter NUS Email',
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color.fromARGB(255, 9, 9, 82)),
                       ),
-                    );
-                  },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color.fromARGB(255, 9, 9, 82),
-                    side: const BorderSide(
-                      color: Color.fromARGB(255, 9, 9, 82),
-                    ),
-                  ),
-                  icon: const Icon(Icons.arrow_back),
-                  label: const Text('Back'),
-                ),
-                OutlinedButton.icon(
-                  onPressed: () {
-                    _con.reset(emailController.text, context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 9, 9, 82),
-                  ),
-                  icon: const Icon(Icons.arrow_right_outlined,
-                      color: Colors.white),
-                  label: const Text(
-                    'Send',
-                    style: TextStyle(
-                      color: Colors.white,
                     ),
                   ),
                 ),
-              ],
-            ),
-            ),
-          ],
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignIn(),
+                          ),
+                        );
+                      },
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: const Color.fromARGB(255, 9, 9, 82),
+                        side: const BorderSide(
+                          color: Color.fromARGB(255, 9, 9, 82),
+                        ),
+                      ),
+                      icon: const Icon(Icons.arrow_back),
+                      label: const Text('Back'),
+                    ),
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        _con.reset(emailController.text, context);
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 9, 9, 82),
+                      ),
+                      icon: const Icon(Icons.arrow_right_outlined,
+                          color: Colors.white),
+                      label: const Text(
+                        'Send',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
