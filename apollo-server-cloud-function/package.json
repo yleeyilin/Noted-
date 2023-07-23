@@ -1,0 +1,17 @@
+{
+    "name": "noted-393604",
+    "version": "1.0.0",
+    "description": "My Apollo Server with Neo4j",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "deploy": "gcloud functions deploy runApolloServer --entry-point handler --runtime nodejs20 --trigger-http --allow-unauthenticated"
+    },
+    "dependencies": {
+        "@neo4j/graphql": "^3.18.3",
+        "apollo-server": "^3.12.0",
+        "apollo-server-cloud-functions": "^3.12.0",
+        "graphql": "^16.6.0",
+        "neo4j-driver": "^5.8.0"
+    }
+}
