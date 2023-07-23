@@ -5,6 +5,10 @@ import 'model/authentication/firebase_options.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 // import 'package:noted/neo4jupdate/sync.dart';
 
+//andriod
+// final HttpLink httpLink = HttpLink('http://10.0.2.2:4000/graphql');
+
+//ios
 final HttpLink httpLink = HttpLink('http://localhost:4000/graphql');
 
 final ValueNotifier<GraphQLClient> client = ValueNotifier(
