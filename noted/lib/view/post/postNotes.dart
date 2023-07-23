@@ -2,7 +2,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:noted/controller/courseController.dart';
 import 'package:noted/view/constant/colors.dart';
-import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:noted/view/widgets/skeleton.dart';
 import 'package:noted/controller/postController.dart';
 import 'package:noted/controller/authController.dart';
@@ -71,18 +70,6 @@ class _PostNotesState extends State<PostNotes> {
             ),
           ],
         ),
-        // general search bar
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: GeneralSearchBar(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
         backgroundColor: primary,
       ),
       body: Center(

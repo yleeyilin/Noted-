@@ -4,7 +4,6 @@ import 'package:noted/view/post.dart';
 import 'package:noted/view/course/search.dart';
 import 'package:noted/view/profile.dart';
 import 'package:noted/view/home.dart';
-import 'package:noted/view/widgets/generalsearchbar.dart';
 
 class Skeleton extends StatefulWidget {
   const Skeleton({super.key});
@@ -28,7 +27,6 @@ class _SkeletonState extends State<Skeleton> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: navigationFunction[_currentIndex],
       backgroundColor: primary,
@@ -52,18 +50,6 @@ class _SkeletonState extends State<Skeleton> {
             ),
           ],
         ),
-        //general search bar
-        actions: [
-          IconButton(
-            onPressed: () {
-              showSearch(
-                context: context,
-                delegate: GeneralSearchBar(),
-              );
-            },
-            icon: const Icon(Icons.search),
-          )
-        ],
         backgroundColor: primary,
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -97,9 +83,9 @@ class _SkeletonState extends State<Skeleton> {
               label: 'Profile'),
         ],
         onTap: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
+          setState(() {
+            _currentIndex = index;
+          });
         },
       ),
     );
