@@ -4,7 +4,8 @@ import 'package:noted/view/login/login.dart';
 import 'package:noted/controller/authController.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  const SignIn({Key? key}) : super(key: key);
+
   @override
   State<SignIn> createState() {
     return _SignIn();
@@ -28,47 +29,44 @@ class _SignIn extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Material(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 45),
-            Image.asset(
-              'assets/images/logo-white.png',
-              height: 100,
-            ),
-            const SizedBox(height: 200),
-            const SizedBox(height: 5),
-            SizedBox(
-                width: 300,
-                child: TextField(
+      body: Material(
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(height: 45),
+                Image.asset(
+                  'assets/images/logo-white.png',
+                  height: 100,
+                ),
+                const SizedBox(height: 20),
+                TextField(
                   controller: emailController,
                   style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
                   decoration: const InputDecoration(
                     labelText: 'NUS Email',
                     border: OutlineInputBorder(
-                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)),
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 9, 9, 82)),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 9, 9, 82)),
                     ),
                   ),
-                )
-              ),
-            const SizedBox(height: 20),
-            SizedBox(
-                width: 300,
-                child: TextField(
+                ),
+                const SizedBox(height: 20),
+                TextField(
                   controller: passwordController,
                   style: const TextStyle(color: Color.fromARGB(255, 9, 9, 82)),
                   decoration: InputDecoration(
                     labelText: 'Password',
                     focusedBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(color:Color.fromARGB(255, 9, 9, 82)), 
+                      borderSide:
+                          BorderSide(color: Color.fromARGB(255, 9, 9, 82)),
                     ),
                     border: const OutlineInputBorder(),
                     suffixIcon: GestureDetector(
@@ -87,11 +85,8 @@ class _SignIn extends State<SignIn> {
                   ),
                   obscureText: _obscurePassword,
                 ),
-              ),
-            const SizedBox(height: 5),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Row(
+                const SizedBox(height: 5),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
@@ -114,20 +109,16 @@ class _SignIn extends State<SignIn> {
                     ),
                   ],
                 ),
-             ),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                child: Row(
+                const SizedBox(height: 20),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     OutlinedButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Login()),
+                          MaterialPageRoute(
+                              builder: (context) => const Login()),
                         );
                       },
                       style: OutlinedButton.styleFrom(
@@ -142,7 +133,10 @@ class _SignIn extends State<SignIn> {
                     OutlinedButton.icon(
                       onPressed: () {
                         _con.signin(
-                            emailController.text, passwordController.text, context);
+                          emailController.text,
+                          passwordController.text,
+                          context,
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 9, 9, 82),
@@ -157,11 +151,12 @@ class _SignIn extends State<SignIn> {
                       ),
                     ),
                   ],
-                )
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
-    ));
+    );
   }
 }
