@@ -8,8 +8,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:noted/model/neo4j/createNode.dart';
-import 'package:noted/model/recommendation/similarity.dart';
-import 'package:noted/model/neo4j/retrieve.dart';
+// import 'package:noted/model/recommendation/similarity.dart';
+// import 'package:noted/model/neo4j/retrieve.dart';
 
 class PostController extends ControllerMVC {
   factory PostController() => _this ??= PostController._();
@@ -87,19 +87,19 @@ class PostController extends ControllerMVC {
     });
     await createArticleNode(title, summary, downloadLink);
     await connectAuthorToArticle(downloadLink, email);
-    dynamic data = await fetchArticles();
-    articles = List<Map<String, dynamic>>.from(data);
-    if (articles != null) {
-      for (var article in articles!) {
-        String tempSummary = article['summary'];
-        String tempAddress = article['address'];
-        Future<double> varf = calculateSimilarity(summary, tempSummary);
-        varf.then((result) {
-          print("here");
-          connectArticleToArticle(tempAddress, downloadLink, result);
-        });
-      }
-    }
+    // dynamic data = await fetchArticles();
+    // articles = List<Map<String, dynamic>>.from(data);
+    // if (articles != null) {
+    //   for (var article in articles!) {
+    //     String tempSummary = article['summary'];
+    //     String tempAddress = article['address'];
+    //     Future<double> varf = calculateSimilarity(summary, tempSummary);
+    //     varf.then((result) {
+    //       print("here");
+    //       connectArticleToArticle(tempAddress, downloadLink, result);
+    //     });
+    //   }
+    // }
     print("PDF Uploaded Successfully!");
   }
 }
