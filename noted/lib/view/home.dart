@@ -91,46 +91,6 @@ class _HomeState extends State<Home> {
           return Column(
             children: [
               const SizedBox(height: 10),
-              SizedBox(
-                height: 60,
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      if (value.isEmpty) {
-                        articles = List<Map<String, dynamic>>.from(data);
-                      } else {
-                        articles = data
-                            .where((article) =>
-                                article['title'] != null &&
-                                article['summary'] != null &&
-                                article['title']
-                                    .toString()
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()))
-                            .toList();
-                      }
-                    });
-                  },
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(color: Colors.transparent),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 9, 9, 82),
-                      ),
-                    ),
-                    hintText: 'Search',
-                    prefixIcon: const Icon(Icons.search),
-                    prefixIconColor: primary,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
               Expanded(
                 child: articles.isEmpty
                     ? const Center(
@@ -190,25 +150,20 @@ class _HomeState extends State<Home> {
                                     IconButton(
                                       icon: likeIcons[index]!,
                                       onPressed: () async {
-                                        // Check if article is already liked
                                         final isArticleLiked = likedArticles
                                             .contains(articleAddress);
 
-                                        // Toggle like relationship
                                         if (isArticleLiked) {
-                                          // Dislike relationship
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.dislikeArticle(
                                               email!, articleAddress);
 
-                                          // Decrement like count
                                           if (articleLikeCount != null) {
                                             _con.updateLikes(articleAddress,
                                                 articleLikeCount - 1);
                                           }
 
-                                          // Update likedArticles list
                                           setState(() {
                                             likedArticles
                                                 .remove(articleAddress);
@@ -216,7 +171,6 @@ class _HomeState extends State<Home> {
                                                 article['likeCount'] - 1;
                                           });
 
-                                          // Change icon
                                           setState(() {
                                             likeIcons[index] = Icon(
                                               Icons.favorite_border,
@@ -224,7 +178,6 @@ class _HomeState extends State<Home> {
                                             );
                                           });
                                         } else {
-                                          // Like relationship
                                           String? email =
                                               _authCon.retrieveEmail();
                                           _con.likeArticle(
@@ -238,14 +191,12 @@ class _HomeState extends State<Home> {
                                             _con.updateLikes(articleAddress, 1);
                                           }
 
-                                          // Update likedArticles list
                                           setState(() {
                                             likedArticles.add(articleAddress);
                                             article['likeCount'] =
                                                 article['likeCount'] + 1;
                                           });
 
-                                          // Change icon
                                           setState(() {
                                             likeIcons[index] = Icon(
                                               Icons.favorite,

@@ -79,32 +79,6 @@ class _NotesState extends State<Notes> {
             ),
           ),
           const SizedBox(height: 20),
-          // Notes search bar
-          SizedBox(
-            height: 60,
-            child: TextField(
-              onChanged: (value) =>
-                  _con.searchNotes(value, filteredNotes, searchResults),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(color: Colors.transparent),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: const BorderSide(
-                    color: Color.fromARGB(255, 9, 9, 82),
-                  ),
-                ),
-                hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
-                prefixIconColor: primary,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
           Expanded(
             child: searchResults.isNotEmpty
                 ? ListView.builder(
@@ -113,7 +87,6 @@ class _NotesState extends State<Notes> {
                       final note = searchResults[index];
                       final noteAddress = note['address'];
                       var noteLikeCount = note['likeCount'];
-                      print(noteLikeCount);
                       final isLiked = likedNotes.contains(noteAddress);
                       if (!likeIcons.containsKey(index)) {
                         likeIcons[index] = isLiked
@@ -166,26 +139,20 @@ class _NotesState extends State<Notes> {
                                     onPressed: () {
                                       final isNoteLiked =
                                           likedNotes.contains(noteAddress);
-                                      // Toggle like relationship
                                       if (isNoteLiked) {
-                                        // Dislike relationship
                                         String? email =
                                             _authCon.retrieveEmail();
                                         _con.dislikeNote(email!, noteAddress);
 
-                                        // Decrement like count
                                         if (noteLikeCount != null) {
-                                          //print(noteAddress);
                                           _con.updateLikesNotes(
                                               noteAddress, noteLikeCount - 1);
                                         }
 
-                                        // Update likedArticles list
                                         setState(() {
                                           likedNotes.remove(noteAddress);
                                         });
 
-                                        // Change icon
                                         setState(() {
                                           likeIcons[index] = Icon(
                                             Icons.favorite_border,
@@ -193,12 +160,10 @@ class _NotesState extends State<Notes> {
                                           );
                                         });
                                       } else {
-                                        // Like relationship
                                         String? email =
                                             _authCon.retrieveEmail();
                                         _con.likeNote(email!, noteAddress);
 
-                                        // Increment like count
                                         if (noteLikeCount != null) {
                                           _con.updateLikesNotes(
                                               noteAddress, noteLikeCount + 1);
@@ -206,12 +171,10 @@ class _NotesState extends State<Notes> {
                                           _con.updateLikesNotes(noteAddress, 1);
                                         }
 
-                                        // Update likedArticles list
                                         setState(() {
                                           likedNotes.add(noteAddress);
                                         });
 
-                                        // Change icon
                                         setState(() {
                                           likeIcons[index] = Icon(
                                             Icons.favorite,
