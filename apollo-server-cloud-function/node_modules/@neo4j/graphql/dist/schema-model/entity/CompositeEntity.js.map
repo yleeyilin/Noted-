@@ -1,0 +1,1 @@
+{"version":3,"file":"CompositeEntity.js","sourceRoot":"","sources":["../../../src/schema-model/entity/CompositeEntity.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;;;;;;;;GAiBG;;;AAKH,6DAA6D;AAC7D,MAAa,eAAe;IAIxB,YAAY,EAAE,IAAI,EAAE,gBAAgB,EAAwD;QACxF,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,gBAAgB,GAAG,gBAAgB,CAAC;IAC7C,CAAC;CACJ;AARD,0CAQC"}

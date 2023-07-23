@@ -1,0 +1,64 @@
+"use strict";
+/*
+ * Copyright (c) "Neo4j"
+ * Neo4j Sweden AB [http://neo4j.com]
+ *
+ * This file is part of Neo4j.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.nodeDirective = void 0;
+const graphql_1 = require("graphql");
+const pluralDescription = "NOTE: The plural argument has been deprecated and will be removed in version 4.0.0. " +
+    "Please use the @plural directive instead. More information can be found at " +
+    "https://neo4j.com/docs/graphql-manual/current/guides/v4-migration/" +
+    "#_plural_argument_removed_from_node_and_replaced_with_plural. " +
+    "Allows for the specification of the plural of the type name.";
+const labelDescription = "NOTE: The label argument has been deprecated and will be removed in version 4.0.0. " +
+    "Please use the labels argument instead. More information can be found at " +
+    "https://neo4j.com/docs/graphql-manual/current/guides/v4-migration/" +
+    "#_label_and_additionalLabels_arguments_removed_from_node_and_replaced_with_new_argument_labels. ";
+const additionalLabelsDescription = "NOTE: The additionalLabels argument has been deprecated and will be removed in version 4.0.0. " +
+    "Please use the labels argument instead. " +
+    "If not used in conjunction with the also deprecated label argument, make sure to specify the GraphQL node type as first item in the array." +
+    "More information can be found at " +
+    "https://neo4j.com/docs/graphql-manual/current/guides/v4-migration/" +
+    "#_label_and_additionalLabels_arguments_removed_from_node_and_replaced_with_new_argument_labels. ";
+exports.nodeDirective = new graphql_1.GraphQLDirective({
+    name: "node",
+    description: "Informs @neo4j/graphql of node metadata",
+    locations: [graphql_1.DirectiveLocation.OBJECT],
+    args: {
+        label: {
+            description: "Map the GraphQL type to a custom Neo4j node label.",
+            type: graphql_1.GraphQLString,
+            deprecationReason: labelDescription,
+        },
+        additionalLabels: {
+            description: "Map the GraphQL type to match additional Neo4j node labels.",
+            type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)),
+            deprecationReason: additionalLabelsDescription,
+        },
+        labels: {
+            description: "The labels to map this GraphQL type to in the Neo4j database",
+            type: new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(graphql_1.GraphQLString)),
+        },
+        plural: {
+            description: pluralDescription,
+            type: graphql_1.GraphQLString,
+            deprecationReason: pluralDescription,
+        },
+    },
+});
+//# sourceMappingURL=node.js.map
