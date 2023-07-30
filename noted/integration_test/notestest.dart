@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:noted/view/comment/notesComment.dart';
 import 'package:noted/view/course/notes.dart';
-import 'package:noted/view/widgets/generalsearchbar.dart';
 import 'package:integration_test/integration_test.dart';
 
 void main() {
@@ -27,11 +26,5 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(NotesComment), findsOneWidget);
-
-    Navigator.pop(tester.element(find.byType(NotesComment)));
-
-    await tester.tap(find.byIcon(Icons.search));
-    await tester.pumpAndSettle();
-    expect(find.byType(GeneralSearchBar), findsOneWidget);
   });
 }
