@@ -19,3 +19,4 @@ With Noted!, we hope to create a future where students are empowered to pursue t
 
 ## Documentations and Media
 1. [README](https://docs.google.com/document/d/1Dm4FV5TvqgDuntD1VnP5eDxeqwGpxRAVanMguZYWTus/edit?usp=sharing)
+2. [Video Demo](https://drive.google.com/file/d/1UFlE2FsCX9Gt0xBfCzY6WYBkS-FN6A6F/view?usp=sharing)
