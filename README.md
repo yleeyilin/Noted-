@@ -16,3 +16,6 @@ With Noted!, we hope to create a future where students are empowered to pursue t
 2. Uploading course materials and articles
 3. Like and Comment
 4. Suggestion Algorithm based on content-based filtering 
+
+## Documentations and Media
+1. [README](https://docs.google.com/document/d/1Dm4FV5TvqgDuntD1VnP5eDxeqwGpxRAVanMguZYWTus/edit?usp=sharing)
