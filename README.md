@@ -2,7 +2,7 @@
 ![logo](https://github.com/yleeyilin/Noted-/assets/116061001/a017bd86-6054-450b-abd9-fb21a34e6654)
 
 
-## Motivation
+## Motivations
 Our app is driven by a shared motivation - to revolutionise the way we learn and empower students like never before. As passionate believers in the power of interdisciplinary education, we were intrigued by the untapped potential that lies in the connections between different subjects. 
 
 Unfortunately, many majors and faculties within NUS remain segregated with minimal intermingling. That’s why we have created a platform that empowers you to access resources from diverse disciplines, fostering a more interdisciplinary approach beyond residential colleges. 
