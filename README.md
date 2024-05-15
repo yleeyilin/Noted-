@@ -11,6 +11,7 @@ Furthermore, as students passionate about our majors, we understand firsthand th
 
 With Noted!, we hope to create a future where students are empowered to pursue their passions, broaden their horizons, and make a lasting impact. 
 
+
 ## Features 
 1. Authentication
 2. Uploading course materials and articles
