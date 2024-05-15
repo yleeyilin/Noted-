@@ -1,4 +1,4 @@
-# Noted 
+# Noted!
 ![logo](https://github.com/yleeyilin/Noted-/assets/116061001/a017bd86-6054-450b-abd9-fb21a34e6654)
 
 
