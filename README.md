@@ -1,7 +1,6 @@
 # Noted!
 ![logo](https://github.com/yleeyilin/Noted-/assets/116061001/a017bd86-6054-450b-abd9-fb21a34e6654)
 
-
 ## Motivations
 Our app is driven by a shared motivation - to revolutionise the way we learn and empower students like never before. As passionate believers in the power of interdisciplinary education, we were intrigued by the untapped potential that lies in the connections between different subjects. 
 
