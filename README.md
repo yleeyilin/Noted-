@@ -4,6 +4,7 @@
 ## Motivations
 Our app is driven by a shared motivation - to revolutionise the way we learn and empower students like never before. As passionate believers in the power of interdisciplinary education, we were intrigued by the untapped potential that lies in the connections between different subjects. 
 
+
 Unfortunately, many majors and faculties within NUS remain segregated with minimal intermingling. That’s why we have created a platform that empowers you to access resources from diverse disciplines, fostering a more interdisciplinary approach beyond residential colleges. 
 
 Furthermore, as students passionate about our majors, we understand firsthand the desire to delve deeper into our subject of interests and expand our horizons beyond what is covered in our modules. Evidently, consolidated resource materials were lacking and this insight was what drove us to embark on this mission to create a comprehensive platform - a one stop shop for all NUS students. Noted! not only connects students with invaluable resources but also cultivates a community of passionate learners. Our app is a space where knowledge thrives, ideas are shared and collaboration blossoms. 
